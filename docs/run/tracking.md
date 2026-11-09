@@ -51,12 +51,12 @@ core:location: LocationSource = FusedLocationSource(실제) | GpxReplaySource(�
 
 | 구성 요소 | 모듈 | 역할 |
 |---|---|---|
-| `RunTracker` | core:tracking (공개 인터페이스) | 화면이 쓰는 유일한 입구: `state`, `prepare()`, `start()`, `pause()`, `resume()`, `finish(save)`, `recoverableRun()` |
+| `RunTracker` | core:tracking (공개 인터페이스) | 화면이 쓰는 유일한 입구: `state`, `prepare()`, `cancelPreparing()`, `start(recoverRunId)`, `pause()`, `resume()`, `finish(save)`, `recoverableRun()`, `finishRecovered(runId, save)` |
 | `RunTrackingService` | core:tracking | 포그라운드 서비스 껍데기. 알림 유지 · 생명주기만. 로직은 `TrackingEngine` |
 | `TrackingEngine` | core:tracking | 점 받기 → 필터 → 누적 계산 → 저장 · 알림 · 음성 호출. Android 의존 최소화(테스트 대상) |
 | `LocationSource` | core:location | `locations(): Flow<RawLocation>`(요청 값은 4-1 고정), `lastKnown()`, `isLocationEnabled()` |
 | `PointFilter`, `AutoPauseDetector`, `RunMetricsAccumulator`, `SplitCalculator`, `PaceWindow`, `CalorieEstimator` | core:domain | 순수 Kotlin 계산 |
-| `RunRecorder` | core:tracking | 점 버퍼 → Room 트랜잭션 (6장) |
+| `RunRecorder` | core:tracking | 점 버퍼 → Room 트랜잭션 (6장). 쓰기는 `RunTrackingDao`, 복구 조회는 `RunRecoveryDao` |
 | `VoiceAnnouncer` | core:tracking | 안내 시점 판단(도메인) + TTS 재생 |
 
 - feature는 `core:tracking`의 `RunTracker`만 참조하고, `core:location` · `core:database`를 직접 참조하지 않습니다.
@@ -152,9 +152,9 @@ sealed interface TrackingState {
 | 시점 | 쓰는 것 |
 |---|---|
 | `start()` | `run` 행 생성 (`status = ACTIVE`, `started_at`, `owner_user_id`) |
-| 5초마다 또는 점 10개마다 (먼저 오는 쪽) | 버퍼의 `run_point` 일괄 삽입 + `run` 행의 누적값(거리, 운동 시간, 마지막 점 시각) 갱신을 **한 트랜잭션**으로 |
+| 5초마다 또는 점 10개마다 (먼저 오는 쪽) | 버퍼의 `run_point` 일괄 삽입 + 새로 완성된 `run_split` + `run` 행의 누적값(거리, 운동 시간) 갱신을 **한 트랜잭션**으로. 점이 없어도 5초마다 누적값은 갱신 (일시정지 · 신호 없음 중에도 운동 시간 보존) |
 | 일시정지 · 재개 | 버퍼 즉시 비우기 + `run.status` 변경 + `pause_count` |
-| `finish(save = true)` | 버퍼 비우기 → 최종 계산(스플릿 · 칼로리 · 화면용 polyline) → `run_split` 삽입 → `status = FINISHED`, `sync_state = PENDING`(로그인 시) |
+| `finish(save = true)` | 버퍼 비우기 → 최종 계산(스플릿 · 칼로리 · 화면용 polyline) → `run_split`을 남은 구간까지 포함한 전체로 교체 → `status = FINISHED`, `sync_state = PENDING`(로그인 시) · `LOCAL`(게스트) |
 | `finish(save = false)` | `status = DISCARDED` (점은 정리 작업이 하루 뒤 삭제) |
 
 - 쓰기는 `TrackingEngine`의 단일 코루틴에서 순서대로 합니다 (경합 없음).
@@ -174,6 +174,8 @@ sealed interface TrackingState {
 ```
 
 - 복구 시 운동 시간은 Room에 저장된 누적 운동 시간에서 이어갑니다 (`elapsedRealtime`은 재부팅 시 초기화되므로 저장값만 믿음).
+- 완성된 구간은 기록 중에 `run_split`에 바로 저장합니다. 점에는 벽시계 시각만 있어 구간 시간을 다시 계산할 수 없기 때문입니다. 복구할 때 `RunMetricsAccumulator`에 `RunProgress`(거리, 운동 시간, 다음 segment, 완성된 구간)를 넘겨 이어서 계산합니다.
+- "저장하고 마치기"의 종료 시각은 마지막으로 저장된 점의 시각(없으면 마지막 저장 시각)입니다.
 - 진행 중 기록이 24시간 넘게 방치됐다면 다이얼로그에 "어제 시작한 기록이에요"를 붙이고 기본 버튼을 "저장하고 마치기"로 합니다.
 
 ## 7. 서비스 · 권한 · 알림
