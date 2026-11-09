@@ -20,19 +20,41 @@ data class RunTotals(
     val splits: List<RunSplit>,
 )
 
-/** 기록 하나의 거리 · 운동 시간 · 페이스 · 구간을 누적한다. 시각은 모두 단조 시계 값이다. */
+/**
+ * 복구(P8 "이어서 달리기")할 때 Room에 저장해 둔 진행 값 (tracking.md 6-2).
+ *
+ * @property nextSegment 이어서 받을 점의 segment. 죽어 있던 동안은 신호 공백처럼 끊어 그린다
+ * @property completedSplits 기록 중 저장해 둔 완성 구간
+ */
+data class RunProgress(
+    val distanceM: Double,
+    val movingMs: Long,
+    val nextSegment: Int,
+    val completedSplits: List<RunSplit>,
+)
+
+/**
+ * 기록 하나의 거리 · 운동 시간 · 페이스 · 구간을 누적한다. 시각은 모두 단조 시계 값이다.
+ * [restored]가 있으면 그 값에서 이어간다. 단조 시계는 재부팅하면 초기화되므로 저장된 운동 시간만 믿는다.
+ */
 class RunMetricsAccumulator(
     startElapsedMs: Long,
     private val autoPauseEnabled: Boolean,
+    restored: RunProgress? = null,
 ) {
     private val detector = AutoPauseDetector()
     private val paceWindow = PaceWindow()
-    private val splitCalculator = SplitCalculator()
-    private val movingClock = MovingClock(startElapsedMs)
+    private val splitCalculator = SplitCalculator(restored?.completedSplits.orEmpty())
+    private val movingClock = MovingClock(startElapsedMs, restored?.movingMs ?: 0L)
 
     private var state = PauseState.RUNNING
-    private var distanceM = 0.0
-    private var segment = 0
+    private var distanceM = restored?.distanceM ?: 0.0
+    private var segment = restored?.nextSegment ?: 0
+
+    /** 지금까지 완성된 1km 구간 */
+    val completedSplits: List<RunSplit> get() = splitCalculator.completedSplits
+
+    val pauseState: PauseState get() = state
     private var anchor: RawLocation? = null
     private var anchorMovingMs = 0L
     private var previousElapsedMs: Long? = null
@@ -151,8 +173,9 @@ class RunMetricsAccumulator(
 /** 일시정지를 뺀 운동 시간 */
 private class MovingClock(
     startElapsedMs: Long,
+    restoredMs: Long,
 ) {
-    private var accumulatedMs = 0L
+    private var accumulatedMs = restoredMs
     private var runningSinceMs: Long? = startElapsedMs
 
     fun at(elapsedMs: Long): Long = accumulatedMs + (runningSinceMs?.let { elapsedMs - it } ?: 0L)
