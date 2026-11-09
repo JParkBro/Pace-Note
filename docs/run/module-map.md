@@ -34,9 +34,9 @@ pacenote/
 │  ├─ domain/         [JVM] PointFilter, PaceWindow, SplitCalculator, AutoPauseDetector, CalorieEstimator,
 │  │                        RunMetricsAccumulator, AnnouncementScheduler, WeeklyProgress,
 │  │                        PolylineSimplifier · PolylineCodec, RouteProjector, decideUpdate
-│  ├─ navigation/     Navigator, 탭별 백스택 (홈 / 기록 / 내 정보), AppIntents (AppIntents만 먼저 추가)
+│  ├─ navigation/     Navigator, 탭별 백스택 (홈 / 기록 / 내 정보), AppIntents (탭별 백스택은 탭 화면과 함께 추가)
 │  ├─ designsystem/   AppColors(31 토큰) · 8 팔레트, 타이포 · 간격, Run* 컴포넌트, RouteCanvas
-│  ├─ ui/             MviViewModel, ObserveEvents, RunFormat(거리 · 시간 · 페이스 표기), 권한 요청 헬퍼, RunWebView (RunFormat만 먼저 추가)
+│  ├─ ui/             MviViewModel, ObserveEvents, RunFormat(거리 · 시간 · 페이스 표기), 권한 요청 헬퍼, RunWebView (권한 헬퍼 · RunWebView는 쓰는 화면과 함께 추가)
 │  ├─ database/       Room (run, run_point, run_split, goal_history, sync_cursor)
 │  ├─ datastore/      테마 · 모드, 온보딩 · 약관 동의, 러닝 설정, 체중 · 단위, 배터리 안내 표시 여부
 │  ├─ location/       LocationSource (Fused 구현 · GPX 재생 구현), 위치 설정 확인
@@ -68,7 +68,7 @@ pacenote/
 | 모듈 | 키 | 인자 |
 |---|---|---|
 | `onboarding:api` | `OnboardingKey` | – |
-| `home:api` | `HomeKey` | – |
+| `home:api` | `HomeKey` | – (홈 화면 전까지 app의 임시 홈이 그림) |
 | `run:api` | `RunKey` | `recoverRunId: String?` (null = 새 러닝, 값 = P8 복구) |
 | `record:api` | `RecordKey` | – (탭) |
 | | `RunDetailKey` | `runId: String` |
@@ -165,6 +165,7 @@ pacenote/
 2. `core:designsystem` — 테마 토큰 8 팔레트(생성 스크립트), 타이포, `Run*` 컴포넌트, `RouteCanvas`
 3. `core:database`, `core:datastore`, `core:data` — `run` · `run_point` · `run_split` + DAO 테스트, `RunRepository`, `StatsRepository`
 4. `core:location`, `core:tracking` — 서비스 · 엔진 · 저장 · 복구 · 알림. **이 단계 끝에 실기기 30분 테스트를 통과해야 다음으로**
+   - 2026-11-09 결정: 실기기 확인을 5단계와 병행한다. 확인 항목은 #31 · #32 본문 체크리스트에서 마무리하고, 문제가 나오면 5단계보다 먼저 고친다.
 5. `feature:run` — P1 ~ P6, P8 (공유 카드 버튼은 7단계에서 연결)
 6. `feature:home`, `feature:record` (R1 ~ R4), 공유 카드(P7)
 7. `feature:settings` (로컬 설정: M2 ~ M5, M7, M8), 음성 안내 설정 연결 → **게스트 모드 완성**
