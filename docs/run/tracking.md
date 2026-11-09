@@ -275,7 +275,7 @@ sealed interface TrackingState {
 ### 10-1. 투영 (`RouteProjector`, core:domain)
 
 - 지도가 없으므로 정확한 지도 투영이 필요 없습니다. 기록 범위의 평균 위도 φ에서 `x = (lng − minLng) × cos φ`, `y = (maxLat − lat)`로 평면화하고, 가로세로 비율을 유지한 채 대상 영역(패딩 포함)에 맞춥니다.
-- 결과는 0~1 정규화 좌표(`List<NormalizedPoint>`, segment 정보 포함). 그리는 쪽이 픽셀로 곱합니다.
+- 결과는 0~1 정규화 좌표(`ProjectedRoute`: `NormalizedPoint` 목록, segment 정보 포함). 그리는 쪽이 픽셀로 곱합니다.
 - 경로가 아주 짧으면(범위 < 30m) 중앙에 점 하나로 표시합니다.
 
 ### 10-2. 그리기 (`RouteCanvas`, core:designsystem)

@@ -142,7 +142,7 @@ AppUpdateManager.appUpdateInfo 조회
 | 역할 | 위치 |
 |---|---|
 | Remote Config 값 읽기 | `core:firebase` (또는 config 모듈)의 `UpdatePolicySource` |
-| 판단 로직 (순수 함수) | `core:domain`의 `decideUpdate(current, forceMin, softMin, lastPromptAt, now): UpdateDecision` — 단위 테스트 대상 |
+| 판단 로직 (순수 함수) | `core:domain`의 `decideUpdate(current, policy, lastPromptAt, now): UpdateDecision` (`policy`: 강제 · 선택 기준과 안내 간격) — 단위 테스트 대상 |
 | Play 연동 · 흐름 실행 | app (`MainActivity`), Activity가 필요한 API라서 |
 | 강제 업데이트 화면 | app 또는 공용 UI 모듈의 전체 화면 |
 
