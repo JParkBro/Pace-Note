@@ -34,9 +34,9 @@ pacenote/
 │  ├─ domain/         [JVM] PointFilter, PaceWindow, SplitCalculator, AutoPauseDetector, CalorieEstimator,
 │  │                        RunMetricsAccumulator, AnnouncementScheduler, WeeklyProgress,
 │  │                        PolylineSimplifier · PolylineCodec, RouteProjector, decideUpdate
-│  ├─ navigation/     Navigator, 탭별 백스택 (홈 / 기록 / 내 정보), AppIntents
+│  ├─ navigation/     Navigator, 탭별 백스택 (홈 / 기록 / 내 정보), AppIntents (AppIntents만 먼저 추가)
 │  ├─ designsystem/   AppColors(31 토큰) · 8 팔레트, 타이포 · 간격, Run* 컴포넌트, RouteCanvas
-│  ├─ ui/             MviViewModel, ObserveEvents, RunFormat(거리 · 시간 · 페이스 표기), 권한 요청 헬퍼, RunWebView
+│  ├─ ui/             MviViewModel, ObserveEvents, RunFormat(거리 · 시간 · 페이스 표기), 권한 요청 헬퍼, RunWebView (RunFormat만 먼저 추가)
 │  ├─ database/       Room (run, run_point, run_split, goal_history, sync_cursor)
 │  ├─ datastore/      테마 · 모드, 온보딩 · 약관 동의, 러닝 설정, 체중 · 단위, 배터리 안내 표시 여부
 │  ├─ location/       LocationSource (Fused 구현 · GPX 재생 구현), 위치 설정 확인
