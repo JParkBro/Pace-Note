@@ -11,6 +11,8 @@ val databaseModule =
             Room.databaseBuilder(androidContext(), PacenoteDatabase::class.java, "pacenote.db").build()
         }
         single { get<PacenoteDatabase>().runDao() }
+        single { get<PacenoteDatabase>().runTrackingDao() }
+        single { get<PacenoteDatabase>().runRecoveryDao() }
         single { get<PacenoteDatabase>().goalDao() }
         single { get<PacenoteDatabase>().syncCursorDao() }
     }
