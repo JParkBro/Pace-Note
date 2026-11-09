@@ -11,7 +11,7 @@
 | `firebase/` | Firestore 보안 규칙 · 인덱스 · 에뮬레이터 설정, Hosting 설정 | `firebase/CLAUDE.md` |
 | `policy-site/` | Firebase Hosting(`public/`): 개인정보 처리방침 · 이용약관 · 위치정보 이용약관 | `docs/run/infra-and-billing-protection.md` 2-4 |
 | `config/detekt/` | detekt 규칙 | – |
-| `scripts/` | `generate-theme-colors.py` (theme-tokens.json → ThemeTokens.kt) | – |
+| `scripts/` | `generate-theme-colors.py` (theme-tokens.json → ThemeTokens.kt), `generate-gpx-fixtures.py` (GPX fixture · 기대값) | – |
 | `docs/common/` | 범용 규칙 (아키텍처, 컨벤션, 테스트, Git, 출시 · 업데이트) | – |
 | `docs/run/` | 이 프로젝트의 기획 · 추적 · 데이터 · 인프라 결정 | – |
 
@@ -191,7 +191,7 @@ di/{Feature}Module.kt  viewModelOf + navigation<{Feature}Key>
 
 | 바꾼 것 | 필요한 테스트 |
 |---|---|
-| `core:domain` 계산 | 경계값 단위 테스트 + **GPX 재생 테스트** (`core:testing`의 fixture, `tracking.md` 8장) |
+| `core:domain` 계산 | 경계값 단위 테스트 + **GPX 재생 테스트** (`core:domain` testFixtures의 fixture, `tracking.md` 8장) |
 | 추적 서비스 · `RunTracker` | Fake `LocationSource`로 시작 · 일시정지 · 재개 · 종료 · 복구 테스트 |
 | ViewModel | 주요 Action의 State · Event 테스트 (성공 · 실패) |
 | Screen UI | Preview 추가 · 수정 (Roborazzi 도입 후 스크린샷 기준 갱신) |

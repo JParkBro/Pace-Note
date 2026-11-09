@@ -29,7 +29,7 @@ pacenote/
 ├─ app/
 ├─ build-logic/
 ├─ core/
-│  ├─ model/          [JVM] Run, RunSplit, RoutePoint, Goal, WeeklySummary, UserProfile, DistanceUnit
+│  ├─ model/          [JVM] Run, RunSplit, RoutePoint, RawLocation, LiveMetrics, Goal, WeeklySummary, UserProfile, DistanceUnit
 │  ├─ common/         [JVM] Result, suspendRunCatching, Clock · ElapsedClock, 날짜 유틸
 │  ├─ domain/         [JVM] PointFilter, PaceWindow, SplitCalculator, AutoPauseDetector, CalorieEstimator,
 │  │                        RunMetricsAccumulator, AnnouncementScheduler, WeeklyProgress,
@@ -45,7 +45,7 @@ pacenote/
 │  ├─ firebase/       Auth, Firestore 원격 데이터 소스(백업 · 동의), Remote Config, App Check, Crashlytics 설정
 │  ├─ data/           Repository: Run, Goal, Stats, Settings, Auth, Account, Backup · HomeWidgets · FeatureFlags 인터페이스
 │  ├─ sync/           BackupPushWorker, BackupPull, 게스트 기록 이전
-│  └─ testing/        Fake(LocationSource, ElapsedClock, Repository), GPX fixture, MainDispatcherRule
+│  └─ testing/        Fake(LocationSource, ElapsedClock, Repository), MainDispatcherRule, `core:domain` testFixtures(GPX fixture) 재공개
 ├─ feature/
 │  ├─ onboarding/  api/ impl/     O0 ~ O3
 │  ├─ home/        api/ impl/     H1

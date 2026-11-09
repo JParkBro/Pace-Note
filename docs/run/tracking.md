@@ -106,7 +106,7 @@ sealed interface TrackingState {
 |---|---|---|---|
 | 1 | 정확도 > 25m | 25m | 건물 사이 반사 · 실내 |
 | 2 | 점 시각이 이전 점보다 같거나 이름 · 10초 넘게 오래된 점 | – | 캐시된 위치, 순서 뒤바뀜 |
-| 3 | 이전 점 대비 속도 > 12 m/s (43 km/h) | 12 m/s | 순간 점프 (사람이 낼 수 없는 속도) |
+| 3 | 마지막 **채택** 점 대비 속도 > 12 m/s (43 km/h) | 12 m/s | 순간 점프 (사람이 낼 수 없는 속도) |
 | 4 | 이전 **채택** 점과 거리 < max(3m, 정확도 × 0.5) | 3m | 서 있을 때 흔들림(지터)이 거리로 쌓이는 것 방지 |
 
 - 버린 점도 `run_point`에 `accepted = 0`으로 저장합니다 (나중에 필터 값을 조정할 때 재계산 · 분석용, 기기 밖으로 나가지 않음).
@@ -131,7 +131,7 @@ sealed interface TrackingState {
 | 경과 시간 | 종료 시각 − 시작 시각 (벽시계, 표시용) |
 | 평균 페이스 | 운동 시간(초) ÷ 거리(km). 거리 < 50m면 표시하지 않음 |
 | 현재 페이스 (`PaceWindow`) | 최근 200m 또는 최근 30초 중 **먼저 채워지는 창**의 평균. 창이 덜 찼으면 `null` (`–′––″`). 20′/km보다 느리면 `null` |
-| 구간 (`SplitCalculator`) | 누적 거리가 1,000m 배수를 넘는 순간을 두 점 사이 **선형 보간**으로 찾아 그 시점의 운동 시간으로 자름. 마지막 남은 구간은 실제 거리 + 환산 페이스 |
+| 구간 (`SplitCalculator`) | 누적 거리가 1,000m 배수를 넘는 순간을 두 점 사이 **선형 보간**으로 찾아 그 시점의 운동 시간으로 자름. 마지막 남은 구간은 실제 거리 + 환산 페이스 (10m 미만이면 표에 넣지 않음) |
 | 칼로리 (`CalorieEstimator`) | `체중kg × 거리km × 1.036`. 체중 없으면 `null` |
 
 ### 5-1. 자동 일시정지 (`AutoPauseDetector`)
@@ -139,7 +139,7 @@ sealed interface TrackingState {
 | 전이 | 조건 (초기값) |
 |---|---|
 | Running → AutoPaused | 최근 6초 동안 이동 거리 < 3m (점의 `speed`가 아니라 위치 차이로 판단, 기기마다 speed 신뢰도가 달라서) |
-| AutoPaused → Running | 연속 2개 점에서 이전 점 대비 속도 ≥ 1.2 m/s 이고 이동 거리 ≥ 4m |
+| AutoPaused → Running | 연속 2구간 모두 이전 점 대비 속도 ≥ 1.2 m/s 이고, 2구간 전 점에서 이동한 거리 ≥ 4m |
 
 - 자동 재개 시 멈춘 지점과 재개 지점 사이 거리는 넣습니다 (신호 대기 중 몇 걸음 이동).
 - 사용자가 직접 누른 일시정지(`UserPaused`)는 자동 재개하지 않습니다.
@@ -228,7 +228,9 @@ sealed interface TrackingState {
 
 ## 8. 테스트
 
-### 8-1. GPX fixture (`core:testing/src/main/resources/gpx/`)
+### 8-1. GPX fixture (`core:domain/src/testFixtures/resources/gpx/`)
+
+`core:domain`은 JVM 모듈이라 Android 라이브러리인 `core:testing`을 참조할 수 없으므로 fixture는 `core:domain`의 testFixtures에 둡니다. `python3 scripts/generate-gpx-fixtures.py`로 만들고, 정확도는 `<extensions><accuracy>`에 넣습니다.
 
 | 파일 | 내용 | 확인하는 것 |
 |---|---|---|

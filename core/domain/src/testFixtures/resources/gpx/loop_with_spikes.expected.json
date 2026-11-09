@@ -1,0 +1,9 @@
+{
+  "distanceM": 3000,
+  "distanceTolerancePct": 2,
+  "movingMs": 1000000,
+  "movingToleranceMs": 1000,
+  "splitCount": 3,
+  "autoPauseCount": 0,
+  "segmentCount": 1
+}
