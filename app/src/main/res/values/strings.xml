@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">pacenote</string>
+    <!-- 홈(H1) 전까지의 자리표시자 -->
+    <string name="app_home_placeholder">홈 화면 준비 중</string>
 </resources>
