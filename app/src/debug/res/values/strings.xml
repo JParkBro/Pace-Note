@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="debug_tracking_title">추적 테스트 (debug 전용)</string>
+    <string name="debug_tracking_permissions">권한 요청</string>
+    <string name="debug_tracking_battery">배터리 최적화 설정 열기</string>
+    <string name="debug_tracking_permission_status">정밀 위치 %1$s · 알림 %2$s · 기기 위치 %3$s</string>
+    <string name="debug_tracking_on">켬</string>
+    <string name="debug_tracking_off">끔</string>
+    <string name="debug_tracking_source">위치 소스 (다음 준비부터 적용)</string>
+    <string name="debug_tracking_source_device">실제 GPS</string>
+    <string name="debug_tracking_source_replay_1x">GPX 1배</string>
+    <string name="debug_tracking_source_replay_10x">GPX 10배</string>
+    <string name="debug_tracking_state">상태: %1$s</string>
+    <string name="debug_tracking_gps">GPS: %1$s</string>
+    <string name="debug_tracking_metrics">%1$s km · %2$s · 현재 %3$s · 평균 %4$s</string>
+    <string name="debug_tracking_route">%1$s · 경로 점 %2$d개 · segment %3$d</string>
+    <string name="debug_tracking_prepare">준비</string>
+    <string name="debug_tracking_cancel">준비 취소</string>
+    <string name="debug_tracking_start">시작</string>
+    <string name="debug_tracking_pause">일시정지</string>
+    <string name="debug_tracking_resume">재개</string>
+    <string name="debug_tracking_finish_save">저장하고 마치기</string>
+    <string name="debug_tracking_finish_discard">저장하지 않고 마치기</string>
+    <string name="debug_tracking_recoverable">진행 중 기록 %1$s · %2$s km · %3$s</string>
+    <string name="debug_tracking_recover_continue">이어서 달리기 (준비 후)</string>
+    <string name="debug_tracking_recover_save">복구 기록 저장</string>
+    <string name="debug_tracking_recover_discard">복구 기록 버리기</string>
+    <string name="debug_tracking_result">마지막 결과: %1$s</string>
+</resources>
