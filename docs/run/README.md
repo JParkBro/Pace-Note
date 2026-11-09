@@ -46,6 +46,7 @@
 - 계산(거리 · 페이스 · 스플릿 · 칼로리 · 자동 일시정지)은 `core:domain`, GPX 재생 테스트로 검증.
 - **서버는 Firebase Spark 한 곳, 결제 수단 없음.** Auth · Firestore · Remote Config · App Check · Crashlytics · Hosting. Cloud Functions · Storage · Cloudflare 없음.
 - dev · prod 빌드가 Firebase 프로젝트 하나를 함께 쓰고, 디버그 빌드는 에뮬레이터 연결이 기본.
+- **개발은 로컬 앱(Room · DataStore만) 먼저.** Firebase · 로그인 · 정책 페이지 · 콘솔 설정처럼 외부 설정이 필요한 작업은 최후순위 (`module-map.md` 9장, 2026-11-10 결정).
 - 모든 ID는 UUID, 날짜는 `yyyy-MM-dd`, 시각은 epoch millis.
 
 **디자인**

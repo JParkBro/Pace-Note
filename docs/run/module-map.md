@@ -156,27 +156,40 @@ pacenote/
 
 - 데이즈와 같이 **Firebase 프로젝트 하나**를 dev · prod가 함께 쓰고, dev는 에뮬레이터를 기본으로 연결합니다 (`local.properties` `firebase.useEmulator` · `firebase.emulator.host`). Spark 한도를 개발 중 소모하지 않기 위함입니다.
 - App Check: prod Play Integrity, dev 디버그 제공자.
+- Firebase 연결(에뮬레이터 포함)은 9단계부터입니다. 그 전에는 두 flavor 모두 Firebase 없이 빌드됩니다 (9장).
 
 ## 9. 개발 순서
 
 **위험한 것(추적)을 먼저** 실기기에서 검증하고, 서버(로그인 · 백업)는 앱이 혼자서 완성된 뒤에 붙입니다.
+
+**2026-11-10 결정: 로컬 앱 먼저, 외부 설정은 최후순위.** 당분간 개인용 앱처럼 **Room · DataStore만** 씁니다. 1 ~ 8단계는 Firebase 프로젝트 · `google-services.json` · 콘솔 설정 없이 빌드 · 실행되어야 합니다. 외부 서비스나 사람이 콘솔에서 해야 하는 설정이 필요한 작업(Firebase 전체, Google 로그인, 정책 페이지 Hosting, 인앱 업데이트, Play Console)은 모두 9단계 이후로 미룹니다.
+
+- 1 ~ 8단계에서 `firebase-*` 의존성, `google-services` · `firebase-crashlytics` 플러그인을 모듈에 적용하지 않습니다 (catalog 항목은 그대로 둠).
+- 기능 플래그(`FeatureFlags`)는 9-2 전까지 코드 기본값만 돌려주는 로컬 구현을 씁니다 (`roadmap.md` 5장).
+- 시작 시 온보딩 분기(`OnboardingKey`)는 온보딩이 붙는 9-3부터 넣습니다. 그 전에는 홈으로 시작합니다.
+
+**1부 — 로컬 앱 (Room · DataStore만)**
 
 1. `core:model`, `core:common`, `core:domain` — 계산 전부 + GPX fixture 재생 테스트 (`tracking.md` 8장)
 2. `core:designsystem` — 테마 토큰 8 팔레트(생성 스크립트), 타이포, `Run*` 컴포넌트, `RouteCanvas`
 3. `core:database`, `core:datastore`, `core:data` — `run` · `run_point` · `run_split` + DAO 테스트, `RunRepository`, `StatsRepository`
 4. `core:location`, `core:tracking` — 서비스 · 엔진 · 저장 · 복구 · 알림. **이 단계 끝에 실기기 30분 테스트를 통과해야 다음으로**
    - 2026-11-09 결정: 실기기 확인을 5단계와 병행한다. 확인 항목은 #31 · #32 본문 체크리스트에서 마무리하고, 문제가 나오면 5단계보다 먼저 고친다.
-5. `feature:run` — P1 ~ P6, P8 (공유 카드 버튼은 7단계에서 연결)
+5. `feature:run` — P1 ~ P6, P8 (공유 카드 버튼은 6단계에서 연결)
 6. `feature:home`, `feature:record` (R1 ~ R4), 공유 카드(P7)
-7. `feature:settings` (로컬 설정: M2 ~ M5, M7, M8), 음성 안내 설정 연결 → **게스트 모드 완성**
+7. `feature:settings` (로컬 설정: M2 ~ M5, M8), 음성 안내 설정 연결 → **로컬 앱 완성**
+   - M7 약관 및 정책은 정책 페이지(Hosting)가 필요해 9-3으로 미룹니다.
 8. `widget` (`widget/CLAUDE.md`)
+
+**2부 — 외부 설정이 필요한 작업 (최후순위)**
+
 9. 서버
    - 9-1 `firebase/` 보안 규칙 · 에뮬레이터 테스트
-   - 9-2 `core:firebase` (App Check, 에뮬레이터 연결, Remote Config 차단 스위치)
-   - 9-3 Google 로그인 (Credential Manager), `feature:onboarding` O0 · O1 서버 동의 기록
+   - 9-2 `core:firebase` (App Check, 에뮬레이터 연결, Crashlytics), `google-services` 플러그인 적용, `FeatureFlags`를 Remote Config로 교체 · 차단 스위치
+   - 9-3 `policy-site/` Hosting, M7 약관 및 정책, Google 로그인 (Credential Manager), `feature:onboarding` O0 ~ O3 · 서버 동의 기록, 시작 시 온보딩 분기
    - 9-4 `core:sync` 백업 Push · Pull, 게스트 기록 이전, M6
    - 9-5 계정 · 회원 탈퇴 (M10)
-10. 인앱 업데이트 · 강제 업데이트 화면 (`RELEASE_AND_UPDATE.md` 6장), `policy-site/` Hosting
+10. 인앱 업데이트 · 강제 업데이트 화면 (`RELEASE_AND_UPDATE.md` 6장)
 11. **직접 확인 · 등록 (사람이 콘솔에서)**: `infra-and-billing-protection.md` 6장 체크리스트, Play Console 포그라운드 서비스 신고 · 데이터 보안, 위치정보 관련 확인
 
 ## 10. widget 모듈 (Glance)
