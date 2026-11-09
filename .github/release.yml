@@ -1,0 +1,12 @@
+changelog:
+  exclude:
+    labels: [skip-changelog]
+  categories:
+    - title: 새 기능
+      labels: [type:feat]
+    - title: 개선
+      labels: [type:design, type:perf]
+    - title: 버그 수정
+      labels: [type:fix]
+    - title: 기타
+      labels: ["*"]

@@ -386,7 +386,7 @@ changelog:
 
 | 그룹 | 라벨 |
 |---|---|
-| 종류 | `type:feat`, `type:fix`, `type:design`, `type:refactor`, `type:perf`, `type:test`, `type:docs`, `type:build`, `type:ci`, `type:chore` |
+| 종류 | `type:feat`, `type:fix`, `type:design`, `type:refactor`, `type:perf`, `type:test`, `type:docs`, `type:build`, `type:ci`, `type:chore`, `type:revert` |
 | 우선순위 | `priority:high`, `priority:medium`, `priority:low` |
 | 상태 | `status:blocked`, `status:needs-design` |
 | 기타 | `skip-changelog`, `breaking-change` |
