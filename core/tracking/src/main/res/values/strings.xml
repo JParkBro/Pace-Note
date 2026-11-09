@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tracking_notification_channel">러닝 기록</string>
+    <string name="tracking_notification_title_running">러닝 기록 중</string>
+    <string name="tracking_notification_title_auto_paused">멈춤 감지됨</string>
+    <string name="tracking_notification_title_paused">일시정지됨</string>
+    <!-- 거리 · 단위 · 현재 페이스 -->
+    <string name="tracking_notification_text_running">%1$s %2$s · %3$s</string>
+    <!-- 거리 · 단위 · 운동 시간 -->
+    <string name="tracking_notification_text_paused">%1$s %2$s · %3$s</string>
+    <string name="tracking_notification_action_pause">일시정지</string>
+    <string name="tracking_notification_action_resume">재개</string>
+    <string name="tracking_notification_action_open">열기</string>
+</resources>
