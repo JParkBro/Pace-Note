@@ -93,9 +93,9 @@ erDiagram
 | RUN_POINT | `run_point` | ✗ | 기기에만. 서버엔 단순화 경로(`routePolyline`) |
 | GOAL_HISTORY | `goal_history` | `users/{uid}/goals/{goalId}` | 지난 주 달성 계산용 |
 | 체중 · 거리 단위 | DataStore (`UserPrefsDataStore`) | `users/{uid}`의 `weightKg` · `distanceUnit` | |
-| 약관 동의 | DataStore | `users/{uid}`의 동의 필드 | 게스트 동의도 로그인 시 올림 |
-| 러닝 설정 (음성 · 자동 일시정지 · 카운트다운 · 화면 켜짐) | DataStore | ✗ | 기기별 설정 |
-| 테마 · 모드, 온보딩 완료, 배터리 안내 표시 여부 | DataStore | ✗ | |
+| 약관 동의 | DataStore (`UserPrefsDataStore`) | `users/{uid}`의 동의 필드 | 게스트 동의도 로그인 시 올림 |
+| 러닝 설정 (음성 · 자동 일시정지 · 카운트다운 · 화면 켜짐), 배터리 안내 표시 여부 | DataStore (`RunPrefsDataStore`) | ✗ | 기기별 설정 |
+| 테마 · 모드, 온보딩 완료 | DataStore (`AppPrefsDataStore`) | ✗ | |
 
 ### Room에만 있는 컬럼 · 테이블
 
