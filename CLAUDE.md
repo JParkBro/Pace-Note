@@ -17,7 +17,7 @@
 
 Cloud Functions는 없다 (Spark 요금제라 쓸 수 없고, v1에 필요한 서버 로직도 없음).
 
-아직 없는 모듈 · 폴더는 `docs/run/module-map.md` 9장 순서대로 만든다. 현재 Gradle 모듈은 `:app`뿐이다.
+아직 없는 모듈 · 폴더는 `docs/run/module-map.md` 9장 순서대로 만든다. 현재 Gradle 모듈은 `settings.gradle.kts`가 기준이다.
 
 ## 문서 지도
 
