@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- GPS 표시 (RunGpsIndicator) -->
+    <string name="common_gps_good">GPS 양호</string>
+    <string name="common_gps_weak">GPS 약함</string>
+    <string name="common_gps_lost">GPS 없음</string>
+</resources>
