@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>M2 목표 설정</title>
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              bg: '#0D0F09',
+              surface: '#161911',
+              raised: '#20241A',
+              border: '#2C3224',
+              accent: '#C8F53A',
+              text: '#F1F4EA',
+              muted: '#8E9285',
+              subtle: '#5A5F52'
+            }
+          },
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+          }
+        }
+      }
+    };
+  </script>
+<style data-purpose="base-typography">
+    body {
+      background-color: #050604;
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-0 sm:p-4 text-brand-text">
+<!-- BEGIN: MobileContainer -->
+<!-- Designed strictly for Android 360x800 layout proportions -->
+<main class="w-full max-w-[360px] h-[800px] bg-brand-bg relative flex flex-col justify-between overflow-hidden shadow-2xl sm:rounded-[36px] border border-brand-border/40">
+<!-- BEGIN: TopBarSection -->
+<header class="pt-7 px-5 pb-3 flex items-center justify-between z-10" data-purpose="app-header">
+<!-- Back Navigation Button -->
+<button aria-label="뒤로 가기" class="w-10 h-10 -ml-2 flex items-center justify-center text-brand-text hover:text-brand-accent active:scale-95 transition-all" type="button">
+<svg class="w-6 h-6 stroke-current stroke-[2.2]" fill="none" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24">
+<path d="M15 19l-7-7 7-7"></path>
+</svg>
+</button>
+<!-- Screen Title -->
+<h1 class="text-[19px] font-bold tracking-tight text-brand-text flex-1 pl-1">
+        목표
+      </h1>
+<!-- Placeholder balance to ensure aligned header -->
+<div aria-hidden="true" class="w-8"></div>
+</header>
+<!-- END: TopBarSection -->
+<!-- BEGIN: MainContentSection -->
+<section class="flex-1 flex flex-col items-center px-6 pt-2 pb-6" data-purpose="goal-configuration">
+<!-- Segmented Control for Period / Goal Type -->
+<nav aria-label="목표 유형" class="w-full bg-brand-surface p-1 rounded-2xl flex items-center border border-brand-border/60 shadow-inner" data-purpose="segmented-control" role="tablist">
+<!-- Active Tab: 주간 거리 -->
+<button aria-selected="true" class="flex-1 py-2.5 text-[14px] font-semibold rounded-xl bg-brand-raised text-brand-text shadow-sm border border-brand-border/50 text-center transition-all duration-200" id="tab-distance" role="tab">
+          주간 거리
+        </button>
+<!-- Inactive Tab: 주간 횟수 -->
+<button aria-selected="false" class="flex-1 py-2.5 text-[14px] font-medium text-brand-muted hover:text-brand-text text-center transition-all duration-200" id="tab-count" role="tab">
+          주간 횟수
+        </button>
+</nav>
+<!-- Center Stepper Controller -->
+<div class="flex-1 flex flex-col items-center justify-center w-full my-auto" data-purpose="stepper-interface">
+<!-- Interactive Stepper Row -->
+<div class="flex items-center justify-between w-full max-w-[300px] px-2">
+<!-- Stepper Decrease Button -->
+<button aria-label="목표 감소" class="w-13 h-13 w-[52px] h-[52px] rounded-full bg-brand-raised border border-brand-border flex items-center justify-center text-brand-text active:scale-90 active:bg-brand-surface transition-all shadow-md focus:outline-none focus:ring-2 focus:ring-brand-accent/50" id="btn-decrease" type="button">
+<svg class="w-5 h-5 stroke-current stroke-[2.5]" fill="none" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24">
+<path d="M5 12h14"></path>
+</svg>
+</button>
+<!-- Stepper Value Display -->
+<div class="flex items-baseline justify-center mx-2 select-none" data-purpose="stepper-value-display">
+<span class="text-[64px] font-black tracking-tight leading-none text-brand-text font-mono tabular-nums" id="stepper-number">
+              15
+            </span>
+<span class="text-xl font-bold ml-1.5 text-brand-accent" id="stepper-unit">
+              km
+            </span>
+</div>
+<!-- Stepper Increase Button -->
+<button aria-label="목표 증가" class="w-[52px] h-[52px] rounded-full bg-brand-raised border border-brand-border flex items-center justify-center text-brand-text active:scale-90 active:bg-brand-surface transition-all shadow-md focus:outline-none focus:ring-2 focus:ring-brand-accent/50" id="btn-increase" type="button">
+<svg class="w-5 h-5 stroke-current stroke-[2.5]" fill="none" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24">
+<path d="M12 5v14m-7-7h14"></path>
+</svg>
+</button>
+</div>
+<!-- Metric Reference Subtext -->
+<p class="mt-8 text-[13px] font-medium tracking-normal text-brand-muted text-center" data-purpose="reference-stat">
+          최근 4주 평균 <span class="text-brand-text font-semibold">12.8km</span>
+</p>
+</div>
+</section>
+<!-- END: MainContentSection -->
+<!-- BEGIN: BottomCTASection -->
+<footer class="p-5 pb-8 w-full z-10" data-purpose="save-action-container">
+<button class="w-full h-14 bg-brand-accent hover:brightness-105 active:scale-[0.98] rounded-[14px] flex items-center justify-center text-brand-bg font-bold text-[17px] tracking-tight transition-all shadow-[0_4px_24px_rgba(200,245,58,0.22)]" id="btn-save" type="button">
+        저장
+      </button>
+</footer>
+<!-- END: BottomCTASection -->
+</main>
+<!-- END: MobileContainer -->
+<!-- BEGIN: InteractiveStepperLogic -->
+<script data-purpose="stepper-handlers">
+    document.addEventListener('DOMContentLoaded', () => {
+      let currentVal = 15;
+      const minVal = 1;
+      const maxVal = 100;
+      
+      const numDisplay = document.getElementById('stepper-number');
+      const btnDecrease = document.getElementById('btn-decrease');
+      const btnIncrease = document.getElementById('btn-increase');
+      const tabDistance = document.getElementById('tab-distance');
+      const tabCount = document.getElementById('tab-count');
+      const unitDisplay = document.getElementById('stepper-unit');
+
+      function updateDisplay() {
+        numDisplay.textContent = currentVal;
+      }
+
+      btnDecrease.addEventListener('click', () => {
+        if (currentVal > minVal) {
+          currentVal--;
+          updateDisplay();
+        }
+      });
+
+      btnIncrease.addEventListener('click', () => {
+        if (currentVal < maxVal) {
+          currentVal++;
+          updateDisplay();
+        }
+      });
+
+      // Simple Toggle state between distance and count tabs
+      tabDistance.addEventListener('click', () => {
+        tabDistance.className = "flex-1 py-2.5 text-[14px] font-semibold rounded-xl bg-brand-raised text-brand-text shadow-sm border border-brand-border/50 text-center transition-all duration-200";
+        tabDistance.setAttribute('aria-selected', 'true');
+        tabCount.className = "flex-1 py-2.5 text-[14px] font-medium text-brand-muted hover:text-brand-text text-center transition-all duration-200";
+        tabCount.setAttribute('aria-selected', 'false');
+        unitDisplay.textContent = 'km';
+        currentVal = 15;
+        updateDisplay();
+      });
+
+      tabCount.addEventListener('click', () => {
+        tabCount.className = "flex-1 py-2.5 text-[14px] font-semibold rounded-xl bg-brand-raised text-brand-text shadow-sm border border-brand-border/50 text-center transition-all duration-200";
+        tabCount.setAttribute('aria-selected', 'true');
+        tabDistance.className = "flex-1 py-2.5 text-[14px] font-medium text-brand-muted hover:text-brand-text text-center transition-all duration-200";
+        tabDistance.setAttribute('aria-selected', 'false');
+        unitDisplay.textContent = '회';
+        currentVal = 3;
+        updateDisplay();
+      });
+    });
+  </script>
+<!-- END: InteractiveStepperLogic -->
+</body></html>

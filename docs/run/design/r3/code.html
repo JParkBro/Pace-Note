@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>기록 상세 - 런닝</title>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            appBg: '#0D0F09',
+            surface: '#161911',
+            fillColor: '#23281C',
+            borderColor: '#262B1E',
+            primary: '#C8F53A',
+            onPrimary: '#141A05',
+            accent: '#7DD3A0',
+            textPrimary: '#F1F4EA',
+            textSecondary: '#A9B09D',
+            textTertiary: '#7B8270',
+            routeCanvas: '#1A2010',
+          },
+          fontFamily: {
+            pretendard: [
+              'Pretendard',
+              '-apple-system',
+              'BlinkMacSystemFont',
+              'system-ui',
+              'Roboto',
+              'Helvetica Neue',
+              'Segoe UI',
+              'Apple SD Gothic Neo',
+              'Noto Sans KR',
+              'Malgun Gothic',
+              'sans-serif'
+            ],
+          },
+        }
+      }
+    }
+  </script>
+<!-- Pretendard WebFont -->
+<link as="style" crossorigin="" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet"/>
+<style data-purpose="base-typography">
+    body {
+      font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      background-color: #0D0F09;
+      color: #F1F4EA;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .tnum {
+      font-variant-numeric: tabular-nums;
+    }
+    /* Hide scrollbar for seamless mobile viewing */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    * {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="flex justify-center bg-[#050604] min-h-screen">
+<!-- Mobile Screen Container (360x800 aspect ratio frame) -->
+<main class="w-full max-w-[360px] min-h-screen bg-appBg flex flex-col justify-between relative shadow-2xl border-x border-[#1a1f12]/40 pb-6" data-purpose="screen-container">
+<!-- BEGIN: TopBar -->
+<header class="sticky top-0 z-30 bg-appBg/95 backdrop-blur-md px-4 pt-3 pb-3 border-b border-borderColor/60 flex items-center justify-between" data-purpose="top-navigation-bar">
+<!-- Back Button -->
+<button aria-label="뒤로 가기" class="p-1.5 -ml-1 text-textPrimary active:opacity-60 transition-opacity" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24">
+<polyline points="15 18 9 12 15 6"></polyline>
+</svg>
+</button>
+<!-- Date Title -->
+<h1 class="text-base font-bold text-textPrimary tracking-tight">10월 28일 (화)</h1>
+<!-- More Options Button -->
+<button aria-label="옵션 더보기" class="p-1.5 -mr-1 text-textPrimary active:opacity-60 transition-opacity" type="button">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+<circle cx="5" cy="12" r="2"></circle>
+<circle cx="12" cy="12" r="2"></circle>
+<circle cx="19" cy="12" r="2"></circle>
+</svg>
+</button>
+</header>
+<!-- END: TopBar -->
+<!-- BEGIN: ScrollableContent -->
+<div class="flex-1 px-4 pt-3 space-y-4 overflow-y-auto" data-purpose="scrollable-content-area">
+<!-- BEGIN: RouteVisualCard -->
+<!-- Visual schematic route representation without map tile assets -->
+<section class="w-full h-44 bg-routeCanvas rounded-[18px] border border-borderColor p-4 relative overflow-hidden flex items-center justify-center shadow-inner" data-purpose="route-card">
+<!-- Route Path SVG -->
+<svg class="w-full h-full" fill="none" viewbox="0 0 320 150" xmlns="http://www.w3.org/2000/svg">
+<!-- Subtle Glow effect beneath path -->
+<path d="M 28 115 C 60 115, 65 35, 110 35 C 160 35, 170 110, 220 110 C 265 110, 275 25, 292 25" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.15" stroke-width="9"></path>
+<!-- Main White Solid Route Line -->
+<path d="M 28 115 C 60 115, 65 35, 110 35 C 160 35, 170 110, 220 110 C 265 110, 275 25, 292 25" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5"></path>
+<!-- Start Point: Lime Green Filled Circle -->
+<circle cx="28" cy="115" fill="#C8F53A" r="5"></circle>
+<circle cx="28" cy="115" r="8" stroke="#C8F53A" stroke-opacity="0.3" stroke-width="2"></circle>
+<!-- End Point: Concentric White Ring Circle -->
+<circle cx="292" cy="25" fill="#1A2010" r="5.5" stroke="#FFFFFF" stroke-width="3"></circle>
+</svg>
+</section>
+<!-- END: RouteVisualCard -->
+<!-- BEGIN: StatsGrid -->
+<!-- 2x2 Running summary statistics -->
+<section class="grid grid-cols-2 gap-2.5" data-purpose="stats-grid">
+<!-- Distance Card -->
+<div class="bg-surface border border-borderColor rounded-[14px] p-3.5 flex flex-col justify-between">
+<div class="text-[21px] font-bold text-textPrimary leading-none tnum tracking-tight">5.21 <span class="text-sm font-semibold">km</span></div>
+<span class="text-xs font-medium text-textSecondary mt-2">거리</span>
+</div>
+<!-- Duration Card -->
+<div class="bg-surface border border-borderColor rounded-[14px] p-3.5 flex flex-col justify-between">
+<div class="text-[21px] font-bold text-textPrimary leading-none tnum tracking-tight">30:12</div>
+<span class="text-xs font-medium text-textSecondary mt-2">시간</span>
+</div>
+<!-- Average Pace Card -->
+<div class="bg-surface border border-borderColor rounded-[14px] p-3.5 flex flex-col justify-between">
+<div class="text-[21px] font-bold text-textPrimary leading-none tnum tracking-tight">5′48″</div>
+<span class="text-xs font-medium text-textSecondary mt-2">평균 페이스</span>
+</div>
+<!-- Calories Card -->
+<div class="bg-surface border border-borderColor rounded-[14px] p-3.5 flex flex-col justify-between">
+<div class="text-[21px] font-bold text-textPrimary leading-none tnum tracking-tight">312 <span class="text-sm font-semibold">kcal</span></div>
+<span class="text-xs font-medium text-textSecondary mt-2">칼로리</span>
+</div>
+</section>
+<!-- END: StatsGrid -->
+<!-- BEGIN: PaceChartSection -->
+<!-- Pace trend smooth visualization -->
+<section class="bg-surface border border-borderColor rounded-[14px] p-3.5" data-purpose="pace-chart-section">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-medium text-textSecondary">페이스</span>
+<span class="text-[11px] text-textTertiary tnum">평균 5′48″</span>
+</div>
+<div class="w-full h-16 relative flex items-end">
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 300 60">
+<defs>
+<!-- Subtle vertical gradient glow -->
+<lineargradient id="paceGlow" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#7DD3A0" stop-opacity="0.25"></stop>
+<stop offset="100%" stop-color="#7DD3A0" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<!-- Area fill -->
+<polygon fill="url(#paceGlow)" points="0,48 20,44 60,35 120,28 180,42 240,36 300,32 300,60 0,60"></polygon>
+<!-- Pace Line -->
+<path d="M 0 48 Q 40 40, 60 35 T 120 28 T 180 42 T 240 36 T 300 32" fill="none" stroke="#7DD3A0" stroke-linecap="round" stroke-width="2.5"></path>
+</svg>
+</div>
+<div class="flex justify-between items-center text-[10px] text-textTertiary mt-1 px-0.5 tnum">
+<span>1km</span>
+<span>2km</span>
+<span>3km</span>
+<span>4km</span>
+<span>5km</span>
+</div>
+</section>
+<!-- END: PaceChartSection -->
+<!-- BEGIN: KmSplitsSection -->
+<!-- Split details per km -->
+<section class="bg-surface border border-borderColor rounded-[14px] p-3.5" data-purpose="split-interval-section">
+<h2 class="text-xs font-medium text-textSecondary mb-2.5">구간</h2>
+<div class="space-y-2 tnum">
+<!-- Row 1 -->
+<div class="flex justify-between items-center text-sm py-0.5 border-b border-borderColor/40">
+<span class="font-medium text-textPrimary">1 km</span>
+<span class="font-medium text-textPrimary">5′52″</span>
+</div>
+<!-- Row 2 -->
+<div class="flex justify-between items-center text-sm py-0.5 border-b border-borderColor/40">
+<span class="font-medium text-textPrimary">2 km</span>
+<span class="font-medium text-textPrimary">5′44″</span>
+</div>
+<!-- Row 3 -->
+<div class="flex justify-between items-center text-sm py-0.5 border-b border-borderColor/40">
+<span class="font-medium text-textPrimary">3 km</span>
+<span class="font-medium text-textPrimary text-accent">5′40″</span>
+</div>
+<!-- Row 4 -->
+<div class="flex justify-between items-center text-sm py-0.5 border-b border-borderColor/40">
+<span class="font-medium text-textPrimary">4 km</span>
+<span class="font-medium text-textPrimary">5′50″</span>
+</div>
+<!-- Row 5 -->
+<div class="flex justify-between items-center text-sm py-0.5">
+<span class="font-medium text-textPrimary">5 km</span>
+<span class="font-medium text-textPrimary">5′47″</span>
+</div>
+</div>
+</section>
+<!-- END: KmSplitsSection -->
+<!-- BEGIN: MemoCard -->
+<!-- User record note card -->
+<section class="bg-surface border border-borderColor rounded-xl px-3.5 py-3" data-purpose="memo-card">
+<p class="text-[13px] text-textSecondary leading-snug">
+<span class="text-textTertiary font-medium">메모: </span>한강 바람 시원했음
+        </p>
+</section>
+<!-- END: MemoCard -->
+</div>
+<!-- END: ScrollableContent -->
+<!-- BEGIN: BottomActionSection -->
+<footer class="px-4 pt-3.5 bg-appBg/95 backdrop-blur-sm" data-purpose="bottom-action-container">
+<button class="w-full bg-primary active:bg-[#b5e032] text-onPrimary font-bold text-[15px] py-3.5 rounded-[14px] transition-all shadow-md flex items-center justify-center space-x-1.5 focus:outline-none" data-purpose="share-card-button" type="button">
+<span>공유 카드 만들기</span>
+</button>
+</footer>
+<!-- END: BottomActionSection -->
+</main>
+</body></html>

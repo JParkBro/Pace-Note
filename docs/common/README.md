@@ -8,6 +8,7 @@
 | [CODING_CONVENTIONS.md](CODING_CONVENTIONS.md) | 코드를 **어떻게** 쓰나 (이름, MVI, Compose, 코루틴, Git) | 보통 |
 | [TESTING.md](TESTING.md) | 무엇을 **어떻게 검증**하나 (테스트 종류, 템플릿, CI) | 보통 |
 | [GIT_CONVENTIONS.md](GIT_CONVENTIONS.md) | 변경을 **어떻게 합치고 출시**하나 (브랜치, 커밋 · PR, 리뷰, 릴리스) | 낮음 |
+| [RELEASE_AND_UPDATE.md](RELEASE_AND_UPDATE.md) | 빌드를 **어떻게 스토어에 올리고 업데이트시키나** (CI · CD, 버전 코드, 인앱 업데이트) | 낮음 |
 
 ## 기술 스택 요약
 

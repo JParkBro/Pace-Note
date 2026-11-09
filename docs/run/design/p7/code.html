@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@100..900&display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "on-tertiary-fixed": "#151f03", "tertiary-container": "#dbe8ba", "inverse-on-surface": "#2f312a", "on-primary-container": "#556d00", "on-primary-fixed-variant": "#3c4d00", "error-container": "#93000a", "on-error": "#690005", "secondary-container": "#006a40", "surface-container": "#1e201a", "tertiary-fixed": "#dbe8ba", "on-secondary-container": "#90e7b2", "primary-fixed": "#c6f338", "surface-container-lowest": "#0d0f09", "on-secondary-fixed": "#002111", "outline": "#8e937b", "tertiary-fixed-dim": "#bfcca0", "surface-container-low": "#1a1c16", "on-tertiary-container": "#5d6944", "surface-tint": "#abd611", "outline-variant": "#444935", "secondary": "#82d8a5", "background": "#12140e", "surface-container-high": "#292b24", "on-tertiary": "#2a3414", "surface": "#12140e", "on-secondary-fixed-variant": "#005231", "on-secondary": "#003920", "on-primary-fixed": "#161f00", "secondary-fixed": "#9ef5c0", "surface-container-highest": "#34362e", "tertiary": "#ffffff", "primary-fixed-dim": "#abd611", "surface-bright": "#383a32", "on-tertiary-fixed-variant": "#404b29", "secondary-fixed-dim": "#82d8a5", "on-surface": "#e3e3d8", "on-surface-variant": "#c4c9ae", "on-primary": "#283500", "on-background": "#e3e3d8", "primary": "#ffffff", "surface-variant": "#34362e", "inverse-surface": "#e3e3d8", "error": "#ffb4ab", "inverse-primary": "#506600", "on-error-container": "#ffdad6", "surface-dim": "#12140e", "primary-container": "#c6f338" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-sm": "0.5rem", "space-xs": "0.25rem", "space-xl": "1.75rem", "space-md": "1rem", "gutter": "0.75rem", "space-lg": "1.25rem", "margin": "1rem", "margin-sm": "0.75rem", "gutter-sm": "0.5rem" }, fontFamily: { "body-sm": ["Pretendard"], "metric-medium": ["Pretendard"], "headline-lg": ["Pretendard"], "metric-large": ["Pretendard"], "label-md": ["Pretendard"], "headline-sm": ["Pretendard"], "body-md": ["Pretendard"], "headline-md": ["Pretendard"], "display-hero-mobile": ["Pretendard"], "label-sm": ["Pretendard"], "body-lg": ["Pretendard"], "display-hero": ["Pretendard"], "label-lg": ["Pretendard"] }, fontSize: { "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400" }], "metric-medium": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "headline-lg": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "metric-large": ["36px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "500" }], "headline-sm": ["16px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }], "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "display-hero-mobile": ["48px", { "lineHeight": "52px", "letterSpacing": "-0.03em", "fontWeight": "700" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }], "display-hero": ["56px", { "lineHeight": "60px", "letterSpacing": "-0.04em", "fontWeight": "700" }], "label-lg": ["15px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "600" }] } } } };</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#0d0f09;color:#e3e3d8;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface-container-lowest font-body-md text-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-14 px-margin flex items-center justify-between"><div class="flex items-center gap-space-xs"><button class="w-11 h-11 flex items-center justify-center text-on-surface hover:text-primary-fixed transition-colors active:opacity-70" onclick="history.back()" type="button"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><h1 class="font-headline-md text-headline-md text-on-surface tracking-tight truncate">공유 카드</h1></div><div class="flex items-center"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-14 pb-safe bg-surface-container-lowest min-h-screen"><div class="flex flex-col w-full px-margin pb-10">
+<div class="w-full flex items-center justify-between py-space-sm mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-md text-headline-md text-on-surface">공유 카드</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline px-space-sm py-0.5 rounded-full bg-surface-container-high/60">인스타 스토리 최적화</span>
+</div>
+<div class="w-full flex justify-center py-space-xs">
+<div class="w-full max-w-[328px] aspect-[4/3] rounded-xl bg-surface-container-low p-space-lg relative flex flex-col justify-between overflow-hidden shadow-xl transition-all duration-300" id="cardPreview">
+<div class="absolute inset-0 bg-cover bg-center opacity-0 transition-opacity duration-300 pointer-events-none" data-alt="Dark moody asphalt road at tranquil sunrise with faint morning mist and subtle rim light, athletic minimalist aesthetic in obsidian and deep olive tones" id="photoBackgroundLayer" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCcO33WpJHXQ9mCspev7sefkg4fMYhCIGZLdmpgdFJeYh9NXDiMgWYp7iXFIPUqRlZVa18ZdKQ0dPEKNm9-JT9QKs1jAT7lDYH7mehnD8O5n5U6bP7lrQheh_XWAJ4T7V5kgL3sRrwGR2QyPooF4veGbHtn6tWr8MUEq-5i4IR0pFA2HJ1dnYiiqiWr8zvWktY4XVv4UJxW7_zJy112gJ0Tsue-5nAob3wZPI6oSfI')">
+<div class="absolute inset-0 bg-surface-container-lowest/70 backdrop-blur-[2px]"></div>
+</div>
+<div class="absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-300 bg-[linear-gradient(45deg,#1e201a_25%,transparent_25%),linear-gradient(-45deg,#1e201a_25%,transparent_25%),linear-gradient(45deg,transparent_75%,#1e201a_75%),linear-gradient(-45deg,transparent_75%,#1e201a_75%)] bg-[size:16px_16px] bg-[position:0_0,0_8px,8px_-8px,-8px_0px]" id="transparentGridLayer"></div>
+<div class="relative z-10 w-full flex items-center justify-between">
+<span class="font-label-sm text-label-sm tracking-wider text-outline uppercase font-semibold">Solo Cadence</span>
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-fixed"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">GPS TRACKED</span>
+</div>
+</div>
+<div class="relative z-10 w-full h-24 my-auto flex items-center justify-center">
+<svg class="w-full h-full overflow-visible drop-shadow-[0_2px_8px_rgba(255,255,255,0.12)]" fill="none" viewbox="0 0 280 90" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient gradientunits="userSpaceOnUse" id="routeGradient" x1="0" x2="280" y1="0" y2="0">
+<stop offset="0%" stop-color="#ffffff"></stop>
+<stop offset="65%" stop-color="#ffffff"></stop>
+<stop offset="100%" stop-color="#c6f338"></stop>
+</lineargradient>
+<filter filterunits="userSpaceOnUse" height="110" id="glowEffect" width="300" x="-10" y="-10">
+<fegaussianblur result="blur" stddeviation="3"></fegaussianblur>
+<fecomposite in="SourceGraphic" in2="blur" operator="over"></fecomposite>
+</filter>
+</defs>
+<path d="M 22 68 C 50 68, 70 20, 105 20 C 140 20, 160 76, 195 76 C 225 76, 238 28, 260 28" fill="none" stroke="url(#routeGradient)" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+<circle cx="22" cy="68" fill="#c6f338" r="4.5"></circle>
+<circle cx="22" cy="68" r="9" stroke="#c6f338" stroke-opacity="0.35" stroke-width="1.5"></circle>
+<circle cx="260" cy="28" fill="#ffffff" r="4"></circle>
+<circle cx="260" cy="28" r="8" stroke="#ffffff" stroke-dasharray="3 2" stroke-width="1.5"></circle>
+</svg>
+</div>
+<div class="relative z-10 w-full flex items-end justify-between">
+<div class="flex flex-col">
+<div class="flex items-baseline gap-1 transition-all duration-200" id="statDistance">
+<span class="font-metric-large text-metric-large text-on-surface tracking-tight tabular-nums">5.21</span>
+<span class="font-headline-sm text-headline-sm text-primary-fixed font-bold">km</span>
+</div>
+<div class="flex items-center gap-1.5 mt-0.5 transition-all duration-200" id="statMetrics">
+<span class="font-label-md text-label-md text-on-surface-variant tabular-nums font-semibold" id="metricTime">30:12</span>
+<span class="text-outline-variant font-bold text-xs" id="metricDivider">·</span>
+<span class="font-label-md text-label-md text-on-surface-variant tabular-nums font-semibold" id="metricPace">5'48"<span class="text-outline text-label-sm font-normal">/km</span></span>
+</div>
+<div class="font-label-sm text-label-sm text-outline mt-1 tabular-nums transition-all duration-200" id="statDate">
+            2026.10.28 <span class="text-[10px] text-outline-variant">오전 6:40</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<div class="flex items-center gap-1 px-space-xs py-0.5 rounded-full bg-surface-container-high/80">
+<span class="material-symbols-outlined text-[12px] text-primary-fixed">local_fire_department</span>
+<span class="font-label-sm text-label-sm text-on-surface tabular-nums">312 kcal</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline/70">런닝</span>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full mt-space-lg">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-md text-label-md text-on-surface-variant font-semibold">배경</span>
+<span class="font-label-sm text-label-sm text-outline" id="bgStatus">단색 매트</span>
+</div>
+<div aria-label="배경 옵션" class="flex items-center gap-space-xs" role="radiogroup">
+<button class="px-space-md py-1.5 rounded-full font-label-md text-label-md transition-all font-semibold bg-on-surface text-surface-container-lowest" id="bgBtn-default" onclick="setBg('default')" type="button">
+        기본
+      </button>
+<button class="px-space-md py-1.5 rounded-full font-label-md text-label-md transition-all font-medium bg-surface-container-high text-on-surface-variant hover:text-on-surface" id="bgBtn-photo" onclick="setBg('photo')" type="button">
+        사진
+      </button>
+<button class="px-space-md py-1.5 rounded-full font-label-md text-label-md transition-all font-medium bg-surface-container-high text-on-surface-variant hover:text-on-surface" id="bgBtn-transparent" onclick="setBg('transparent')" type="button">
+        투명
+      </button>
+</div>
+</div>
+<div class="w-full mt-space-md">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-md text-label-md text-on-surface-variant font-semibold">표시할 정보</span>
+<span class="font-label-sm text-label-sm text-outline">터치하여 켜기/끄기</span>
+</div>
+<div class="flex flex-wrap items-center gap-space-xs">
+<button class="px-space-md py-1.5 rounded-full font-label-md text-label-md transition-all font-semibold bg-on-surface text-surface-container-lowest flex items-center gap-1" id="pill-distance" onclick="toggleMetric('distance')" type="button">
+<span>거리</span>
+<span class="material-symbols-outlined text-[14px]">check</span>
+</button>
+<button class="px-space-md py-1.5 rounded-full font-label-md text-label-md transition-all font-semibold bg-on-surface text-surface-container-lowest flex items-center gap-1" id="pill-time" onclick="toggleMetric('time')" type="button">
+<span>시간</span>
+<span class="material-symbols-outlined text-[14px]">check</span>
+</button>
+<button class="px-space-md py-1.5 rounded-full font-label-md text-label-md transition-all font-semibold bg-on-surface text-surface-container-lowest flex items-center gap-1" id="pill-pace" onclick="toggleMetric('pace')" type="button">
+<span>페이스</span>
+<span class="material-symbols-outlined text-[14px]">check</span>
+</button>
+<button class="px-space-md py-1.5 rounded-full font-label-md text-label-md transition-all font-medium bg-surface-container-high text-on-surface-variant flex items-center gap-1" id="pill-date" onclick="toggleMetric('date')" type="button">
+<span>날짜</span>
+<span class="material-symbols-outlined text-[14px] hidden">check</span>
+</button>
+</div>
+</div>
+<div class="w-full mt-space-md p-space-md rounded-xl bg-surface-container-low flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary-fixed text-[20px] mt-0.5">auto_awesome</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">스토리 공유 팁</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+        ‘투명’ 배경을 선택하고 이미지를 복사하면 인스타그램 스토리에서 감각적인 오버레이 스티커로 바로 부착할 수 있어요.
+      </span>
+</div>
+</div>
+<div class="w-full flex items-center gap-space-sm mt-space-xl">
+<button class="flex-1 h-14 rounded-xl bg-surface-container-high active:bg-surface-container-highest text-on-surface font-headline-sm text-headline-sm font-semibold flex items-center justify-center gap-2 transition-all active:scale-[0.98]" id="btnSave" onclick="handleSave()" type="button">
+<span class="material-symbols-outlined text-[20px]">download</span>
+<span>이미지 저장</span>
+</button>
+<button class="flex-1 h-14 rounded-xl bg-primary-container active:bg-primary-fixed-dim text-on-primary-fixed font-headline-sm text-headline-sm font-bold flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-lg shadow-primary-container/20" onclick="handleShare()" type="button">
+<span class="material-symbols-outlined text-[20px] text-on-primary-fixed">share</span>
+<span>공유</span>
+</button>
+</div>
+<div class="fixed bottom-6 left-1/2 -translate-x-1/2 px-space-md py-space-sm rounded-full bg-surface-container-highest text-on-surface font-label-md text-label-md flex items-center gap-1.5 shadow-2xl opacity-0 pointer-events-none transition-all duration-300 z-50" id="toast">
+<span class="material-symbols-outlined text-primary-fixed text-[18px]">check_circle</span>
+<span id="toastMsg">클립보드에 카드가 복사되었습니다.</span>
+</div>
+</div>
+<script>
+  let activeBg = 'default';
+  const metricState = {
+    distance: true,
+    time: true,
+    pace: true,
+    date: false
+  };
+
+  function setBg(type) {
+    activeBg = type;
+    const preview = document.getElementById('cardPreview');
+    const photoLayer = document.getElementById('photoBackgroundLayer');
+    const transLayer = document.getElementById('transparentGridLayer');
+    const bgStatus = document.getElementById('bgStatus');
+
+    const btns = ['default', 'photo', 'transparent'];
+    btns.forEach(b => {
+      const el = document.getElementById('bgBtn-' + b);
+      if (b === type) {
+        el.className = 'px-space-md py-1.5 rounded-full font-label-md text-label-md transition-all font-semibold bg-on-surface text-surface-container-lowest';
+      } else {
+        el.className = 'px-space-md py-1.5 rounded-full font-label-md text-label-md transition-all font-medium bg-surface-container-high text-on-surface-variant hover:text-on-surface';
+      }
+    });
+
+    if (type === 'default') {
+      preview.className = 'w-full max-w-[328px] aspect-[4/3] rounded-xl bg-surface-container-low p-space-lg relative flex flex-col justify-between overflow-hidden shadow-xl transition-all duration-300';
+      photoLayer.style.opacity = '0';
+      transLayer.style.opacity = '0';
+      bgStatus.textContent = '단색 매트';
+    } else if (type === 'photo') {
+      preview.className = 'w-full max-w-[328px] aspect-[4/3] rounded-xl bg-surface-container-lowest p-space-lg relative flex flex-col justify-between overflow-hidden shadow-xl transition-all duration-300';
+      photoLayer.style.opacity = '1';
+      transLayer.style.opacity = '0';
+      bgStatus.textContent = '배경 사진 적용';
+    } else if (type === 'transparent') {
+      preview.className = 'w-full max-w-[328px] aspect-[4/3] rounded-xl bg-surface-container-lowest/40 backdrop-blur-md p-space-lg relative flex flex-col justify-between overflow-hidden shadow-xl transition-all duration-300';
+      photoLayer.style.opacity = '0';
+      transLayer.style.opacity = '1';
+      bgStatus.textContent = '인스타 스토리 스티커 PNG';
+    }
+  }
+
+  function toggleMetric(key) {
+    metricState[key] = !metricState[key];
+    const btn = document.getElementById('pill-' + key);
+    const checkIcon = btn.querySelector('.material-symbols-outlined');
+
+    if (metricState[key]) {
+      btn.className = 'px-space-md py-1.5 rounded-full font-label-md text-label-md transition-all font-semibold bg-on-surface text-surface-container-lowest flex items-center gap-1';
+      if (checkIcon) checkIcon.classList.remove('hidden');
+    } else {
+      btn.className = 'px-space-md py-1.5 rounded-full font-label-md text-label-md transition-all font-medium bg-surface-container-high text-on-surface-variant flex items-center gap-1';
+      if (checkIcon) checkIcon.classList.add('hidden');
+    }
+
+    renderCardMetrics();
+  }
+
+  function renderCardMetrics() {
+    const distEl = document.getElementById('statDistance');
+    const timeEl = document.getElementById('metricTime');
+    const paceEl = document.getElementById('metricPace');
+    const divEl = document.getElementById('metricDivider');
+    const dateEl = document.getElementById('statDate');
+    const metricsRow = document.getElementById('statMetrics');
+
+    if (distEl) distEl.style.display = metricState.distance ? 'flex' : 'none';
+    if (timeEl) timeEl.style.display = metricState.time ? 'inline' : 'none';
+    if (paceEl) paceEl.style.display = metricState.pace ? 'inline' : 'none';
+    if (divEl) divEl.style.display = (metricState.time && metricState.pace) ? 'inline' : 'none';
+    if (metricsRow) metricsRow.style.display = (!metricState.time && !metricState.pace) ? 'none' : 'flex';
+    if (dateEl) dateEl.style.display = metricState.date ? 'block' : 'none';
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toastMsg');
+    toastMsg.textContent = msg;
+    toast.style.opacity = '1';
+    toast.style.transform = 'translate(-50%, -8px)';
+    
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translate(-50%, 0)';
+    }, 2400);
+  }
+
+  function handleSave() {
+    const btn = document.getElementById('btnSave');
+    btn.classList.add('opacity-70');
+    setTimeout(() => {
+      btn.classList.remove('opacity-70');
+      showToast(activeBg === 'transparent' ? '투명 PNG 이미지가 갤러리에 저장되었습니다' : '러닝 카드가 갤러리에 저장되었습니다');
+    }, 400);
+  }
+
+  function handleShare() {
+    if (navigator.share) {
+      navigator.share({
+        title: '오늘의 모닝 러닝 기록',
+        text: '5.21 km 러닝 완료! 30:12 페이스 5\'48"',
+        url: window.location.href
+      }).catch(() => {
+        showToast('공유 링크가 클립보드에 복사되었습니다');
+      });
+    } else {
+      showToast('러닝 카드가 클립보드에 복사되었습니다');
+    }
+  }
+
+  renderCardMetrics();
+</script></main></body></html>

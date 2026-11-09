@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="ko"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link as="style" crossorigin="" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100%;margin:0;padding:0;min-height:100%;background-color:#0d0f09;}body{overscroll-behavior:none;font-family:'Pretendard',sans-serif;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}.px-safe{padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px);}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "secondary": "#82d8a5", "on-secondary-fixed-variant": "#005231", "primary-container": "#c6f338", "on-primary-fixed-variant": "#3c4d00", "on-error-container": "#ffdad6", "tertiary-fixed": "#dbe8ba", "on-secondary-container": "#90e7b2", "primary": "#ffffff", "on-tertiary-container": "#5d6944", "on-primary-container": "#556d00", "outline-variant": "#444935", "on-secondary-fixed": "#002111", "primary-fixed": "#c6f338", "on-primary-fixed": "#161f00", "on-tertiary-fixed": "#151f03", "on-tertiary": "#2a3414", "surface-dim": "#12140e", "tertiary-container": "#dbe8ba", "tertiary": "#ffffff", "secondary-fixed-dim": "#82d8a5", "on-error": "#690005", "inverse-on-surface": "#2f312a", "surface-bright": "#383a32", "background": "#12140e", "on-tertiary-fixed-variant": "#404b29", "error": "#ffb4ab", "tertiary-fixed-dim": "#bfcca0", "secondary-container": "#006a40", "surface-container": "#1e201a", "outline": "#8e937b", "on-background": "#e3e3d8", "on-primary": "#283500", "on-secondary": "#003920", "inverse-primary": "#506600", "on-surface": "#e3e3d8", "on-surface-variant": "#c4c9ae", "primary-fixed-dim": "#abd611", "surface-variant": "#34362e", "secondary-fixed": "#9ef5c0", "surface-container-high": "#292b24", "surface-tint": "#abd611", "surface": "#12140e", "surface-container-highest": "#34362e", "surface-container-low": "#1a1c16", "surface-container-lowest": "#0d0f09", "error-container": "#93000a", "inverse-surface": "#e3e3d8" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-sm": "0.5rem", "space-xs": "0.25rem", "gutter-sm": "0.5rem", "margin": "1rem", "space-md": "1rem", "space-xl": "1.75rem", "gutter": "0.75rem", "space-lg": "1.25rem", "margin-sm": "0.75rem" }, "fontFamily": { "display-hero-mobile": ["Pretendard"], "display-hero": ["Pretendard"], "headline-sm": ["Pretendard"], "metric-medium": ["Pretendard"], "body-lg": ["Pretendard"], "label-sm": ["Pretendard"], "body-sm": ["Pretendard"], "label-lg": ["Pretendard"], "label-md": ["Pretendard"], "headline-md": ["Pretendard"], "metric-large": ["Pretendard"], "body-md": ["Pretendard"], "headline-lg": ["Pretendard"] }, "fontSize": { "display-hero-mobile": ["48px", { "lineHeight": "52px", "letterSpacing": "-0.03em", "fontWeight": "700" }], "display-hero": ["56px", { "lineHeight": "60px", "letterSpacing": "-0.04em", "fontWeight": "700" }], "headline-sm": ["16px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "600" }], "metric-medium": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500" }], "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400" }], "label-lg": ["15px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "600" }], "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "500" }], "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "metric-large": ["36px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }], "headline-lg": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }] } } } }</script></head><body class="bg-surface-container-lowest text-on-surface min-h-screen flex flex-col selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 inset-x-0 z-50 bg-surface-container-lowest/80 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-margin flex items-center justify-between"><button aria-label="이전 페이지로 이동" class="w-11 h-11 -ml-space-xs rounded-full flex items-center justify-center text-on-surface hover:text-primary-fixed transition-colors active:scale-95" onclick="history.back()" type="button"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><h1 class="font-headline-sm text-headline-sm text-on-surface tracking-tight truncate max-w-[200px]">Permission Request</h1><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 bg-surface-container-lowest pb-safe"><div class="flex flex-col w-full px-margin justify-between min-h-[calc(100vh-4rem)]">
+<!-- Content Container -->
+<div class="flex flex-col w-full">
+<!-- Top Bar Navigation -->
+<div class="h-14 flex items-center justify-between -mx-margin px-margin">
+<button aria-label="이전 단계" class="w-11 h-11 -ml-space-xs rounded-full flex items-center justify-center text-on-surface hover:text-primary-fixed transition-colors active:scale-95" onclick="history.back()" type="button">
+<svg class="w-6 h-6 stroke-current fill-none stroke-[2.2]" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24">
+<path d="M15 18l-6-6 6-6"></path>
+</svg>
+</button>
+<h2 class="font-headline-md text-headline-md text-on-surface">이번 주 목표</h2>
+<button class="text-body-md text-outline hover:text-on-surface-variant transition-colors py-2 px-1" type="button">건너뛰기</button>
+</div>
+<!-- Motivational Rhythm Header / Visual Reference -->
+<div class="w-full mt-space-md mb-space-lg rounded-xl overflow-hidden bg-surface-container-low shadow-sm">
+<img alt="주간 러닝 목표 비주얼" class="w-full h-auto object-cover opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-YvF7lO4EOkGsN7fCl4vcZcJq8KO8lvjgPOg2HdLoT-0P-ZPF5ltfVzh3x8fc_YACxNgYWfvjPnBwQazMWr9CZnXfXXPbdoxR0jSOS1xBagZBbNRKdQWw_aAG57y3v01EfulPk5rNNY18jCqPEJTaJ7sTE1dxmV69u-SOdr0YKqppI70_G2VQ0u1dHEOwzdC-09OCvedyOupUO4AJEb4EWeKrN8TaoUnVYvoJRlew5QpcMeVQVTle"/>
+</div>
+<!-- Step Progress Indicator -->
+<div class="flex items-center gap-1.5 mb-space-md">
+<span class="w-2 h-1.5 rounded-full bg-surface-container-highest"></span>
+<span class="w-2 h-1.5 rounded-full bg-surface-container-highest"></span>
+<span class="w-6 h-1.5 rounded-full bg-primary-fixed"></span>
+<span class="ml-space-xs font-label-sm text-label-sm text-outline">STEP 3 / 3</span>
+</div>
+<!-- Segmented Control -->
+<div class="mt-space-xs mb-space-xl">
+<div class="bg-surface-container-high p-1 rounded-xl flex shadow-inner" role="tablist">
+<button aria-selected="true" class="bg-surface-container-lowest text-on-surface font-label-lg text-label-lg shadow py-3 flex-1 text-center rounded-lg transition-all flex items-center justify-center gap-1.5" id="tab-distance" role="tab" type="button">
+<span class="material-symbols-outlined text-[16px] text-primary-fixed">straighten</span>
+<span>주간 거리</span>
+</button>
+<button aria-selected="false" class="text-outline hover:text-on-surface-variant font-label-lg text-label-lg py-3 flex-1 text-center rounded-lg transition-all flex items-center justify-center gap-1.5" id="tab-count" role="tab" type="button">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+<span>주간 횟수</span>
+</button>
+</div>
+</div>
+<!-- Goal Headline -->
+<div class="text-center mb-space-lg">
+<p class="font-body-sm text-body-sm text-outline mb-1">나의 첫 걸음 페이스 메이커</p>
+<h3 class="font-headline-lg text-headline-lg text-on-surface" id="goal-title">달릴 거리를 정해볼까요?</h3>
+</div>
+<!-- Large Stepper Area -->
+<div class="flex items-center justify-center gap-6 my-space-md">
+<!-- Minus Button -->
+<button aria-label="목표 감소" class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-metric-medium font-headline-md text-on-surface-variant hover:text-on-surface active:scale-95 transition-all shadow-sm" id="btn-minus" type="button">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24">
+<path d="M19 13H5v-2h14v2z"></path>
+</svg>
+</button>
+<!-- Big Metric Readout -->
+<div class="flex items-baseline justify-center select-none min-w-[140px] text-center">
+<span class="font-display-hero-mobile text-display-hero-mobile font-bold tracking-tight text-on-surface tabular-nums" id="metric-val">15</span>
+<span class="font-headline-sm text-headline-sm text-on-surface-variant ml-1.5 font-medium" id="metric-unit">km</span>
+</div>
+<!-- Plus Button -->
+<button aria-label="목표 증가" class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-metric-medium font-headline-md text-on-surface-variant hover:text-on-surface active:scale-95 transition-all shadow-sm" id="btn-plus" type="button">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24">
+<path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
+</svg>
+</button>
+</div>
+<!-- Helper Recommendation Text -->
+<p class="font-body-sm text-body-sm text-outline text-center mt-space-sm flex items-center justify-center gap-1" id="helper-text">
+<span class="material-symbols-outlined text-[15px] text-secondary">tips_and_updates</span>
+<span>처음이라면 주 10~15km를 추천해요</span>
+</p>
+<!-- Visual Weekly Target Indicator -->
+<div class="mt-space-lg bg-surface-container-low p-space-md rounded-xl flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-outline">예상 달성 일수</span>
+<span class="font-label-lg text-label-lg text-on-surface mt-0.5" id="frequency-hint">주 3회 러닝 시 회당 약 5.0km</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed text-[20px]">pace</span>
+</div>
+</div>
+</div>
+<!-- Bottom Action Area -->
+<div class="w-full pt-space-lg pb-space-lg">
+<button class="h-14 w-full bg-primary-fixed text-on-primary-fixed font-label-lg text-label-lg rounded-[14px] flex items-center justify-center gap-2 active:scale-[0.98] transition-transform shadow-md" id="btn-submit" type="button">
+<span>시작하기</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<script>
+  (function() {
+    let mode = 'distance'; // 'distance' | 'count'
+    let distanceVal = 15;
+    let countVal = 3;
+
+    const tabDistance = document.getElementById('tab-distance');
+    const tabCount = document.getElementById('tab-count');
+    const metricVal = document.getElementById('metric-val');
+    const metricUnit = document.getElementById('metric-unit');
+    const goalTitle = document.getElementById('goal-title');
+    const helperText = document.getElementById('helper-text');
+    const frequencyHint = document.getElementById('frequency-hint');
+    const btnMinus = document.getElementById('btn-minus');
+    const btnPlus = document.getElementById('btn-plus');
+
+    function updateView() {
+      if (mode === 'distance') {
+        metricVal.textContent = distanceVal;
+        metricUnit.textContent = 'km';
+        goalTitle.textContent = '달릴 거리를 정해볼까요?';
+        helperText.innerHTML = '<span class="material-symbols-outlined text-[15px] text-secondary">tips_and_updates</span><span>처음이라면 주 10~15km를 추천해요</span>';
+        const perRun = (distanceVal / 3).toFixed(1);
+        frequencyHint.textContent = `주 3회 러닝 시 회당 약 ${perRun}km`;
+      } else {
+        metricVal.textContent = countVal;
+        metricUnit.textContent = '회';
+        goalTitle.textContent = '몇 번 달려볼까요?';
+        helperText.innerHTML = '<span class="material-symbols-outlined text-[15px] text-secondary">tips_and_updates</span><span>가장 지속 가능한 루틴은 주 3회예요</span>';
+        frequencyHint.textContent = `이틀에 한 번 편안하게 회복하며 달리기`;
+      }
+    }
+
+    tabDistance.addEventListener('click', function() {
+      if (mode === 'distance') return;
+      mode = 'distance';
+      tabDistance.classList.add('bg-surface-container-lowest', 'text-on-surface', 'shadow');
+      tabDistance.classList.remove('text-outline');
+      tabCount.classList.remove('bg-surface-container-lowest', 'text-on-surface', 'shadow');
+      tabCount.classList.add('text-outline');
+      tabDistance.setAttribute('aria-selected', 'true');
+      tabCount.setAttribute('aria-selected', 'false');
+      updateView();
+    });
+
+    tabCount.addEventListener('click', function() {
+      if (mode === 'count') return;
+      mode = 'count';
+      tabCount.classList.add('bg-surface-container-lowest', 'text-on-surface', 'shadow');
+      tabCount.classList.remove('text-outline');
+      tabDistance.classList.remove('bg-surface-container-lowest', 'text-on-surface', 'shadow');
+      tabDistance.classList.add('text-outline');
+      tabCount.setAttribute('aria-selected', 'true');
+      tabDistance.setAttribute('aria-selected', 'false');
+      updateView();
+    });
+
+    btnMinus.addEventListener('click', function() {
+      if (mode === 'distance') {
+        if (distanceVal > 5) distanceVal -= 1;
+      } else {
+        if (countVal > 1) countVal -= 1;
+      }
+      updateView();
+    });
+
+    btnPlus.addEventListener('click', function() {
+      if (mode === 'distance') {
+        if (distanceVal < 80) distanceVal += 1;
+      } else {
+        if (countVal < 7) countVal += 1;
+      }
+      updateView();
+    });
+  })();
+</script></main></body></html>

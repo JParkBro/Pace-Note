@@ -312,12 +312,12 @@ git push --force-with-lease     # 내 작업 브랜치에만
 ### 6-2. Android 버전 코드
 
 ```
-versionName = "1.3.2"
-versionCode = MAJOR * 10000 + MINOR * 100 + PATCH   // 10302
+versionName = "1.3.2"                                                     // 태그 v1.3.2에서
+versionCode = MAJOR * 1_000_000 + MINOR * 10_000 + PATCH * 100 + 빌드번호   // 1030200 + n
 ```
 
-- 버전 값은 한 곳(`gradle.properties` 또는 Version Catalog)에서만 관리합니다.
-- 같은 버전 안에서 재빌드가 필요하면 PATCH를 올립니다. 스토어에 올린 versionCode는 재사용할 수 없습니다.
+- 버전 값은 한 곳(태그 또는 Version Catalog)에서만 관리합니다. CI가 태그에서 읽어 넣는 방법은 [RELEASE_AND_UPDATE.md](RELEASE_AND_UPDATE.md) 3장을 따릅니다.
+- 같은 버전을 다시 올려야 하면(서명 실수, 심사 거절 후 재업로드) 빌드번호(0~99)만 올립니다. 스토어에 올린 versionCode는 재사용할 수 없습니다.
 
 ### 6-3. 태그
 

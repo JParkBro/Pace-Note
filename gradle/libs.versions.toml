@@ -1,8 +1,8 @@
 [versions]
 # project
 projectApplicationId = "jpark.bro.pacenote"
-# versionCode = MAJOR*1_000_000 + MINOR*10_000 + PATCH*100 + 빌드번호 (docs/run/roadmap.md 1장)
-projectVersionCode = "1000001"
+# versionCode = MAJOR*1_000_000 + MINOR*10_000 + PATCH*100 + 빌드번호 (docs/common/RELEASE_AND_UPDATE.md 3장)
+projectVersionCode = "1000000"
 projectVersionName = "1.0.0"
 projectCompileSdkVersion = "37"
 projectMinSdkVersion = "30"
