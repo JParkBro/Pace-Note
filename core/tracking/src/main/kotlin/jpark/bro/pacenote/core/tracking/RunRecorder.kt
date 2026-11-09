@@ -1,6 +1,7 @@
 package jpark.bro.pacenote.core.tracking
 
 import jpark.bro.pacenote.core.common.IdGenerator
+import jpark.bro.pacenote.core.data.repository.AuthRepository
 import jpark.bro.pacenote.core.database.dao.FinishedRunUpdate
 import jpark.bro.pacenote.core.database.dao.RunProgressUpdate
 import jpark.bro.pacenote.core.database.dao.RunRecoveryDao
@@ -22,6 +23,7 @@ import jpark.bro.pacenote.core.model.RoutePoint
 import jpark.bro.pacenote.core.model.RunSource
 import jpark.bro.pacenote.core.model.RunSplit
 import jpark.bro.pacenote.core.model.RunStatus
+import kotlinx.coroutines.flow.first
 import java.time.Clock
 
 /** 이어서 달릴 기록의 저장된 진행 값과 경로 */
@@ -38,6 +40,7 @@ internal data class ResumedRun(
 internal class RunRecorder(
     private val trackingDao: RunTrackingDao,
     private val recoveryDao: RunRecoveryDao,
+    private val authRepository: AuthRepository,
     private val clock: Clock,
     private val idGenerator: IdGenerator,
 ) {
@@ -47,10 +50,9 @@ internal class RunRecorder(
     private var savedSplitCount = 0
     private var lastFlushElapsedMs = 0L
 
-    suspend fun create(
-        ownerUserId: String?,
-        nowElapsedMs: Long,
-    ): String {
+    /** 지금 사용자(게스트면 null)의 새 기록을 만든다. */
+    suspend fun create(nowElapsedMs: Long): String {
+        val ownerUserId = authRepository.observeUserId().first()
         val now = clock.millis()
         val id = idGenerator.newId()
         trackingDao.insertRun(newRunEntity(id, ownerUserId, now, clock.zone.id))

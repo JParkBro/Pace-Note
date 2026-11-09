@@ -11,4 +11,15 @@
     <string name="tracking_notification_action_pause">일시정지</string>
     <string name="tracking_notification_action_resume">재개</string>
     <string name="tracking_notification_action_open">열기</string>
+
+    <!-- 음성 안내 (tracking.md 9장). 숫자에 단위를 붙여 TTS가 시각으로 읽지 않게 한다 -->
+    <string name="tracking_voice_distance_km">%1$s킬로미터</string>
+    <string name="tracking_voice_distance_mile">%1$s마일</string>
+    <string name="tracking_voice_hours">%1$d시간</string>
+    <string name="tracking_voice_minutes">%1$d분</string>
+    <string name="tracking_voice_seconds">%1$d초</string>
+    <string name="tracking_voice_average_pace">평균 페이스 %1$s</string>
+    <string name="tracking_voice_split_pace">구간 페이스 %1$s</string>
+    <string name="tracking_voice_auto_paused">일시정지</string>
+    <string name="tracking_voice_auto_resumed">다시 시작</string>
 </resources>

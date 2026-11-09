@@ -8,6 +8,8 @@ import jpark.bro.pacenote.core.tracking.RunRecorder
 import jpark.bro.pacenote.core.tracking.RunTracker
 import jpark.bro.pacenote.core.tracking.SystemElapsedClock
 import jpark.bro.pacenote.core.tracking.TrackingEngine
+import jpark.bro.pacenote.core.tracking.voice.TtsVoiceAnnouncer
+import jpark.bro.pacenote.core.tracking.voice.VoiceAnnouncer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -23,6 +25,7 @@ val trackingModule =
         // 화면이 사라져도 추적이 이어지도록 앱 범위 스코프에서 돈다
         single<CoroutineScope> { CoroutineScope(SupervisorJob() + Dispatchers.Default) }
         singleOf(::RunRecorder)
+        single<VoiceAnnouncer> { TtsVoiceAnnouncer(androidContext()) }
         singleOf(::TrackingEngine)
         single<RunTracker> { ForegroundRunTracker(get(), androidContext()) }
     }

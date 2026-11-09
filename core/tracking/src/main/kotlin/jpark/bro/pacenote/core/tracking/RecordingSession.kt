@@ -6,6 +6,7 @@ import jpark.bro.pacenote.core.model.PauseState
 import jpark.bro.pacenote.core.model.RawLocation
 import jpark.bro.pacenote.core.model.RoutePoint
 import jpark.bro.pacenote.core.model.RunStatus
+import jpark.bro.pacenote.core.tracking.voice.VoiceGuide
 
 /** 기록 중인 한 번의 러닝: 계산(`RunMetricsAccumulator`)과 저장(`RunRecorder`)을 묶는다. */
 internal class RecordingSession(
@@ -13,6 +14,7 @@ internal class RecordingSession(
     private val accumulator: RunMetricsAccumulator,
     private val recorder: RunRecorder,
     initialRoute: List<RoutePoint>,
+    private val voice: VoiceGuide? = null,
 ) {
     private var route = initialRoute
 
@@ -25,10 +27,12 @@ internal class RecordingSession(
         val outcome = accumulator.onLocation(point, nowElapsedMs)
         recorder.add(point, outcome)
         if (outcome.accepted) route = route + RoutePoint(point.lat, point.lng, outcome.segment)
-        flushIfDue(nowElapsedMs)
+        onTick(nowElapsedMs)
     }
 
-    suspend fun flushIfDue(nowElapsedMs: Long) {
+    /** 1초 틱: 시간 간격 음성 안내 · 저장 주기 확인 */
+    suspend fun onTick(nowElapsedMs: Long) {
+        voice?.onUpdate(accumulator.pauseState, accumulator.metrics(nowElapsedMs))
         if (recorder.isFlushDue(nowElapsedMs)) flush(nowElapsedMs)
     }
 

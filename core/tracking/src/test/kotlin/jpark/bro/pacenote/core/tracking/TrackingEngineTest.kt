@@ -9,7 +9,10 @@ import jpark.bro.pacenote.core.model.DistanceUnit
 import jpark.bro.pacenote.core.model.GpsStatus
 import jpark.bro.pacenote.core.model.PauseState
 import jpark.bro.pacenote.core.model.RawLocation
+import jpark.bro.pacenote.core.model.RunSettings
 import jpark.bro.pacenote.core.model.UserProfile
+import jpark.bro.pacenote.core.model.VoiceAnnouncement
+import jpark.bro.pacenote.core.model.VoiceInterval
 import jpark.bro.pacenote.core.testing.fake.FakeAuthRepository
 import jpark.bro.pacenote.core.testing.fake.FakeClock
 import jpark.bro.pacenote.core.testing.fake.FakeIdGenerator
@@ -40,6 +43,7 @@ class TrackingEngineTest {
     private val settings = FakeSettingsRepository()
     private val auth = FakeAuthRepository()
     private val ids = FakeIdGenerator("run")
+    private val voice = FakeVoiceAnnouncer()
 
     /** 북쪽으로 1초에 4m씩 */
     private var northM = 0.0
@@ -60,9 +64,9 @@ class TrackingEngineTest {
     private fun TestScope.engine() =
         TrackingEngine(
             locationSource = location,
-            recorder = RunRecorder(db.runTrackingDao(), db.runRecoveryDao(), FakeClock(), ids),
-            authRepository = auth,
+            recorder = RunRecorder(db.runTrackingDao(), db.runRecoveryDao(), auth, FakeClock(), ids),
             settingsRepository = settings,
+            voiceAnnouncer = voice,
             elapsedClock = ElapsedClock { testScheduler.currentTime },
             scope = backgroundScope,
         )
@@ -296,6 +300,72 @@ class TrackingEngineTest {
             started(engine)
 
             assertNull(engine.recoverableRun())
+        }
+
+    @Test
+    fun `1km를 지나면 음성으로 한 번 안내하고 끝나면 TTS를 내림`() =
+        runTest(dispatcher) {
+            val engine = engine()
+            started(engine)
+            assertTrue(voice.prepared)
+
+            runSeconds(260) // 1,036m
+
+            val progress = voice.announced.filterIsInstance<VoiceAnnouncement.Progress>()
+            assertEquals(1, progress.size)
+            assertEquals(1_000.0, progress.single().distanceM, 0.0)
+
+            engine.finish(save = true)
+            assertFalse(voice.prepared)
+        }
+
+    @Test
+    fun `5분 간격이면 점이 없어도 1초 틱으로 안내`() =
+        runTest(dispatcher) {
+            settings.runSettings.value = RunSettings(voiceInterval = VoiceInterval.MINUTES_5)
+            val engine = engine()
+            started(engine)
+
+            advanceTimeBy(300_001)
+            runCurrent()
+
+            assertEquals(
+                300_000L,
+                voice.announced
+                    .filterIsInstance<VoiceAnnouncement.Progress>()
+                    .single()
+                    .movingMs,
+            )
+        }
+
+    @Test
+    fun `음성 안내를 끄면 준비도 안내도 하지 않음`() =
+        runTest(dispatcher) {
+            settings.runSettings.value = RunSettings(voiceEnabled = false)
+            val engine = engine()
+            started(engine)
+
+            runSeconds(260)
+
+            assertFalse(voice.prepared)
+            assertTrue(voice.announced.isEmpty())
+        }
+
+    @Test
+    fun `복구해서 이어 달리면 이미 지난 간격은 다시 안내하지 않음`() =
+        runTest(dispatcher) {
+            val runId = started(engine())
+            runSeconds(260) // 1km 안내 1번
+            advanceTimeBy(5_000)
+            runCurrent()
+
+            val second = engine()
+            second.prepare()
+            runCurrent()
+            second.start(recoverRunId = runId).getOrThrow()
+            runSeconds(10)
+
+            assertEquals(1, voice.announced.filterIsInstance<VoiceAnnouncement.Progress>().size)
         }
 
     private companion object {
