@@ -33,7 +33,7 @@
 - `v2` 기능은 **한 번에 몰아서 내지 않고** 준비된 것부터 `1.1.0`, `1.2.0` … MINOR로 하나씩 출시합니다.
 - MAJOR(`2.0.0`)는 데이터 호환이 깨지는 대규모 개편에만 씁니다. 마일스톤이 바뀌었다고 올리지 않습니다.
 
-> versionCode는 KICKOFF 3-3의 `MAJOR*1_000_000 + MINOR*10_000 + PATCH*100 + 빌드번호` 방식을 쓰기로 했으므로, GIT_CONVENTIONS 6-2의 계산식은 이 프로젝트에서 **예외**로 둡니다.
+> versionCode는 `MAJOR*1_000_000 + MINOR*10_000 + PATCH*100 + 빌드번호`입니다 (GIT_CONVENTIONS 6-2, RELEASE_AND_UPDATE 3장).
 
 ## 2. 마일스톤별 범위
 
@@ -64,13 +64,13 @@ Wear OS, 같은 코스 기록 비교(경로 모양 매칭), 친구 · 챌린지 
 | 항목 | 결정 | 영향 |
 |---|---|---|
 | 지도 | **사용하지 않음.** 경로는 Canvas 흰 선 | 지도 SDK 비용 · 키 · 쿼터 없음. 공유 카드에 장소 정보 노출 없음 |
-| 로그인 | **Google만**, 로그인 없이도 사용 가능 | 카카오 커스텀 토큰이 필요 없어 **v1에는 Cloudflare Worker가 없음** |
-| Firebase | v1부터 사용 (Spark, 결제 수단 없음) | Auth · Firestore · Remote Config · App Check · Crashlytics |
+| 로그인 | **Google만**, 로그인 없이도 사용 가능 | 카카오 커스텀 토큰이 필요 없어 서버 함수 · Cloudflare Worker가 없음 |
+| Firebase | v1부터 사용 (Spark, 결제 수단 없음) | Auth · Firestore · Remote Config · App Check · Crashlytics · Hosting |
 | 서버에 올리는 것 | 기록 요약 + **단순화한 경로**(점 수백 개 수준의 인코딩 polyline) | 기록 1건 = Firestore 문서 1개, 1MiB 한도와 거리가 멀다 |
-| 원시 GPS 점 | 기기(Room)에만 보관 | 전체 경로 서버 보관은 필요해지면 R2로 (v2 이후 검토) |
-| 정책 페이지 | Cloudflare Pages | 카드 등록 불필요 |
+| 원시 GPS 점 | 기기(Room)에만 보관 | 전체 경로 서버 보관은 필요해지면 별도 검토 (Spark에는 파일 저장소가 없음) |
+| 정책 페이지 | Firebase Hosting (Spark) | **v1은 Cloudflare를 전혀 쓰지 않음** |
 
-> 로그인을 첫 화면에서 필수로 받을지는 온보딩 와이어프레임(O0)에서 "Google로 시작 / 로그인 없이 시작" 두 버튼으로 두었습니다. 필수로 바꾸려면 O0의 두 번째 버튼만 빼면 됩니다.
+> 로그인은 선택입니다. 온보딩 O0에 "Google로 시작 / 로그인 없이 시작" 두 버튼을 둡니다. 필수로 바꾸려면 O0의 두 번째 버튼을 빼고 `product-spec.md` 1장 · `data-model-erd.md` 5장의 게스트 흐름을 정리합니다.
 
 ## 4. 기능 하나를 추가하는 절차
 
@@ -79,9 +79,9 @@ v1 출시 이후 모든 기능은 아래 순서로 넣습니다. 1인 개발이�
 | 단계 | 할 일 | 산출물 |
 |---|---|---|
 | 1. 백로그 등록 | 아이디어를 이슈로 등록, 마일스톤 지정(v2 · v3 · 미정) | GitHub 이슈 |
-| 2. 기능 정의 | 아래 "기능 정의 1페이지" 작성 | 이슈 본문 또는 `docs/run/features/{feature}.md` |
+| 2. 기능 정의 | 아래 "기능 정의 1페이지" 작성 | 이슈 본문 또는 `docs/run/features/{feature}.md`, 확정되면 `product-spec.md`에 반영 |
 | 3. 영향 점검 | 데이터 · 서버 · 권한 · 정책 체크리스트 확인 | 체크리스트 완료 |
-| 4. 화면 | 와이어프레임 갱신 → 필요하면 Stitch 시안 | `wireframes.html` 갱신 |
+| 4. 화면 | 필요하면 Stitch 시안 | `docs/run/design/` 갱신 |
 | 5. 구현 | 기능 플래그 OFF 상태로 작은 PR들을 계속 병합 | PR (`[Feat] {scope}: …`) |
 | 6. 내부 테스트 | 플래그를 내 계정(또는 디버그 빌드)에서만 ON | 내부 테스트 트랙 빌드 |
 | 7. 출시 | MINOR 올려 출시 → 단계적 출시 → 문제 없으면 플래그 ON | 태그 `v1.x.0` |
@@ -122,7 +122,7 @@ v1 출시 이후 모든 기능은 아래 순서로 넣습니다. 1인 개발이�
 | 저장소 | Firebase Remote Config |
 | 키 이름 | 새 기능: `feature_{name}_enabled` / 차단 스위치: `{area}_enabled` (예: `backup_enabled`) |
 | 기본값 | 코드 기본값은 **false**. Remote Config를 못 받아도 미완성 기능이 열리지 않게 |
-| 읽는 곳 | `core:config`의 `FeatureFlags` 인터페이스 한 곳. ViewModel은 이 인터페이스만 참조 |
+| 읽는 곳 | `core:data`의 `FeatureFlags` 인터페이스 한 곳 (`core:firebase`의 `RemoteFlags`를 감싼다). ViewModel은 이 인터페이스만 참조 |
 | 수명 | 기능 플래그는 임시. 두 번의 출시 동안 안정적이면 제거. 차단 스위치는 영구 |
 | 테스트 | 플래그 ON · OFF 두 상태 모두 ViewModel 테스트 작성 |
 
@@ -130,7 +130,7 @@ v1 출시 이후 모든 기능은 아래 순서로 넣습니다. 1인 개발이�
 
 | 키 | 기본값 | 용도 |
 |---|---|---|
-| `backup_enabled` | true | 백업 · 복원 전체 중단 |
+| `backup_enabled` | true | 백업 · 복원 전체 중단 (`infra-and-billing-protection.md` 2-5) |
 | `force_update_min_version_code` | 1 | 이 값 미만은 강제 업데이트 |
 | `soft_update_min_version_code` | 1 | 이 값 미만은 선택 업데이트 안내 |
 | `soft_update_interval_days` | 3 | 선택 업데이트 안내 간격 |
@@ -145,8 +145,8 @@ v1 사용자의 기록이 v2 · v3에서도 그대로 살아 있어야 합니다
 
    | 필드 | v1 값 | 미래 값 |
    |---|---|---|
-   | `source` | `gps` | `manual`(수동 기록), `watch`, `health_connect` |
-   | `activityType` | `outdoor_run` | `treadmill`, `interval`, `walk` |
+   | `source` | `GPS` | `MANUAL`(수동 기록), `WATCH`, `HEALTH_CONNECT` |
+   | `activityType` | `OUTDOOR_RUN` | `TREADMILL`, `INTERVAL`, `WALK` |
    | `planId` | null | 인터벌 · 훈련 계획 ID |
 
 4. **Room은 버전마다 마이그레이션을 작성**하고 `exportSchema = true`로 스키마 JSON을 커밋합니다. `fallbackToDestructiveMigration`은 쓰지 않습니다.
@@ -190,7 +190,7 @@ v2 백로그가 쌓이면 아래 세 항목을 1~3점으로 매기고 `(가치 �
 - [ ] 실기기에서 화면 끈 상태 30분 이상 러닝 기록이 끊기지 않음 (제조사 2곳 이상)
 - [ ] 러닝 중 앱 강제 종료 → 재실행 시 기록 복구
 - [ ] 위치 권한 거부 · 위치 꺼짐 · GPS 약함 상황에서 안내가 나옴
-- [ ] 녹화 GPX 경로 재생 테스트로 거리 · 스플릿 계산 검증
+- [ ] GPX fixture 재생 테스트로 거리 · 스플릿 · 자동 일시정지 검증 (`tracking.md` 8장)
 - [ ] Google 로그인 → 백업 → 앱 삭제 → 재설치 → 복원 성공
 - [ ] 회원 탈퇴 시 서버 데이터 삭제
 - [ ] Room 마이그레이션 테스트 · Koin `verify()` 통과
@@ -198,3 +198,4 @@ v2 백로그가 쌓이면 아래 세 항목을 1~3점으로 매기고 `(가치 �
 - [ ] Firebase 결제 수단 미등록, App Check 강제, 보안 규칙 배포
 - [ ] Remote Config 차단 스위치 동작 확인
 - [ ] 위치정보 관련 법적 고지 · 동의 항목 확정 (위치기반서비스 신고 대상 여부 확인)
+- [ ] `infra-and-billing-protection.md` 6장 체크리스트 전부

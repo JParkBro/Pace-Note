@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>런닝 - 테마 설정</title>
+<!-- Pretendard Web Font CDN -->
+<link as="style" crossorigin="" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Custom Configuration -->
+<script data-purpose="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            appBg: '#0D0F09',
+            surface: '#161911',
+            fillTrack: '#23281C',
+            appBorder: '#262B1E',
+            primaryLime: '#C8F53A',
+            textPrimary: '#F1F4EA',
+            textSecondary: '#A9B09D',
+            textTertiary: '#7B8270',
+            sunriseOrange: '#FB8A4C',
+            riverBlue: '#45C9DE',
+            inkMono: '#3A3D36',
+          },
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+<!-- Base Custom Styling -->
+<style data-purpose="base-styles">
+    body {
+      background-color: #000000;
+      font-family: Pretendard, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    /* Prevent text selection highlight on interactive items */
+    .touch-target {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+  </style>
+</head>
+<body class="bg-black text-textPrimary">
+<!-- BEGIN: MobileContainer -->
+<!-- Target Dimensions: 360px x 800px standard viewport container -->
+<main class="w-[360px] h-[800px] bg-appBg text-textPrimary flex flex-col overflow-hidden relative shadow-2xl">
+<!-- BEGIN: TopBar -->
+<header class="w-full pt-10 pb-3 px-5 flex items-center shrink-0">
+<!-- Back Button -->
+<button aria-label="뒤로가기" class="touch-target p-1 -ml-2 text-textPrimary hover:opacity-80 transition-opacity flex items-center justify-center" type="button">
+<svg class="w-6 h-6 stroke-current" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewbox="0 0 24 24">
+<path d="M15 19l-7-7 7-7"></path>
+</svg>
+</button>
+<!-- Subscreen Title -->
+<h1 class="text-xl font-bold text-textPrimary tracking-tight ml-1">테마</h1>
+</header>
+<!-- END: TopBar -->
+<!-- BEGIN: MainContent -->
+<div class="flex-1 overflow-y-auto px-5 pt-3 pb-8">
+<!-- 2x2 Grid of Theme Cards -->
+<section class="grid grid-cols-2 gap-3.5" data-purpose="theme-selection-grid">
+<!-- Card 1: Bolt Lime (Selected State) -->
+<article class="touch-target relative bg-surface border-2 border-primaryLime rounded-2xl p-4 flex flex-col justify-between h-[116px] cursor-pointer shadow-sm">
+<div class="w-8 h-8 rounded-full bg-primaryLime shadow-inner"></div>
+<span class="text-textPrimary font-bold text-sm tracking-tight">볼트 라임</span>
+</article>
+<!-- Card 2: Sunrise (Unselected) -->
+<article class="touch-target relative bg-surface border border-appBorder rounded-2xl p-4 flex flex-col justify-between h-[116px] cursor-pointer hover:border-appBorder/80 transition-colors">
+<div class="w-8 h-8 rounded-full bg-sunriseOrange shadow-inner"></div>
+<span class="text-textPrimary font-medium text-sm tracking-tight">선라이즈</span>
+</article>
+<!-- Card 3: River Blue (Unselected) -->
+<article class="touch-target relative bg-surface border border-appBorder rounded-2xl p-4 flex flex-col justify-between h-[116px] cursor-pointer hover:border-appBorder/80 transition-colors">
+<div class="w-8 h-8 rounded-full bg-riverBlue shadow-inner"></div>
+<span class="text-textPrimary font-medium text-sm tracking-tight">리버 블루</span>
+</article>
+<!-- Card 4: Ink Mono (Unselected) -->
+<article class="touch-target relative bg-surface border border-appBorder rounded-2xl p-4 flex flex-col justify-between h-[116px] cursor-pointer hover:border-appBorder/80 transition-colors">
+<div class="w-8 h-8 rounded-full bg-inkMono border border-[#4B5045]/40 shadow-inner"></div>
+<span class="text-textPrimary font-medium text-sm tracking-tight">잉크 모노</span>
+</article>
+</section>
+<!-- Section: Display Mode -->
+<section class="mt-7" data-purpose="display-mode-section">
+<h2 class="text-textSecondary text-xs font-semibold tracking-wider mb-2.5 px-0.5">화면 모드</h2>
+<!-- Segmented Control Track -->
+<div class="bg-fillTrack p-1 rounded-xl flex items-center justify-between border border-appBorder/40">
+<!-- Segment: System (Active) -->
+<button class="touch-target flex-1 py-2 text-center text-xs font-bold text-textPrimary bg-surface rounded-lg shadow-sm" type="button">
+            시스템
+          </button>
+<!-- Segment: Light -->
+<button class="touch-target flex-1 py-2 text-center text-xs font-medium text-textTertiary hover:text-textSecondary transition-colors" type="button">
+            라이트
+          </button>
+<!-- Segment: Dark -->
+<button class="touch-target flex-1 py-2 text-center text-xs font-medium text-textTertiary hover:text-textSecondary transition-colors" type="button">
+            다크
+          </button>
+</div>
+</section>
+<!-- Section: Route Preview -->
+<section class="mt-7" data-purpose="route-preview-section">
+<h2 class="text-textSecondary text-xs font-semibold tracking-wider mb-2.5 px-0.5">미리보기</h2>
+<!-- Preview Box Container -->
+<div class="w-full h-40 bg-surface rounded-2xl border border-appBorder flex items-center justify-center p-6 relative overflow-hidden">
+<!-- Running Route Vector Demonstration -->
+<svg class="w-full h-full max-w-[240px]" fill="none" viewbox="0 0 240 100" xmlns="http://www.w3.org/2000/svg">
+<!-- Smooth Running Route Line -->
+<path d="M 36 78 C 50 78, 62 48, 86 48 C 114 48, 122 76, 150 76 C 176 76, 186 38, 206 38" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5"></path>
+<!-- Start Point Dot (Active Accent: Bolt Lime) -->
+<circle cx="36" cy="78" fill="#C8F53A" r="4.5"></circle>
+<!-- Finish Point Circle Ring -->
+<circle cx="206" cy="38" fill="#161911" r="5" stroke="#FFFFFF" stroke-width="2.5"></circle>
+</svg>
+</div>
+</section>
+</div>
+<!-- END: MainContent -->
+</main>
+<!-- END: MobileContainer -->
+</body></html>

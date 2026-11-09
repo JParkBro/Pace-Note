@@ -2,7 +2,7 @@
 """docs/run/assets/theme-tokens.json → core:designsystem ThemeTokens.kt 생성.
 
 사용: python3 scripts/generate-theme-colors.py
-값을 바꿀 때는 JSON만 고치고 이 스크립트를 다시 실행한다 (docs/run/theme-foundation.md 9장).
+값을 바꿀 때는 JSON만 고치고 이 스크립트를 다시 실행한다 (docs/run/theme-guide.md).
 """
 import json
 import re
@@ -70,7 +70,7 @@ def main():
         out.append(f"        AppThemeType.{enum} -> if (dark) {names[(theme, 'dark')]} else {names[(theme, 'light')]}")
     out += ["    }", ""]
 
-    out.append("/** 테마와 무관한 고정 색 (theme-foundation 3장) */")
+    out.append("/** 테마와 무관한 고정 색 (theme-guide 4장) */")
     out.append("object AppFixedColors {")
     out += [f"    val {camel(k)} = Color({argb(v)})" for k, v in data["fixed"].items()]
     out.append("}")

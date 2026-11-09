@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>N1 진행 중 알림 - Notification Shade Mockup</title>
+<!-- Tailwind CSS CDN with forms and container queries plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Pretendard / Inter for clean Android UI typography -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style data-purpose="custom-fonts">
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+    }
+  </style>
+<style data-purpose="status-icons">
+    /* Subtle custom icon alignments */
+    .icon-small {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body class="bg-black min-h-screen flex items-center justify-center p-0 md:p-6 text-slate-100 antialiased selection:bg-lime-500 selection:text-black">
+<!-- BEGIN: PhoneContainer -->
+<!-- Mimics an Android device screen: 360px wide, 800px tall layout -->
+<main class="w-[360px] h-[800px] bg-[#1a1b1e] rounded-[36px] overflow-hidden flex flex-col relative shadow-2xl border-4 border-[#2b2d31]">
+<!-- BEGIN: StatusBar -->
+<!-- Android standard top system status bar -->
+<header class="w-full h-10 pt-2 px-5 flex items-center justify-between text-xs font-medium text-slate-400 select-none z-20" data-purpose="android-status-bar">
+<!-- Left side: Time and app notification icons -->
+<div class="flex items-center space-x-2">
+<span class="text-white text-xs font-semibold tracking-wide">20:31</span>
+<!-- Small runner app icon indicator in status bar -->
+<span class="w-2.5 h-2.5 bg-lime-400 rounded-full flex items-center justify-center">
+<svg class="w-2 h-2 text-black" fill="currentColor" viewbox="0 0 24 24">
+<path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"></path>
+</svg>
+</span>
+</div>
+<!-- Right side: Battery, Wi-Fi, Cellular -->
+<div class="flex items-center space-x-2 text-slate-300">
+<!-- Wi-Fi Icon -->
+<svg class="w-3.5 h-3.5" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M17.778 8.222c-4.296-4.296-11.26-4.296-15.556 0A1 1 0 01.808 6.808c5.076-5.077 13.308-5.077 18.384 0a1 1 0 01-1.414 1.414zM14.95 11.05a7 7 0 00-9.9 0 1 1 0 01-1.414-1.414 9 9 0 0112.728 0 1 1 0 01-1.414 1.414zm-2.828 2.828a3 3 0 00-4.243 0 1 1 0 11-1.414-1.414 5 5 0 017.07 0 1 1 0 01-1.414 1.414zM10 16a1 1 0 100-2 1 1 0 000 2z" fill-rule="evenodd"></path>
+</svg>
+<!-- Cell Signal Icon -->
+<svg class="w-3.5 h-3.5" fill="currentColor" viewbox="0 0 20 20">
+<path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path>
+</svg>
+<!-- Battery Icon -->
+<div class="flex items-center">
+<div class="w-5 h-2.5 border border-slate-300 rounded-sm p-[1px] flex items-center">
+<div class="h-full w-3/4 bg-white rounded-2xs"></div>
+</div>
+<div class="w-[1.5px] h-1 bg-slate-300 rounded-r-xs ml-[0.5px]"></div>
+</div>
+</div>
+</header>
+<!-- END: StatusBar -->
+<!-- BEGIN: NotificationShadeContent -->
+<!-- The pull-down notification tray backdrop & items -->
+<section class="flex-1 px-3 pt-3 flex flex-col space-y-2.5 overflow-hidden" data-purpose="notification-panel">
+<!-- BEGIN: OngoingForegroundNotification -->
+<!-- [N1 진행 중 알림] Foreground Service Persistent Card -->
+<article class="w-full bg-white text-gray-900 rounded-2xl p-4 shadow-md transition-all" data-purpose="active-running-notification">
+<!-- Header row of the notification -->
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center space-x-2">
+<!-- App Icon: Rounded lime square with runner silhouette -->
+<div class="w-5 h-5 rounded-md bg-lime-400 flex items-center justify-center shadow-xs">
+<svg class="w-3 h-3 text-black" fill="currentColor" viewbox="0 0 24 24">
+<path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"></path>
+</svg>
+</div>
+<!-- Notification title / channel info -->
+<span class="text-xs font-medium text-gray-600">
+              러닝 기록 중 <span class="mx-0.5 font-bold text-gray-400">·</span> 20:31
+            </span>
+</div>
+<!-- Notification collapse/expand chevron (Android style) -->
+<svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+</div>
+<!-- Main Content Area: Large bold metrics -->
+<div class="my-2.5">
+<h2 class="text-xl font-bold tracking-tight text-gray-900 leading-tight">
+            3.42 km <span class="font-normal text-gray-500">·</span> 5′55″/km
+          </h2>
+</div>
+<!-- Action Buttons row (Notification Actions) -->
+<div class="flex items-center justify-between pt-2 mt-1 border-t border-gray-100">
+<!-- Pause Button (일시정지) -->
+<button class="inline-flex items-center justify-center px-4 py-1.5 rounded-full text-xs font-semibold text-gray-800 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 transition-colors" type="button">
+            일시정지
+          </button>
+<!-- Open App Button (열기) -->
+<button class="inline-flex items-center justify-center px-4 py-1.5 rounded-full text-xs font-semibold text-gray-900 hover:bg-gray-100 active:bg-gray-200 transition-colors" type="button">
+            열기
+          </button>
+</div>
+</article>
+<!-- END: OngoingForegroundNotification -->
+<!-- BEGIN: PlaceholderNotifications -->
+<!-- Dimmed & subtle background notifications below the active one -->
+<div class="flex flex-col space-y-2 opacity-35 select-none pointer-events-none" data-purpose="dimmed-notification-group">
+<!-- Placeholder Notification 1 -->
+<div class="w-full h-16 bg-[#3a3d42] rounded-2xl px-4 py-3 flex items-center justify-between">
+<div class="flex items-center space-x-3">
+<div class="w-7 h-7 rounded-full bg-[#52565d]"></div>
+<div class="space-y-1.5">
+<div class="w-24 h-2.5 bg-[#636872] rounded-full"></div>
+<div class="w-36 h-2 bg-[#52565d] rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Placeholder Notification 2 -->
+<div class="w-full h-16 bg-[#3a3d42] rounded-2xl px-4 py-3 flex items-center justify-between">
+<div class="flex items-center space-x-3">
+<div class="w-7 h-7 rounded-full bg-[#52565d]"></div>
+<div class="space-y-1.5">
+<div class="w-28 h-2.5 bg-[#636872] rounded-full"></div>
+<div class="w-40 h-2 bg-[#52565d] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- END: PlaceholderNotifications -->
+</section>
+<!-- END: NotificationShadeContent -->
+<!-- BEGIN: SystemFooter -->
+<!-- Android Navigation Bar Indicator & Footer Label -->
+<footer class="w-full pb-4 pt-2 flex flex-col items-center justify-center" data-purpose="system-navigation-bar">
+<!-- Android bottom navigation bar home indicator pill -->
+<div class="w-28 h-1 bg-neutral-600 rounded-full mb-2"></div>
+</footer>
+<!-- END: SystemFooter -->
+</main>
+<!-- END: PhoneContainer -->
+</body></html>

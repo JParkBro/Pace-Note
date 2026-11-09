@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport"/>
+<title>러닝 설정</title>
+<!-- Load Tailwind CSS v3 with forms and container queries plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind CSS Configuration for Exact Color Palette -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            appBg: '#0D0F09',
+            surface: '#161911',
+            fillInput: '#23281C',
+            borderCustom: '#262B1E',
+            primaryAccent: '#C8F53A',
+            thumbDark: '#141A05',
+            textPrimary: '#F1F4EA',
+            textSecondary: '#A9B09D',
+            textTertiary: '#7B8270'
+          },
+          fontFamily: {
+            pretendard: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+<!-- Pretendard Font CDN -->
+<link as="style" crossorigin="" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet"/>
+<style data-purpose="base-typography">
+    body {
+      font-family: 'Pretendard', sans-serif;
+      font-feature-settings: 'tnum' on, 'lnum' on;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+  </style>
+<style data-purpose="toggle-styling">
+    /* Custom Toggle Switch States */
+    .toggle-track-on {
+      background-color: #C8F53A;
+      border-color: #C8F53A;
+    }
+    .toggle-thumb-on {
+      transform: translateX(18px);
+      background-color: #141A05;
+    }
+    .toggle-track-off {
+      background-color: #23281C;
+      border-color: #3A4130;
+    }
+    .toggle-thumb-off {
+      transform: translateX(0px);
+      background-color: #7B8270;
+    }
+  </style>
+</head>
+<body class="bg-black min-h-screen flex justify-center items-start text-textPrimary antialiased selection:bg-primaryAccent selection:text-thumbDark">
+<!-- BEGIN: MobileContainer -->
+<!-- 360px x 800px standard viewport container -->
+<main class="w-[360px] min-h-[800px] h-[800px] bg-appBg flex flex-col overflow-y-auto overflow-x-hidden relative shadow-2xl">
+<!-- BEGIN: TopBar -->
+<header class="w-full h-14 flex items-center px-4 pt-2 shrink-0 z-10" data-purpose="navigation-header">
+<!-- Back Button -->
+<button aria-label="뒤로가기" class="w-10 h-10 -ml-2 flex items-center justify-center text-textPrimary hover:opacity-80 active:scale-95 transition-transform" type="button">
+<svg class="w-6 h-6 stroke-current stroke-[2.2]" fill="none" viewbox="0 0 24 24">
+<path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<!-- Title -->
+<h1 class="text-[19px] font-bold tracking-tight text-textPrimary ml-1">러닝 설정</h1>
+</header>
+<!-- END: TopBar -->
+<!-- BEGIN: SettingsContent -->
+<div class="flex-1 px-5 pt-4 pb-12 flex flex-col" data-purpose="settings-groups">
+<!-- BEGIN: SectionVoiceGuidance -->
+<section class="flex flex-col" data-purpose="group-voice-guidance">
+<!-- Section Header -->
+<h2 class="text-textSecondary text-xs font-semibold tracking-wider mb-2">음성 안내</h2>
+<!-- Group 1 Container / List -->
+<div class="flex flex-col divide-y divide-borderCustom">
+<!-- Row 1: 음성 안내 Toggle -->
+<div class="flex items-center justify-between py-3.5" data-purpose="setting-toggle-item">
+<span class="text-[15px] font-medium text-textPrimary tracking-tight">음성 안내</span>
+<!-- Toggle Switch (ON) -->
+<button aria-checked="true" class="w-11 h-6 rounded-full p-[2px] transition-colors duration-200 ease-in-out border border-transparent toggle-track-on flex items-center" role="switch" type="button">
+<span class="w-5 h-5 rounded-full shadow-sm transition-transform duration-200 ease-in-out toggle-thumb-on"></span>
+</button>
+</div>
+<!-- Row 2: 안내 간격 Selection -->
+<div class="flex items-center justify-between py-3.5 cursor-pointer active:opacity-70 transition-opacity" data-purpose="setting-value-item">
+<span class="text-[15px] font-medium text-textPrimary tracking-tight">안내 간격</span>
+<span class="text-[14px] text-textSecondary font-normal tracking-normal">1km</span>
+</div>
+<!-- Row 3: 안내 항목 Selection -->
+<div class="flex items-center justify-between py-3.5 cursor-pointer active:opacity-70 transition-opacity" data-purpose="setting-value-item">
+<span class="text-[15px] font-medium text-textPrimary tracking-tight">안내 항목</span>
+<span class="text-[14px] text-textSecondary font-normal tracking-normal">거리 · 페이스</span>
+</div>
+</div>
+</section>
+<!-- END: SectionVoiceGuidance -->
+<!-- BEGIN: SectionRecordSettings -->
+<section class="flex flex-col mt-7" data-purpose="group-recording-settings">
+<!-- Section Header -->
+<h2 class="text-textSecondary text-xs font-semibold tracking-wider mb-2">기록</h2>
+<!-- Group 2 Container / List -->
+<div class="flex flex-col divide-y divide-borderCustom">
+<!-- Row 1: 자동 일시정지 (with description) & Toggle (ON) -->
+<div class="flex items-center justify-between py-3" data-purpose="setting-toggle-item-with-desc">
+<div class="flex flex-col pr-2">
+<span class="text-[15px] font-medium text-textPrimary tracking-tight leading-snug">자동 일시정지</span>
+<span class="text-[12px] text-textTertiary font-normal mt-0.5 tracking-tight">멈추면 기록도 멈춰요</span>
+</div>
+<!-- Toggle Switch (ON) -->
+<button aria-checked="true" class="shrink-0 w-11 h-6 rounded-full p-[2px] transition-colors duration-200 ease-in-out border border-transparent toggle-track-on flex items-center" role="switch" type="button">
+<span class="w-5 h-5 rounded-full shadow-sm transition-transform duration-200 ease-in-out toggle-thumb-on"></span>
+</button>
+</div>
+<!-- Row 2: 카운트다운 Selection -->
+<div class="flex items-center justify-between py-3.5 cursor-pointer active:opacity-70 transition-opacity" data-purpose="setting-value-item">
+<span class="text-[15px] font-medium text-textPrimary tracking-tight">카운트다운</span>
+<span class="text-[14px] text-textSecondary font-normal tracking-normal">3초</span>
+</div>
+<!-- Row 3: 러닝 중 화면 켜짐 유지 & Toggle (OFF) -->
+<div class="flex items-center justify-between py-3.5" data-purpose="setting-toggle-item">
+<span class="text-[15px] font-medium text-textPrimary tracking-tight">러닝 중 화면 켜짐 유지</span>
+<!-- Toggle Switch (OFF) -->
+<button aria-checked="false" class="w-11 h-6 rounded-full p-[2px] transition-colors duration-200 ease-in-out border toggle-track-off flex items-center" role="switch" type="button">
+<span class="w-5 h-5 rounded-full shadow-sm transition-transform duration-200 ease-in-out toggle-thumb-off"></span>
+</button>
+</div>
+<!-- Row 4: 배터리 최적화 안내 다시 보기 Link -->
+<div class="flex items-center justify-between py-3.5 cursor-pointer active:opacity-70 transition-opacity" data-purpose="setting-link-item">
+<span class="text-[15px] font-medium text-textPrimary tracking-tight">배터리 최적화 안내 다시 보기</span>
+<!-- Chevron Right -->
+<svg class="w-4 h-4 text-textTertiary stroke-current stroke-[2.2]" fill="none" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</div>
+</section>
+<!-- END: SectionRecordSettings -->
+</div>
+<!-- END: SettingsContent -->
+</main>
+<!-- END: MobileContainer -->
+</body></html>

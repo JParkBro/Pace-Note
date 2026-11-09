@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>기록 편집</title>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Custom Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            appBg: '#0D0F09',
+            appSurface: '#161911',
+            appFill: '#23281C',
+            appBorder: '#262B1E',
+            textPrimary: '#F1F4EA',
+            textSecondary: '#A9B09D',
+            brandGreen: '#C8F53A',
+            dangerRed: '#F87171',
+          },
+          fontFamily: {
+            pretendard: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'sans-serif'],
+          },
+          borderRadius: {
+            'custom': '14px',
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Font & Global Style -->
+<style data-purpose="typography">
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #0D0F09;
+      color: #F1F4EA;
+      -webkit-tap-highlight-color: transparent;
+    }
+  </style>
+<!-- Input and Layout Custom Adjustments -->
+<style data-purpose="form-layout">
+    /* Remove default focus outlines to maintain sleek dark mode aesthetic */
+    input:focus, textarea:focus {
+      outline: none !important;
+      box-shadow: none !important;
+      border-color: #3B4230 !important;
+    }
+  </style>
+</head>
+<body class="bg-appBg text-textPrimary antialiased flex justify-center min-h-screen">
+<!-- Mobile Container: Target viewport 360px x 800px -->
+<div class="w-full max-w-[360px] h-[800px] flex flex-col justify-between bg-appBg overflow-hidden relative select-none">
+<!-- BEGIN: TopBar -->
+<header class="w-full px-5 pt-12 pb-4 flex items-center justify-between" data-purpose="navigation-header">
+<!-- Back Button & Page Title -->
+<div class="flex items-center space-x-2">
+<button aria-label="뒤로가기" class="p-1 -ml-1 text-textPrimary hover:opacity-80 transition-opacity" type="button">
+<!-- Back arrow '<' -->
+<svg class="w-5 h-5 stroke-current stroke-2 fill-none" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24">
+<polyline points="15 18 9 12 15 6"></polyline>
+</svg>
+</button>
+<h1 class="text-[17px] font-bold tracking-tight text-textPrimary">기록 편집</h1>
+</div>
+<!-- Save Button -->
+<button class="text-[15px] font-medium text-textSecondary hover:text-brandGreen transition-colors pr-1" type="button">
+        저장
+      </button>
+</header>
+<!-- END: TopBar -->
+<!-- BEGIN: FormContent -->
+<main class="flex-1 px-5 pt-3 overflow-y-auto" data-purpose="edit-record-form">
+<form class="flex flex-col" id="edit-record-form" onsubmit="event.preventDefault();">
+<!-- Field 1: Title (제목) -->
+<div class="flex flex-col">
+<label class="text-textSecondary text-sm font-medium mb-2.5" for="record-title">
+            제목
+          </label>
+<input class="w-full bg-appFill border border-appBorder rounded-custom p-4 text-[15px] text-textPrimary font-normal placeholder-textSecondary/50 transition-colors" id="record-title" name="title" type="text" value="화요일 아침 러닝"/>
+</div>
+<!-- Field 2: Memo (메모) -->
+<div class="flex flex-col mt-6">
+<label class="text-textSecondary text-sm font-medium mb-2.5" for="record-memo">
+            메모
+          </label>
+<textarea class="w-full bg-appFill border border-appBorder rounded-custom p-4 text-[15px] text-textPrimary font-normal placeholder-textSecondary/50 resize-none min-h-[120px] transition-colors" id="record-memo" name="memo" rows="4">한강 바람 시원했음</textarea>
+</div>
+</form>
+</main>
+<!-- END: FormContent -->
+<!-- BEGIN: BottomAction -->
+<footer class="w-full pb-9 pt-4 px-5 flex justify-center" data-purpose="destructive-action">
+<!-- Delete Record Action Button -->
+<button class="text-dangerRed text-sm font-medium py-2 px-4 hover:opacity-80 active:opacity-60 transition-opacity tracking-tight" id="delete-record-btn" type="button">
+        이 기록 삭제
+      </button>
+</footer>
+<!-- END: BottomAction -->
+</div>
+</body></html>
