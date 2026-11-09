@@ -435,7 +435,7 @@ Stitch 디자인 시스템 원본: [design/_stitch-design-system/DESIGN.md](desi
 | | | | `marginMobile` · `margin` | 16dp · 20dp (화면 좌우) |
 | | | | `gutter` · `gutterCompact` | 16dp · 12dp (카드 사이) |
 
-아이콘은 Material Symbols Outlined(Apache 2.0)를 VectorDrawable로 `core:designsystem`의 `res/drawable/ic_*`에 둡니다.
+아이콘은 Material Symbols Outlined(Apache 2.0)를 VectorDrawable로 `core:designsystem`의 `res/drawable/ic_*`에 둡니다. 러닝 제어 아이콘(`pause` · `play_arrow` · `stop`)은 뛰면서 잘 보이도록 채운(fill) 형태를 씁니다.
 
 러닝 중 화면(P3 · P4)의 터치 영역은 최소 72dp(원형 버튼), 잠금 버튼 48dp 이상으로 둡니다 (뛰면서 누름).
 
