@@ -54,7 +54,7 @@ core:location: LocationSource = FusedLocationSource(실제) | GpxReplaySource(�
 | `RunTracker` | core:tracking (공개 인터페이스) | 화면이 쓰는 유일한 입구: `state`, `prepare()`, `start()`, `pause()`, `resume()`, `finish(save)`, `recoverableRun()` |
 | `RunTrackingService` | core:tracking | 포그라운드 서비스 껍데기. 알림 유지 · 생명주기만. 로직은 `TrackingEngine` |
 | `TrackingEngine` | core:tracking | 점 받기 → 필터 → 누적 계산 → 저장 · 알림 · 음성 호출. Android 의존 최소화(테스트 대상) |
-| `LocationSource` | core:location | `locations(request): Flow<RawLocation>`, `lastKnown()`, `isLocationEnabled()` |
+| `LocationSource` | core:location | `locations(): Flow<RawLocation>`(요청 값은 4-1 고정), `lastKnown()`, `isLocationEnabled()` |
 | `PointFilter`, `AutoPauseDetector`, `RunMetricsAccumulator`, `SplitCalculator`, `PaceWindow`, `CalorieEstimator` | core:domain | 순수 Kotlin 계산 |
 | `RunRecorder` | core:tracking | 점 버퍼 → Room 트랜잭션 (6장) |
 | `VoiceAnnouncer` | core:tracking | 안내 시점 판단(도메인) + TTS 재생 |
@@ -97,7 +97,7 @@ sealed interface TrackingState {
 | 최소 이동 거리 | 0m (필터에서 처리) | 0m |
 | 정확한 위치 대기 | 하지 않음 | 하지 않음 |
 
-- GPS 준비 판정: 최근 3개 점 중 정확도(`accuracy`) ≤ 20m가 2개 이상이면 `GOOD`, 20~50m `WEAK`, 10초간 점 없음 `LOST`.
+- GPS 준비 판정(`GpsStatusEvaluator`, core:domain): 점이 아직 없으면 `LOST`. 최근 3개 점 중 정확도(`accuracy`) ≤ 20m가 2개 이상이면 `GOOD`, 20~50m `WEAK`, 10초간 점 없음 `LOST`.
 - 대략 위치만 허용된 상태(정확도 수백 m)는 `WEAK`로 보고 P1-a 안내로 돌려보냅니다.
 
 ### 4-2. 점 필터 (`PointFilter`, 순서대로)
