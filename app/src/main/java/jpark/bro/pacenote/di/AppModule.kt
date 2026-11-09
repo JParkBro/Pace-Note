@@ -3,8 +3,11 @@ package jpark.bro.pacenote.di
 import jpark.bro.pacenote.core.navigation.Navigator
 import jpark.bro.pacenote.core.tracking.di.trackingModule
 import jpark.bro.pacenote.feature.home.api.HomeKey
+import jpark.bro.pacenote.feature.run.api.RunKey
 import jpark.bro.pacenote.feature.run.api.RunResultHandler
+import jpark.bro.pacenote.feature.run.impl.di.runModule
 import jpark.bro.pacenote.navigation.AppRunResultHandler
+import jpark.bro.pacenote.navigation.AppStartRouter
 import jpark.bro.pacenote.navigation.TemporaryHome
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.module.dsl.singleOf
@@ -16,13 +19,17 @@ import org.koin.dsl.navigation3.navigation
 @OptIn(KoinExperimentalAPI::class)
 val appModule =
     module {
-        includes(trackingModule)
+        includes(trackingModule, runModule)
 
         single { Navigator(HomeKey) }
         singleOf(::AppRunResultHandler) bind RunResultHandler::class
+        singleOf(::AppStartRouter)
 
         // 홈 화면(#8) 전까지 자리표시자
-        navigation<HomeKey> { TemporaryHome { BuildTypeHomeExtras() } }
+        navigation<HomeKey> {
+            val navigator = get<Navigator>()
+            TemporaryHome(onStartRun = { navigator.goTo(RunKey()) }) { BuildTypeHomeExtras() }
+        }
 
         includes(buildTypeModule)
     }

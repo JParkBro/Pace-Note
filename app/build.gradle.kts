@@ -15,6 +15,7 @@ dependencies {
     implementation(projects.core.tracking)
     implementation(projects.feature.home.api)
     implementation(projects.feature.run.api)
+    implementation(projects.feature.run.impl)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.ktx)
@@ -31,4 +32,5 @@ dependencies {
 
     // KoinModulesTest
     testImplementation(libs.bundles.robolectric)
+    testImplementation(projects.core.testing)
 }
