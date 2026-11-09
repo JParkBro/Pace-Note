@@ -43,7 +43,7 @@ pacenote/
 │  ├─ tracking/       RunTracker(공개 인터페이스) · RunTrackingService · TrackingEngine · RunRecorder ·
 │  │                  VoiceAnnouncer · TrackingNotification
 │  ├─ firebase/       Auth, Firestore 원격 데이터 소스(백업 · 동의), Remote Config, App Check, Crashlytics 설정
-│  ├─ data/           Repository: Run, Goal, Stats, Settings, Auth, Account, Backup · HomeWidgets · FeatureFlags 인터페이스
+│  ├─ data/           Repository: Run, Goal, Stats, Settings, Onboarding(약관 동의 · 온보딩 완료), Auth, Account, Backup · HomeWidgets · FeatureFlags 인터페이스
 │  ├─ sync/           BackupPushWorker, BackupPull, 게스트 기록 이전
 │  └─ testing/        Fake(LocationSource, ElapsedClock, Repository), MainDispatcherRule, `core:domain` testFixtures(GPX fixture) 재공개
 ├─ feature/
