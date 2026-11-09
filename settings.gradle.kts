@@ -40,3 +40,6 @@ include(":core:location")
 include(":core:tracking")
 include(":core:data")
 include(":core:testing")
+
+include(":feature:home:api")
+include(":feature:run:api")
