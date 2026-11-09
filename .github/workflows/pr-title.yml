@@ -1,0 +1,32 @@
+name: pr-title
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  pr-title:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check title format
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          pattern='^\[(Feat|Fix|Design|Refactor|Perf|Test|Docs|Build|CI|Chore|Revert)\]( [a-z0-9-]+:)? .+'
+          if [[ ! "$TITLE" =~ $pattern ]]; then
+            echo "PR 제목 형식이 올바르지 않습니다: $TITLE"
+            echo "형식: [Type] scope: 요약  (예: [Feat] run: 자동 일시정지 추가)"
+            exit 1
+          fi
+
+      - name: Add type label
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TITLE: ${{ github.event.pull_request.title }}
+          PR: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          type=$(echo "$TITLE" | sed -E 's/^\[([A-Za-z]+)\].*/\1/' | tr '[:upper:]' '[:lower:]')
+          gh pr edit "$PR" --repo "$REPO" --add-label "type:$type"
