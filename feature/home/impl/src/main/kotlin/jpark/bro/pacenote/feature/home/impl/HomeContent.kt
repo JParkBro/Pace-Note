@@ -149,6 +149,7 @@ private fun WeekSummary(state: HomeState) {
 internal fun RecentRuns(
     runs: List<HomeRun>,
     unit: DistanceUnit,
+    onAction: (HomeAction) -> Unit,
 ) {
     if (runs.isEmpty()) {
         Text(
@@ -172,6 +173,8 @@ internal fun RecentRuns(
                         RunFormat.pace(run.averagePaceSecPerKm, unit),
                     ),
                 leading = { RunThumbnail(run) },
+                onClick = { onAction(HomeAction.RunClicked(run.id)) },
+                modifier = Modifier.testTag("home_run_${run.id}"),
             )
         }
     }

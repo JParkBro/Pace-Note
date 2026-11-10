@@ -196,4 +196,15 @@ class RecordViewModelTest {
 
             assertEquals(RecordTab.STATS, vm.state.value.tab)
         }
+
+    @Test
+    fun `기록을 누르면 상세로`() =
+        runTest {
+            val vm = viewModel()
+
+            vm.event.test {
+                vm.onAction(RecordAction.RunClicked("1028"))
+                assertEquals(RecordEvent.OpenRun("1028"), awaitItem())
+            }
+        }
 }

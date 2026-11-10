@@ -28,4 +28,30 @@
     <string name="record_stats_more_month">지난달보다 %1$s%2$s 더 달렸어요</string>
     <string name="record_stats_less_month">지난달보다 %1$s%2$s 덜 달렸어요</string>
     <string name="record_stats_same_month">지난달과 같은 거리를 달렸어요</string>
+    <string name="record_default_title">%1$s %2$s 러닝</string>
+    <string name="record_time_morning">아침</string>
+    <string name="record_time_midday">점심</string>
+    <string name="record_time_evening">저녁</string>
+    <string name="record_time_night">밤</string>
+    <string name="record_back">뒤로</string>
+
+    <string name="record_detail_edit">편집</string>
+    <string name="record_detail_pace_chart">km별 페이스 그래프</string>
+    <string name="record_detail_pace_title">페이스</string>
+    <string name="record_detail_elapsed">경과 시간</string>
+    <string name="record_detail_started">시작</string>
+    <string name="record_detail_ended">종료</string>
+    <string name="record_detail_memo">메모</string>
+    <string name="record_detail_missing">기록을 찾을 수 없어요</string>
+
+    <string name="record_edit_title">기록 편집</string>
+    <string name="record_edit_save">저장</string>
+    <string name="record_edit_name">제목</string>
+    <string name="record_edit_memo">메모</string>
+    <string name="record_edit_delete">이 기록 삭제</string>
+    <string name="record_edit_delete_title">이 기록을 삭제할까요?</string>
+    <string name="record_edit_delete_body">삭제한 기록은 목록과 통계에서 사라져요.</string>
+    <string name="record_edit_delete_confirm">삭제</string>
+    <string name="record_edit_delete_cancel">취소</string>
+    <string name="record_error">문제가 생겼어요. 다시 시도해 주세요</string>
 </resources>
