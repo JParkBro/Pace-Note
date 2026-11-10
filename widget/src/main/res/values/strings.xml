@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_weekly_goal_name">주간 목표</string>
+    <string name="widget_weekly_goal_small_name">주간 목표 (작게)</string>
+    <string name="widget_weekly_goal_description">이번 주 거리와 목표 진행률, 달리기 시작</string>
+    <string name="widget_this_week">이번 주</string>
+    <string name="widget_goal_distance">/ %1$s %2$s</string>
+    <string name="widget_goal_count">/ %1$d회</string>
+    <string name="widget_count_value">%1$d회</string>
+    <string name="widget_start_run">달리기 시작</string>
+    <string name="widget_progress">이번 주 목표 진행률</string>
+</resources>

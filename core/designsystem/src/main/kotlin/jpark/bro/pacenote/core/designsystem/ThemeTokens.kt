@@ -295,7 +295,8 @@ internal val InkDark =
         routeStart = Color(0xFFFFFFFF),
     )
 
-internal fun palette(
+/** 테마 · 모드의 팔레트. Compose 밖(Glance 위젯)에서 같은 색을 쓸 때 쓴다 (widget/CLAUDE.md) */
+fun palette(
     type: AppThemeType,
     dark: Boolean,
 ): AppColors =

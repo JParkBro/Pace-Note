@@ -42,6 +42,7 @@ internal class DefaultRunRepository(
     private val runDao: RunDao,
     private val authRepository: AuthRepository,
     private val clock: Clock,
+    private val homeWidgets: HomeWidgets,
 ) : RunRepository {
     override fun observeRecentRuns(limit: Int): Flow<List<Run>> =
         authRepository.observeUserId().flatMapLatest { owner ->
@@ -77,7 +78,7 @@ internal class DefaultRunRepository(
         suspendRunCatching {
             val owner = authRepository.observeUserId().first()
             runDao.softDelete(id = id, deletedAt = clock.millis(), syncState = syncStateFor(owner))
-        }
+        }.onSuccess { homeWidgets.requestUpdate() }
 
     private companion object {
         const val PAGE_SIZE = 30

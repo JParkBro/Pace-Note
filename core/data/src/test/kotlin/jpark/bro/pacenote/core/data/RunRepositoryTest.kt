@@ -5,6 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import jpark.bro.pacenote.core.data.repository.DefaultRunRepository
 import jpark.bro.pacenote.core.database.entity.RunSplitEntity
 import jpark.bro.pacenote.core.database.entity.SyncState
+import jpark.bro.pacenote.core.testing.fake.FakeHomeWidgets
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -15,7 +16,8 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 internal class RunRepositoryTest : RepositoryTest() {
-    private val repository by lazy { DefaultRunRepository(db.runDao(), auth, clock) }
+    private val widgets = FakeHomeWidgets()
+    private val repository by lazy { DefaultRunRepository(db.runDao(), auth, clock, widgets) }
 
     @Test
     fun `게스트는 게스트 기록만, 로그인하면 그 계정 기록만 봄`() =
@@ -95,6 +97,7 @@ internal class RunRepositoryTest : RepositoryTest() {
 
             assertTrue(repository.observeRecentRuns(10).first().isEmpty())
             assertNull(repository.observeRun("r").first())
+            assertEquals(1, widgets.requestCount)
         }
 
     @Test

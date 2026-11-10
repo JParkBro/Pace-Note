@@ -37,6 +37,7 @@ internal class DefaultGoalRepository(
     private val authRepository: AuthRepository,
     private val clock: Clock,
     private val idGenerator: IdGenerator,
+    private val homeWidgets: HomeWidgets,
 ) : GoalRepository {
     override fun observeGoalFor(weekStart: LocalDate): Flow<Goal?> =
         authRepository.observeUserId().flatMapLatest { owner ->
@@ -67,5 +68,5 @@ internal class DefaultGoalRepository(
                     syncState = syncStateFor(owner),
                 ),
             )
-        }
+        }.onSuccess { homeWidgets.requestUpdate() }
 }

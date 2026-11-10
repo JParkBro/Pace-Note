@@ -13,6 +13,7 @@ import jpark.bro.pacenote.core.model.RunSettings
 import jpark.bro.pacenote.core.model.TermsConsent
 import jpark.bro.pacenote.core.model.ThemeSetting
 import jpark.bro.pacenote.core.model.UserProfile
+import jpark.bro.pacenote.core.testing.fake.FakeHomeWidgets
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
@@ -37,9 +38,11 @@ class SettingsRepositoryTest {
                 UserPrefsDataStore(it),
                 RunPrefsDataStore(it),
                 AppPrefsDataStore(it),
+                widgets,
             )
         }
 
+    private val widgets = FakeHomeWidgets()
     private val river = ThemeSetting(AppThemeType.RIVER, AppThemeMode.DARK)
 
     @Test
@@ -64,6 +67,7 @@ class SettingsRepositoryTest {
             repository.previewThemeSetting(null)
 
             assertEquals(river, repository.observeEffectiveThemeSetting().first())
+            assertEquals(1, widgets.requestCount)
         }
 
     @Test

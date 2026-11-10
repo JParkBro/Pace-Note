@@ -194,11 +194,12 @@ pacenote/
 
 ## 10. widget 모듈 (Glance)
 
-> 상태: 시작 전. 기획은 `product-spec.md` 8장, 규칙은 `widget/CLAUDE.md`.
+> 상태: 구현 완료, 실기기 확인 전. 기획은 `product-spec.md` 8장, 규칙은 `widget/CLAUDE.md`.
 
-- [ ] `:widget` 모듈 (`pacenote.android.library` + `pacenote.android.compose` + `pacenote.koin`), catalog에 `glance-appwidget` · `glance-preview` · `work-runtime`
-- [ ] 주간 목표 4×2 · 2×2 위젯 + 리시버 + `appwidget-provider` XML
-- [ ] `core:data`의 `HomeWidgets` 인터페이스 구현 (`WidgetUpdater`)
-- [ ] 갱신: 기록 · 목표 · 테마 변경, 매주 월요일 00:00 WorkManager, 시각 · 시간대 변경
-- [ ] 탭: `AppIntents.EXTRA_START_RUN` / 홈
-- [ ] 크기별 Glance Preview, 주 경계 테스트
+- [x] `:widget` 모듈 (`pacenote.android.library` + `pacenote.android.compose` + `pacenote.koin`), catalog의 `glance-appwidget` · `glance-preview` · `work-runtime`
+- [x] 주간 목표 4×2 · 2×2 위젯 + 리시버 + `appwidget-provider` XML
+- [x] `core:data`의 `HomeWidgets` 인터페이스 구현 (`WidgetUpdater` → `WidgetRefreshWorker`)
+- [x] 갱신: 기록 저장 · 삭제, 목표 · 테마 · 거리 단위 변경, 매주 월요일 00:00 WorkManager, 시각 · 시간대 변경 (기록 복원은 9-4에서)
+- [x] 탭: `AppIntents.EXTRA_START_RUN` / 홈
+- [x] 크기별 Glance Preview, 주 경계 테스트
+- [ ] 실기기: 위젯 추가 → 러닝 저장 후 갱신, 앱 프로세스가 죽은 뒤 탭
