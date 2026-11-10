@@ -64,6 +64,9 @@
     <string name="settings_my_theme">테마</string>
     <string name="settings_my_section_support">지원</string>
     <string name="settings_my_contact">문의하기</string>
+    <string name="settings_my_section_info">정보</string>
+    <string name="settings_my_oss_licenses">오픈소스 라이선스</string>
+    <string name="settings_my_font_license">Pretendard 글꼴 라이선스</string>
     <string name="settings_theme_title">테마</string>
     <string name="settings_theme_volt">볼트 라임</string>
     <string name="settings_theme_sunrise">선라이즈</string>

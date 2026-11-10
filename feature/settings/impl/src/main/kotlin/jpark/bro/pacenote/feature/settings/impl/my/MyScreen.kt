@@ -1,5 +1,6 @@
 package jpark.bro.pacenote.feature.settings.impl.my
 
+import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,6 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import jpark.bro.pacenote.core.designsystem.AppSpacing
 import jpark.bro.pacenote.core.designsystem.AppTheme
 import jpark.bro.pacenote.core.designsystem.AppThemeTokens
@@ -63,11 +65,17 @@ internal fun MyRoot(
     val noMailApp = stringResource(R.string.settings_contact_no_app)
     val errorMessage = stringResource(R.string.settings_error)
     val contactIntent = contactIntent(versionName)
+    val ossTitle = stringResource(R.string.settings_my_oss_licenses)
     ObserveEvents(viewModel.event) { event ->
         when (event) {
             MyEvent.OpenContact -> {
                 runCatching { context.startActivity(contactIntent) }
                     .onFailure { snackbarHostState.showSnackbar(noMailApp) }
+            }
+
+            MyEvent.OpenOssLicenses -> {
+                OssLicensesMenuActivity.setActivityTitle(ossTitle)
+                context.startActivity(Intent(context, OssLicensesMenuActivity::class.java))
             }
 
             MyEvent.ShowError -> {
@@ -146,6 +154,18 @@ private fun MyScreen(
                     modifier = Modifier.testTag("settings_my_contact"),
                 )
             }
+            RunSection(title = stringResource(R.string.settings_my_section_info)) {
+                RunListItem(
+                    title = stringResource(R.string.settings_my_oss_licenses),
+                    onClick = { onAction(MyAction.OssLicensesClicked) },
+                    modifier = Modifier.testTag("settings_my_oss_licenses"),
+                )
+                RunListItem(
+                    title = stringResource(R.string.settings_my_font_license),
+                    onClick = { onAction(MyAction.FontLicenseClicked) },
+                    modifier = Modifier.testTag("settings_my_font_license"),
+                )
+            }
             Text(
                 text = stringResource(R.string.settings_my_version, versionName),
                 style = AppThemeTokens.typography.bodySm,
@@ -154,6 +174,7 @@ private fun MyScreen(
             )
         }
         state.themeSheet?.let { ThemeSheet(it, onAction) }
+        if (state.fontLicenseSheetVisible) FontLicenseSheet(onAction)
     }
 }
 
@@ -237,3 +258,7 @@ private fun MyInkDarkPreview() = Preview(PREVIEW_STATE.copy(goal = null), AppThe
 @Composable
 private fun MyThemeSheetPreview() =
     Preview(PREVIEW_STATE.copy(themeSheet = ThemeSetting(AppThemeType.SUNRISE, AppThemeMode.DARK)))
+
+@ScreenPreviews
+@Composable
+private fun MyFontLicenseSheetPreview() = Preview(PREVIEW_STATE.copy(fontLicenseSheetVisible = true))

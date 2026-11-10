@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.pacenote.android.compose)
     alias(libs.plugins.pacenote.koin)
     alias(libs.plugins.kotlin.serialization)
+    // 의존성 라이선스 목록 생성 (설정 > 오픈소스 라이선스). 콘솔 설정 불필요
+    alias(libs.plugins.oss.licenses)
 }
 
 android {

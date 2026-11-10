@@ -105,4 +105,26 @@ class MyViewModelTest {
                 assertEquals(MyEvent.OpenContact, awaitItem())
             }
         }
+
+    @Test
+    fun `오픈소스 라이선스를 누르면 라이선스 목록으로`() =
+        runTest {
+            val vm = viewModel()
+
+            vm.event.test {
+                vm.onAction(MyAction.OssLicensesClicked)
+                assertEquals(MyEvent.OpenOssLicenses, awaitItem())
+            }
+        }
+
+    @Test
+    fun `글꼴 라이선스 시트를 열고 닫음`() =
+        runTest {
+            val vm = viewModel()
+
+            vm.onAction(MyAction.FontLicenseClicked)
+            assertEquals(true, vm.state.value.fontLicenseSheetVisible)
+            vm.onAction(MyAction.FontLicenseSheetDismissed)
+            assertEquals(false, vm.state.value.fontLicenseSheetVisible)
+        }
 }
