@@ -4,6 +4,7 @@ import jpark.bro.pacenote.core.navigation.Navigator
 import jpark.bro.pacenote.feature.home.api.HomeKey
 import jpark.bro.pacenote.feature.home.impl.HomeRoot
 import jpark.bro.pacenote.feature.home.impl.HomeViewModel
+import jpark.bro.pacenote.feature.record.api.RunDetailKey
 import jpark.bro.pacenote.feature.run.api.RunKey
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -20,6 +21,7 @@ val homeModule =
             val navigator = get<Navigator>()
             HomeRoot(
                 onStartRun = { navigator.goTo(RunKey()) },
+                onOpenRun = { runId -> navigator.goTo(RunDetailKey(runId)) },
                 viewModel = koinViewModel(),
                 debugMenu = getOrNull(),
             )

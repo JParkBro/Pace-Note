@@ -69,6 +69,7 @@ internal class RecordViewModel(
     override fun onAction(action: RecordAction) {
         when (action) {
             RecordAction.StartRunClicked -> sendEvent(RecordEvent.StartRun)
+            is RecordAction.RunClicked -> sendEvent(RecordEvent.OpenRun(action.runId))
             is RecordAction.TabSelected -> setState { copy(tab = action.tab) }
             is RecordAction.PeriodSelected -> selectedPeriod.value = selectionOf(action.period)
             RecordAction.PreviousPeriodClicked -> movePeriod(-1)

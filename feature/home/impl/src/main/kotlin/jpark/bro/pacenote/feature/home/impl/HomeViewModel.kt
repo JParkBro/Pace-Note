@@ -50,6 +50,7 @@ internal class HomeViewModel(
     override fun onAction(action: HomeAction) {
         when (action) {
             HomeAction.StartRunClicked -> sendEvent(HomeEvent.StartRun)
+            is HomeAction.RunClicked -> sendEvent(HomeEvent.OpenRun(action.runId))
         }
     }
 

@@ -161,4 +161,15 @@ class HomeViewModelTest {
                 assertEquals(HomeEvent.StartRun, awaitItem())
             }
         }
+
+    @Test
+    fun `최근 기록을 누르면 상세로`() =
+        runTest {
+            val vm = viewModel()
+
+            vm.event.test {
+                vm.onAction(HomeAction.RunClicked("run-1028"))
+                assertEquals(HomeEvent.OpenRun("run-1028"), awaitItem())
+            }
+        }
 }

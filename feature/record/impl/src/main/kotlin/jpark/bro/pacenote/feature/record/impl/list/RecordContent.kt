@@ -102,6 +102,7 @@ internal fun MonthHeader(
 internal fun RunRowItem(
     run: RecordItem.RunRow,
     unit: DistanceUnit,
+    onClick: () -> Unit,
 ) {
     RunCard(modifier = Modifier.padding(horizontal = AppSpacing.marginMobile, vertical = AppSpacing.xs)) {
         RunListItem(
@@ -116,6 +117,8 @@ internal fun RunRowItem(
                     ),
                 ).joinToString(" · "),
             leading = { RunThumbnail(run) },
+            onClick = onClick,
+            modifier = Modifier.testTag("record_run_${run.id}"),
         )
     }
 }

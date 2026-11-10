@@ -60,12 +60,14 @@ import jpark.bro.pacenote.core.designsystem.R as DesignR
 @Composable
 internal fun RecordRoot(
     onStartRun: () -> Unit,
+    onOpenRun: (runId: String) -> Unit,
     viewModel: RecordViewModel,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     ObserveEvents(viewModel.event) { event ->
         when (event) {
             RecordEvent.StartRun -> onStartRun()
+            is RecordEvent.OpenRun -> onOpenRun(event.runId)
         }
     }
     RecordScreen(state, state.items.collectAsLazyPagingItems(), viewModel::onAction)
@@ -98,7 +100,7 @@ private fun RecordScreen(
                 modifier = Modifier.padding(horizontal = AppSpacing.marginMobile).testTag("record_tabs"),
             )
             when (state.tab) {
-                RecordTab.LIST -> RecordList(state, items, PaddingValues(bottom = AppSpacing.lg))
+                RecordTab.LIST -> RecordList(state, items, PaddingValues(bottom = AppSpacing.lg), onAction)
                 RecordTab.STATS -> RecordStatsContent(state.stats, state.distanceUnit, state.thisYear, onAction)
             }
         }
@@ -110,6 +112,7 @@ private fun RecordList(
     state: RecordState,
     items: LazyPagingItems<RecordItem>,
     contentPadding: PaddingValues,
+    onAction: (RecordAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -127,7 +130,7 @@ private fun RecordList(
                 }
 
                 is RecordItem.RunRow -> {
-                    RunRowItem(item, state.distanceUnit)
+                    RunRowItem(item, state.distanceUnit) { onAction(RecordAction.RunClicked(item.id)) }
                 }
 
                 null -> {

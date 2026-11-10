@@ -12,6 +12,10 @@ internal sealed interface RecordAction {
         val period: StatsPeriod,
     ) : RecordAction
 
+    data class RunClicked(
+        val runId: String,
+    ) : RecordAction
+
     data object PreviousPeriodClicked : RecordAction
 
     data object NextPeriodClicked : RecordAction

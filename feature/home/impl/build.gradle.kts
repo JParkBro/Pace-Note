@@ -9,4 +9,5 @@ android {
 dependencies {
     implementation(projects.feature.home.api)
     implementation(projects.feature.run.api)
+    implementation(projects.feature.record.api)
 }

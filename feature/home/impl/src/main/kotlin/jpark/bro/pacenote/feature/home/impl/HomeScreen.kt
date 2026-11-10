@@ -42,6 +42,7 @@ private const val DAYS_TO_SUNDAY = 6L
 @Composable
 internal fun HomeRoot(
     onStartRun: () -> Unit,
+    onOpenRun: (runId: String) -> Unit,
     viewModel: HomeViewModel,
     debugMenu: HomeDebugMenu? = null,
 ) {
@@ -49,6 +50,7 @@ internal fun HomeRoot(
     ObserveEvents(viewModel.event) { event ->
         when (event) {
             HomeEvent.StartRun -> onStartRun()
+            is HomeEvent.OpenRun -> onOpenRun(event.runId)
         }
     }
     HomeScreen(state, viewModel::onAction, debugMenu = debugMenu)
@@ -81,7 +83,7 @@ private fun HomeScreen(
                 icon = DesignR.drawable.ic_play_arrow,
                 modifier = Modifier.fillMaxWidth().testTag("home_start_run"),
             )
-            if (!state.loading) RecentRuns(state.recentRuns, state.distanceUnit)
+            if (!state.loading) RecentRuns(state.recentRuns, state.distanceUnit, onAction)
             debugMenu?.Content()
         }
     }
