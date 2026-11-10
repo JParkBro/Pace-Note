@@ -3,6 +3,7 @@ package jpark.bro.pacenote.feature.record.impl.di
 import jpark.bro.pacenote.core.navigation.Navigator
 import jpark.bro.pacenote.feature.record.api.RecordKey
 import jpark.bro.pacenote.feature.record.api.RunDetailKey
+import jpark.bro.pacenote.feature.record.api.ShareCardKey
 import jpark.bro.pacenote.feature.record.impl.detail.RecordDetailRoot
 import jpark.bro.pacenote.feature.record.impl.detail.RecordDetailViewModel
 import jpark.bro.pacenote.feature.record.impl.edit.RunEditKey
@@ -10,6 +11,8 @@ import jpark.bro.pacenote.feature.record.impl.edit.RunEditRoot
 import jpark.bro.pacenote.feature.record.impl.edit.RunEditViewModel
 import jpark.bro.pacenote.feature.record.impl.list.RecordRoot
 import jpark.bro.pacenote.feature.record.impl.list.RecordViewModel
+import jpark.bro.pacenote.feature.record.impl.share.ShareCardRoot
+import jpark.bro.pacenote.feature.record.impl.share.ShareCardViewModel
 import jpark.bro.pacenote.feature.run.api.RunKey
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -25,6 +28,7 @@ val recordModule =
         viewModelOf(::RecordViewModel)
         viewModel { (runId: String) -> RecordDetailViewModel(runId, get(), get()) }
         viewModel { (runId: String) -> RunEditViewModel(runId, get()) }
+        viewModel { (runId: String) -> ShareCardViewModel(runId, get(), get()) }
 
         navigation<RecordKey> {
             val navigator = get<Navigator>()
@@ -40,6 +44,7 @@ val recordModule =
             RecordDetailRoot(
                 onBack = navigator::goBack,
                 onEdit = { runId -> navigator.goTo(RunEditKey(runId)) },
+                onShare = { runId -> navigator.goTo(ShareCardKey(runId)) },
                 viewModel = koinViewModel { parametersOf(key.runId) },
             )
         }
@@ -55,5 +60,10 @@ val recordModule =
                 },
                 viewModel = koinViewModel { parametersOf(key.runId) },
             )
+        }
+
+        navigation<ShareCardKey> { key ->
+            val navigator = get<Navigator>()
+            ShareCardRoot(onBack = navigator::goBack, viewModel = koinViewModel { parametersOf(key.runId) })
         }
     }

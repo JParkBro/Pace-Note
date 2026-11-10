@@ -7,4 +7,6 @@ internal sealed interface RunResultAction {
 
     /** "완료" 또는 뒤로 가기 */
     data object DoneClicked : RunResultAction
+
+    data object ShareClicked : RunResultAction
 }

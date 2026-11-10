@@ -48,8 +48,21 @@ internal class RecordDetailViewModel(
 
     override fun onAction(action: RecordDetailAction) {
         when (action) {
-            RecordDetailAction.EditClicked -> if (!currentState.missing) sendEvent(RecordDetailEvent.OpenEdit(runId))
-            RecordDetailAction.BackClicked -> sendEvent(RecordDetailEvent.NavigateBack)
+            RecordDetailAction.EditClicked -> {
+                if (!currentState.missing) sendEvent(RecordDetailEvent.OpenEdit(runId))
+            }
+
+            RecordDetailAction.ShareClicked -> {
+                if (!currentState.missing) {
+                    sendEvent(
+                        RecordDetailEvent.OpenShareCard(runId),
+                    )
+                }
+            }
+
+            RecordDetailAction.BackClicked -> {
+                sendEvent(RecordDetailEvent.NavigateBack)
+            }
         }
     }
 }

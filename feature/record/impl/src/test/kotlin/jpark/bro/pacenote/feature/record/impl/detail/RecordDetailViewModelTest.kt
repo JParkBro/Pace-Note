@@ -83,4 +83,16 @@ class RecordDetailViewModelTest {
                 assertEquals(RecordDetailEvent.OpenEdit(run.id), awaitItem())
             }
         }
+
+    @Test
+    fun `공유 카드 만들기를 누르면 공유 카드로`() =
+        runTest {
+            val vm = viewModel()
+            runCurrent()
+
+            vm.event.test {
+                vm.onAction(RecordDetailAction.ShareClicked)
+                assertEquals(RecordDetailEvent.OpenShareCard(run.id), awaitItem())
+            }
+        }
 }

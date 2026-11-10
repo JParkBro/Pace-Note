@@ -54,4 +54,23 @@
     <string name="record_edit_delete_confirm">삭제</string>
     <string name="record_edit_delete_cancel">취소</string>
     <string name="record_error">문제가 생겼어요. 다시 시도해 주세요</string>
+
+    <string name="record_detail_share">공유 카드 만들기</string>
+    <string name="record_share_title">공유 카드</string>
+    <string name="record_share_background">배경</string>
+    <string name="record_share_background_default">기본</string>
+    <string name="record_share_background_photo">사진</string>
+    <string name="record_share_background_transparent">투명</string>
+    <string name="record_share_fields">표시할 정보</string>
+    <string name="record_share_field_distance">거리</string>
+    <string name="record_share_field_time">시간</string>
+    <string name="record_share_field_pace">페이스</string>
+    <string name="record_share_field_date">날짜</string>
+    <string name="record_share_save">이미지 저장</string>
+    <string name="record_share_share">공유</string>
+    <string name="record_share_saved">사진 앱에 저장했어요</string>
+    <string name="record_share_card">공유 카드 미리보기</string>
+    <!-- 카드 아래쪽 작은 앱 이름 · 저장 폴더 (Pictures/런닝). 앱 표시 이름이 정해지면 함께 바꾼다 -->
+    <string name="record_share_brand" translatable="false">런닝</string>
+    <string name="record_share_folder" translatable="false">런닝</string>
 </resources>

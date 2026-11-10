@@ -49,6 +49,7 @@ internal class RunResultViewModel(
         when (action) {
             is RunResultAction.MemoChanged -> onMemoChanged(action.memo)
             RunResultAction.DoneClicked -> onDone()
+            RunResultAction.ShareClicked -> onShare()
         }
     }
 
@@ -86,6 +87,15 @@ internal class RunResultViewModel(
         viewModelScope.launch {
             saveMemo()
             sendEvent(RunResultEvent.Finish)
+        }
+    }
+
+    private fun onShare() {
+        if (currentState.loading) return
+        memoJob?.cancel()
+        viewModelScope.launch {
+            saveMemo()
+            sendEvent(RunResultEvent.OpenShareCard(runId))
         }
     }
 

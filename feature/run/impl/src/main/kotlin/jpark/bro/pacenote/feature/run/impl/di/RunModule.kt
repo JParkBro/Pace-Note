@@ -1,6 +1,7 @@
 package jpark.bro.pacenote.feature.run.impl.di
 
 import jpark.bro.pacenote.core.navigation.Navigator
+import jpark.bro.pacenote.feature.record.api.ShareCardKey
 import jpark.bro.pacenote.feature.run.api.RunKey
 import jpark.bro.pacenote.feature.run.api.RunResultHandler
 import jpark.bro.pacenote.feature.run.impl.RunRoot
@@ -32,9 +33,11 @@ val runModule =
         }
 
         navigation<RunResultKey> { key ->
+            val navigator = get<Navigator>()
             val resultHandler = get<RunResultHandler>()
             RunResultRoot(
                 onFinished = resultHandler::handle,
+                onOpenShareCard = { runId -> navigator.goTo(ShareCardKey(runId)) },
                 viewModel = koinViewModel { parametersOf(key.runId) },
             )
         }
