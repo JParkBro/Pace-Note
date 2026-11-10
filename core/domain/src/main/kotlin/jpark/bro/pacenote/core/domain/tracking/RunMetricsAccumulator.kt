@@ -89,11 +89,13 @@ class RunMetricsAccumulator(
 
     fun metrics(nowElapsedMs: Long): LiveMetrics {
         val moving = movingClock.at(nowElapsedMs)
-        val pace =
-            (moving / MS_PER_SECOND / (distanceM / METERS_PER_KM)).takeIf {
-                distanceM >= MIN_AVG_PACE_DISTANCE_M
-            }
-        return LiveMetrics(distanceM, moving, nowElapsedMs, paceWindow.currentPaceSecPerKm(), pace)
+        return LiveMetrics(
+            distanceM,
+            moving,
+            nowElapsedMs,
+            paceWindow.currentPaceSecPerKm(),
+            Pace.secPerKm(moving, distanceM),
+        )
     }
 
     fun finish(nowElapsedMs: Long): RunTotals {
@@ -164,9 +166,6 @@ class RunMetricsAccumulator(
 
     private companion object {
         const val MAX_CONNECTED_GAP_MS = 30_000L
-        const val MIN_AVG_PACE_DISTANCE_M = 50.0
-        const val MS_PER_SECOND = 1_000.0
-        const val METERS_PER_KM = 1_000.0
     }
 }
 

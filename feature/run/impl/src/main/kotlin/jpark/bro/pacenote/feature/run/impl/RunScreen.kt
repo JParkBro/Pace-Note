@@ -49,7 +49,6 @@ import jpark.bro.pacenote.core.model.RoutePoint
 import jpark.bro.pacenote.core.tracking.RecoverableRun
 import jpark.bro.pacenote.core.tracking.TrackingState
 import jpark.bro.pacenote.core.ui.ObserveEvents
-import jpark.bro.pacenote.feature.run.api.RunResult
 import jpark.bro.pacenote.feature.run.impl.ui.KeepScreenOn
 import jpark.bro.pacenote.feature.run.impl.ui.RunBatteryContent
 import jpark.bro.pacenote.feature.run.impl.ui.RunCountdownContent
@@ -82,7 +81,7 @@ private const val PREVIEW_MOVING_MS = 1_231_000L
 @Composable
 internal fun RunRoot(
     onClose: () -> Unit,
-    onFinished: (RunResult) -> Unit,
+    onOpenResult: (runId: String) -> Unit,
     viewModel: RunViewModel,
     elapsedClock: ElapsedClock = koinInject(),
     clock: Clock = koinInject(),
@@ -128,9 +127,8 @@ internal fun RunRoot(
                 requestLocationSettings(context) { locationLauncher.launch(IntentSenderRequest.Builder(it).build()) }
             }
 
-            // 결과 화면(P6)이 생기면 그 화면으로 보낸다. 지금은 흐름을 끝내고 홈으로
             is RunEvent.OpenResult -> {
-                onFinished(RunResult.Finished)
+                onOpenResult(event.runId)
             }
 
             RunEvent.Close -> {

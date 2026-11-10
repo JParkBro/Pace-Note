@@ -26,8 +26,8 @@ class AnnouncementScheduler(
             VoiceAnnouncement.Progress(
                 distanceM = interval.distanceM?.let { it * passed } ?: distanceM,
                 movingMs = interval.durationMs?.let { it * passed } ?: movingMs,
-                averagePaceSecPerKm = paceSecPerKm(movingMs, distanceM),
-                splitPaceSecPerKm = paceSecPerKm(movingMs - lastMovingMs, distanceM - lastDistanceM),
+                averagePaceSecPerKm = Pace.secPerKm(movingMs, distanceM),
+                splitPaceSecPerKm = Pace.secPerKm(movingMs - lastMovingMs, distanceM - lastDistanceM),
                 items = items,
             )
         lastDistanceM = distanceM
@@ -54,15 +54,7 @@ class AnnouncementScheduler(
         movingMs: Long,
     ): Long = interval.distanceM?.let { (distanceM / it).toLong() } ?: (movingMs / checkNotNull(interval.durationMs))
 
-    private fun paceSecPerKm(
-        movingMs: Long,
-        distanceM: Double,
-    ): Double? = (movingMs / MS_PER_SECOND / (distanceM / METERS_PER_KM)).takeIf { distanceM >= MIN_PACE_DISTANCE_M }
-
     private companion object {
         const val REPEAT_WINDOW_MS = 10_000L
-        const val MIN_PACE_DISTANCE_M = 50.0
-        const val MS_PER_SECOND = 1_000.0
-        const val METERS_PER_KM = 1_000.0
     }
 }
