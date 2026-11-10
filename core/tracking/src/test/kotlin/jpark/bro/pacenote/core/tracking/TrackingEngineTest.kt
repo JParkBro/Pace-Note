@@ -15,6 +15,7 @@ import jpark.bro.pacenote.core.model.VoiceAnnouncement
 import jpark.bro.pacenote.core.model.VoiceInterval
 import jpark.bro.pacenote.core.testing.fake.FakeAuthRepository
 import jpark.bro.pacenote.core.testing.fake.FakeClock
+import jpark.bro.pacenote.core.testing.fake.FakeHomeWidgets
 import jpark.bro.pacenote.core.testing.fake.FakeIdGenerator
 import jpark.bro.pacenote.core.testing.fake.FakeLocationSource
 import jpark.bro.pacenote.core.testing.fake.FakeSettingsRepository
@@ -44,6 +45,7 @@ class TrackingEngineTest {
     private val auth = FakeAuthRepository()
     private val ids = FakeIdGenerator("run")
     private val voice = FakeVoiceAnnouncer()
+    private val widgets = FakeHomeWidgets()
 
     /** 북쪽으로 1초에 4m씩 */
     private var northM = 0.0
@@ -64,7 +66,7 @@ class TrackingEngineTest {
     private fun TestScope.engine() =
         TrackingEngine(
             locationSource = location,
-            recorder = RunRecorder(db.runTrackingDao(), db.runRecoveryDao(), auth, FakeClock(), ids),
+            recorder = RunRecorder(db.runTrackingDao(), db.runRecoveryDao(), auth, FakeClock(), ids, widgets),
             settingsRepository = settings,
             voiceAnnouncer = voice,
             elapsedClock = ElapsedClock { testScheduler.currentTime },
@@ -211,6 +213,7 @@ class TrackingEngineTest {
             assertNotNull(saved.routePolyline)
             assertEquals(8, saved.calories) // 65kg × 0.116km × 1.036
             assertEquals("LOCAL", saved.syncState)
+            assertEquals(1, widgets.requestCount)
         }
 
     @Test

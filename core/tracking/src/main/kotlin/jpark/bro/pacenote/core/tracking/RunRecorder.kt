@@ -2,6 +2,7 @@ package jpark.bro.pacenote.core.tracking
 
 import jpark.bro.pacenote.core.common.IdGenerator
 import jpark.bro.pacenote.core.data.repository.AuthRepository
+import jpark.bro.pacenote.core.data.repository.HomeWidgets
 import jpark.bro.pacenote.core.database.dao.FinishedRunUpdate
 import jpark.bro.pacenote.core.database.dao.RunProgressUpdate
 import jpark.bro.pacenote.core.database.dao.RunRecoveryDao
@@ -43,6 +44,7 @@ internal class RunRecorder(
     private val authRepository: AuthRepository,
     private val clock: Clock,
     private val idGenerator: IdGenerator,
+    private val homeWidgets: HomeWidgets,
 ) {
     private var runId = ""
     private val buffer = mutableListOf<RunPointEntity>()
@@ -137,6 +139,7 @@ internal class RunRecorder(
                     syncState = if (run.ownerUserId == null) SyncState.LOCAL.name else SyncState.PENDING.name,
                 ),
         )
+        homeWidgets.requestUpdate()
     }
 
     suspend fun findInProgress(): RecoverableRun? =

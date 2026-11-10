@@ -41,6 +41,7 @@ internal class DefaultSettingsRepository(
     private val userPrefs: UserPrefsDataStore,
     private val runPrefs: RunPrefsDataStore,
     private val appPrefs: AppPrefsDataStore,
+    private val homeWidgets: HomeWidgets,
 ) : SettingsRepository {
     // Repository가 single이라 화면을 옮겨 다녀도 미리보기가 유지되고, 앱을 다시 열면 사라진다
     private val themePreview = MutableStateFlow<ThemeSetting?>(null)
@@ -54,7 +55,10 @@ internal class DefaultSettingsRepository(
 
     override suspend fun applyThemeSetting(setting: ThemeSetting): Result<Unit> =
         suspendRunCatching { appPrefs.setThemeSetting(setting) }
-            .onSuccess { themePreview.value = null }
+            .onSuccess {
+                themePreview.value = null
+                homeWidgets.requestUpdate()
+            }
 
     override fun observeRunSettings(): Flow<RunSettings> = runPrefs.observeRunSettings()
 
@@ -76,5 +80,5 @@ internal class DefaultSettingsRepository(
             require(profile.weightKg.let { it == null || it > 0 }) { "체중은 0보다 커야 한다" }
             userPrefs.setWeightKg(profile.weightKg)
             userPrefs.setDistanceUnit(profile.distanceUnit)
-        }
+        }.onSuccess { homeWidgets.requestUpdate() } // 위젯의 거리 단위
 }

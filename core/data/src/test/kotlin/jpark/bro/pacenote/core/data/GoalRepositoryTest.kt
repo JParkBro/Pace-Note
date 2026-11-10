@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import jpark.bro.pacenote.core.data.repository.DefaultGoalRepository
 import jpark.bro.pacenote.core.database.entity.SyncState
 import jpark.bro.pacenote.core.model.GoalType
+import jpark.bro.pacenote.core.testing.fake.FakeHomeWidgets
 import jpark.bro.pacenote.core.testing.fake.FakeIdGenerator
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -17,7 +18,16 @@ import java.time.temporal.ChronoUnit
 
 @RunWith(AndroidJUnit4::class)
 internal class GoalRepositoryTest : RepositoryTest() {
-    private val repository by lazy { DefaultGoalRepository(db.goalDao(), auth, clock, FakeIdGenerator("goal")) }
+    private val widgets = FakeHomeWidgets()
+    private val repository by lazy {
+        DefaultGoalRepository(
+            db.goalDao(),
+            auth,
+            clock,
+            FakeIdGenerator("goal"),
+            widgets,
+        )
+    }
     private val thisWeek = LocalDate.of(2026, 10, 26)
 
     @Test
@@ -29,6 +39,7 @@ internal class GoalRepositoryTest : RepositoryTest() {
             assertEquals(thisWeek, goal.effectiveWeekStart)
             assertEquals(15_000.0, goal.value, 0.0)
             assertNull(repository.observeGoalFor(thisWeek.minusWeeks(1)).first())
+            assertEquals(1, widgets.requestCount)
         }
 
     @Test
@@ -84,5 +95,6 @@ internal class GoalRepositoryTest : RepositoryTest() {
                     .first()
                     .isEmpty(),
             )
+            assertEquals(0, widgets.requestCount)
         }
 }
