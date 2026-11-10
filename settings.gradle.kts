@@ -42,5 +42,6 @@ include(":core:data")
 include(":core:testing")
 
 include(":feature:home:api")
+include(":feature:home:impl")
 include(":feature:run:api")
 include(":feature:run:impl")

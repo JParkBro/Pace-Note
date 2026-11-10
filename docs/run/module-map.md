@@ -68,7 +68,7 @@ pacenote/
 | 모듈 | 키 | 인자 |
 |---|---|---|
 | `onboarding:api` | `OnboardingKey` | – |
-| `home:api` | `HomeKey` | – (홈 화면 전까지 app의 임시 홈이 그림) |
+| `home:api` | `HomeKey` | – |
 | `run:api` | `RunKey` | `recoverRunId: String?` (null = 새 러닝, 값 = P8 복구) |
 | `record:api` | `RecordKey` | – (탭) |
 | | `RunDetailKey` | `runId: String` |
