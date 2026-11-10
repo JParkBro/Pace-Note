@@ -10,6 +10,9 @@ import jpark.bro.pacenote.feature.settings.impl.my.MyViewModel
 import jpark.bro.pacenote.feature.settings.impl.profile.ProfileEditKey
 import jpark.bro.pacenote.feature.settings.impl.profile.ProfileEditRoot
 import jpark.bro.pacenote.feature.settings.impl.profile.ProfileEditViewModel
+import jpark.bro.pacenote.feature.settings.impl.run.RunSettingsKey
+import jpark.bro.pacenote.feature.settings.impl.run.RunSettingsRoot
+import jpark.bro.pacenote.feature.settings.impl.run.RunSettingsViewModel
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.module.dsl.viewModelOf
@@ -22,18 +25,24 @@ val settingsModule =
         viewModelOf(::MyViewModel)
         viewModelOf(::GoalViewModel)
         viewModelOf(::ProfileEditViewModel)
+        viewModelOf(::RunSettingsViewModel)
 
         navigation<SettingsKey> {
             val navigator = get<Navigator>()
             MyRoot(
                 onOpenGoal = { navigator.goTo(GoalKey) },
                 onOpenProfile = { navigator.goTo(ProfileEditKey) },
+                onOpenRunSettings = { navigator.goTo(RunSettingsKey) },
                 viewModel = koinViewModel(),
             )
         }
 
         navigation<GoalKey> {
             GoalRoot(onClose = get<Navigator>()::goBack, viewModel = koinViewModel())
+        }
+
+        navigation<RunSettingsKey> {
+            RunSettingsRoot(onBack = get<Navigator>()::goBack, viewModel = koinViewModel())
         }
 
         navigation<ProfileEditKey> {
