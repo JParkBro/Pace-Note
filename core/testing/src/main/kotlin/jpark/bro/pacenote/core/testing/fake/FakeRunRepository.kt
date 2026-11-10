@@ -1,5 +1,8 @@
 package jpark.bro.pacenote.core.testing.fake
 
+import androidx.paging.LoadState
+import androidx.paging.LoadStates
+import androidx.paging.PagingData
 import jpark.bro.pacenote.core.data.repository.RunRepository
 import jpark.bro.pacenote.core.model.Run
 import kotlinx.coroutines.flow.Flow
@@ -15,6 +18,15 @@ class FakeRunRepository : RunRepository {
 
     override fun observeRecentRuns(limit: Int): Flow<List<Run>> =
         runs.map { list -> list.filter { it.deletedAt == null }.sortedByDescending { it.startedAt }.take(limit) }
+
+    override fun observeRunPages(): Flow<PagingData<Run>> =
+        runs.map { list ->
+            // 끝까지 다 읽은 상태로 알려야 asSnapshot이 더 읽기를 기다리지 않는다
+            PagingData.from(
+                list.filter { it.deletedAt == null }.sortedByDescending { it.startedAt },
+                LoadStates(LoadState.NotLoading(true), LoadState.NotLoading(true), LoadState.NotLoading(true)),
+            )
+        }
 
     override fun observeRun(id: String): Flow<Run?> =
         runs.map { list -> list.find { it.id == id && it.deletedAt == null } }

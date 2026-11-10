@@ -8,6 +8,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.time.LocalDate
+import java.time.YearMonth
 
 @RunWith(AndroidJUnit4::class)
 internal class StatsRepositoryTest : RepositoryTest() {
@@ -60,5 +61,19 @@ internal class StatsRepositoryTest : RepositoryTest() {
             val totals = repository.observeTotals().first()
             assertEquals(12_400.0, totals.distanceM, 0.001)
             assertEquals(3, totals.runCount)
+        }
+
+    @Test
+    fun `달별 합계는 기록의 시간대 기준 달로 묶음`() =
+        runTest {
+            insertSampleWeek()
+            db.runDao().upsertRun(runEntity("1031", startedAt = seoulMs(10, 31, 23, 59), distanceM = 1_000.0))
+            db.runDao().upsertRun(runEntity("1101", startedAt = seoulMs(11, 1, 6, 0), distanceM = 2_000.0))
+
+            val totals = repository.observeMonthlyTotals().first()
+
+            assertEquals(13_400.0, totals.getValue(YearMonth.of(2026, 10)).distanceM, 0.001)
+            assertEquals(4, totals.getValue(YearMonth.of(2026, 10)).runCount)
+            assertEquals(1, totals.getValue(YearMonth.of(2026, 11)).runCount)
         }
 }

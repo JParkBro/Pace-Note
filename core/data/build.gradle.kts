@@ -9,6 +9,8 @@ android {
 
 dependencies {
     api(projects.core.model)
+    // RunRepository.observeRunPages()가 PagingData를 돌려준다
+    api(libs.androidx.paging.common)
     implementation(projects.core.common)
     implementation(projects.core.domain)
     implementation(projects.core.database)
@@ -19,4 +21,5 @@ dependencies {
     testImplementation(libs.bundles.robolectric)
     testImplementation(libs.room.runtime)
     testImplementation(libs.androidx.datastore.preferences)
+    testImplementation(libs.androidx.paging.testing)
 }

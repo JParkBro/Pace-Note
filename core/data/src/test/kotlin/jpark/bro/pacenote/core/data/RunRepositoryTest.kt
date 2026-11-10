@@ -1,5 +1,6 @@
 package jpark.bro.pacenote.core.data
 
+import androidx.paging.testing.asSnapshot
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import jpark.bro.pacenote.core.data.repository.DefaultRunRepository
 import jpark.bro.pacenote.core.database.entity.RunSplitEntity
@@ -94,5 +95,18 @@ internal class RunRepositoryTest : RepositoryTest() {
 
             assertTrue(repository.observeRecentRuns(10).first().isEmpty())
             assertNull(repository.observeRun("r").first())
+        }
+
+    @Test
+    fun `기록 목록은 끝난 기록만 최신순, 지운 기록은 빠짐`() =
+        runTest {
+            db.runDao().upsertRun(runEntity("old", startedAt = seoulMs(10, 1, 7, 0)))
+            db.runDao().upsertRun(runEntity("new", startedAt = seoulMs(10, 28, 6, 40)))
+            db.runDao().upsertRun(runEntity("deleted", startedAt = seoulMs(10, 20, 7, 0)).copy(deletedAt = 1L))
+            db.runDao().upsertRun(runEntity("discarded").copy(status = "DISCARDED"))
+
+            val ids = repository.observeRunPages().asSnapshot().map { it.id }
+
+            assertEquals(listOf("new", "old"), ids)
         }
 }

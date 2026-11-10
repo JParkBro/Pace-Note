@@ -1,5 +1,9 @@
 package jpark.bro.pacenote.core.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import jpark.bro.pacenote.core.common.suspendRunCatching
 import jpark.bro.pacenote.core.data.mapper.toModel
 import jpark.bro.pacenote.core.database.dao.RunDao
@@ -15,6 +19,9 @@ import java.time.Clock
 interface RunRepository {
     /** 현재 사용자의 최근 기록, 최신순. 목록용이라 [Run.splits]는 비어 있다. */
     fun observeRecentRuns(limit: Int): Flow<List<Run>>
+
+    /** 현재 사용자의 전체 기록, 최신순 페이지 단위 (R1). 목록용이라 [Run.splits]는 비어 있다. */
+    fun observeRunPages(): Flow<PagingData<Run>>
 
     /** 스플릿을 포함한 기록 하나. 없거나 지웠으면 null */
     fun observeRun(id: String): Flow<Run?>
@@ -41,6 +48,13 @@ internal class DefaultRunRepository(
             runDao.observeRecent(owner, limit).map { runs -> runs.map { it.toModel() } }
         }
 
+    override fun observeRunPages(): Flow<PagingData<Run>> =
+        authRepository.observeUserId().flatMapLatest { owner ->
+            Pager(PagingConfig(pageSize = PAGE_SIZE)) { runDao.pagingSource(owner) }
+                .flow
+                .map { page -> page.map { it.toModel() } }
+        }
+
     override fun observeRun(id: String): Flow<Run?> = runDao.observeRun(id).map { it?.toModel() }
 
     override suspend fun updateTitleAndMemo(
@@ -64,4 +78,8 @@ internal class DefaultRunRepository(
             val owner = authRepository.observeUserId().first()
             runDao.softDelete(id = id, deletedAt = clock.millis(), syncState = syncStateFor(owner))
         }
+
+    private companion object {
+        const val PAGE_SIZE = 30
+    }
 }
