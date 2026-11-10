@@ -27,4 +27,11 @@ internal sealed interface MyAction {
     data object ThemeSheetDismissed : MyAction
 
     data object ContactClicked : MyAction
+
+    data object OssLicensesClicked : MyAction
+
+    /** Pretendard 글꼴 라이선스(OFL) 시트 */
+    data object FontLicenseClicked : MyAction
+
+    data object FontLicenseSheetDismissed : MyAction
 }

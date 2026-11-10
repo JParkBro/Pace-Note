@@ -23,7 +23,10 @@ import jpark.bro.pacenote.core.designsystem.AppThemeTokens
 import jpark.bro.pacenote.core.designsystem.preview.ComponentPreviews
 import jpark.bro.pacenote.core.designsystem.preview.RunPreviewSurface
 
-/** 바텀시트: surface-raised, 뒤 배경 overlay, 드래그 핸들 border-strong. 항상 끝까지 펼친다 */
+/**
+ * 바텀시트: surface-raised, 뒤 배경 overlay, 드래그 핸들 border-strong. 항상 끝까지 펼친다.
+ * 내용에는 좌우 · 아래 여백(lg)을 시트가 준다. 호출하는 쪽에서 같은 여백을 다시 주지 않는다.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RunBottomSheet(
@@ -39,8 +42,16 @@ fun RunBottomSheet(
         containerColor = colors.surfaceRaised,
         scrimColor = colors.overlay,
         dragHandle = { RunSheetHandle() },
-        content = content,
-    )
+    ) {
+        Column(
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = AppSpacing.lg)
+                    .padding(bottom = AppSpacing.lg),
+            content = content,
+        )
+    }
 }
 
 /** 시트 위쪽 드래그 핸들 */

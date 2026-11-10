@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <!--
+          오픈소스 라이선스 화면(play-services-oss-licenses)은 AppCompatActivity라 AppCompat 테마가 필요하다.
+          앱 테마는 Compose용 플랫폼 테마라 여기서 따로 지정한다.
+        -->
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+    </application>
+
+</manifest>

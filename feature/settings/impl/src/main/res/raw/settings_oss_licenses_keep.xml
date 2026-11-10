@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  release 리소스 축소에서 오픈소스 라이선스 화면이 이름으로 찾는 리소스를 남긴다.
+  (play-services-oss-licenses가 getIdentifier로 레이아웃을 읽음. 라이선스 원문(raw)은 라이브러리가 직접 남긴다)
+-->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@layout/libraries_social_licenses_*,@layout/license_menu_*" />

@@ -15,8 +15,8 @@ import java.time.Clock
 import java.time.LocalDate
 
 /**
- * 내 정보(M1, product-spec 7장)와 테마 시트(M5). 로컬 앱 단계라 계정 · 백업 · 약관 · 앱 평가 ·
- * 앱 정보(최신 여부) 항목은 외부 설정 단계(module-map 9장 2부)에서 붙인다.
+ * 내 정보(M1, product-spec 7장)와 테마 시트(M5). 계정 · 백업 · 약관 · 앱 평가 · 앱 정보(최신 여부)는
+ * 외부 설정이 필요해 2.0.0에서 붙인다. 그 전까지 라이선스 고지는 "정보" 섹션에 직접 둔다.
  */
 internal class MyViewModel(
     statsRepository: StatsRepository,
@@ -53,6 +53,9 @@ internal class MyViewModel(
             MyAction.ThemeApplyClicked -> applyTheme()
             MyAction.ThemeSheetDismissed -> closeThemeSheet()
             MyAction.ContactClicked -> sendEvent(MyEvent.OpenContact)
+            MyAction.OssLicensesClicked -> sendEvent(MyEvent.OpenOssLicenses)
+            MyAction.FontLicenseClicked -> setState { copy(fontLicenseSheetVisible = true) }
+            MyAction.FontLicenseSheetDismissed -> setState { copy(fontLicenseSheetVisible = false) }
         }
     }
 
