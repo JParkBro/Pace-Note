@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,6 +27,7 @@ import jpark.bro.pacenote.core.designsystem.component.RunCard
 import jpark.bro.pacenote.core.designsystem.component.RunListItem
 import jpark.bro.pacenote.core.designsystem.component.RunSection
 import jpark.bro.pacenote.core.designsystem.component.RunStatTile
+import jpark.bro.pacenote.core.designsystem.component.RunToastHost
 import jpark.bro.pacenote.core.designsystem.component.RunTopBar
 import jpark.bro.pacenote.core.designsystem.preview.ScreenPreviews
 import jpark.bro.pacenote.core.model.AppThemeMode
@@ -33,6 +35,7 @@ import jpark.bro.pacenote.core.model.AppThemeType
 import jpark.bro.pacenote.core.model.DistanceUnit
 import jpark.bro.pacenote.core.model.Goal
 import jpark.bro.pacenote.core.model.GoalType
+import jpark.bro.pacenote.core.model.ThemeSetting
 import jpark.bro.pacenote.core.ui.ObserveEvents
 import jpark.bro.pacenote.core.ui.RunFormat
 import jpark.bro.pacenote.feature.settings.impl.R
@@ -56,26 +59,49 @@ internal fun MyRoot(
                 .versionName
                 .orEmpty()
         }
+    val snackbarHostState = remember { SnackbarHostState() }
+    val noMailApp = stringResource(R.string.settings_contact_no_app)
+    val errorMessage = stringResource(R.string.settings_error)
+    val contactIntent = contactIntent(versionName)
     ObserveEvents(viewModel.event) { event ->
         when (event) {
-            MyEvent.OpenGoal -> onOpenGoal()
-            MyEvent.OpenRunSettings -> onOpenRunSettings()
-            MyEvent.OpenProfile -> onOpenProfile()
+            MyEvent.OpenContact -> {
+                runCatching { context.startActivity(contactIntent) }
+                    .onFailure { snackbarHostState.showSnackbar(noMailApp) }
+            }
+
+            MyEvent.ShowError -> {
+                snackbarHostState.showSnackbar(errorMessage)
+            }
+
+            MyEvent.OpenGoal -> {
+                onOpenGoal()
+            }
+
+            MyEvent.OpenRunSettings -> {
+                onOpenRunSettings()
+            }
+
+            MyEvent.OpenProfile -> {
+                onOpenProfile()
+            }
         }
     }
-    MyScreen(state, versionName, viewModel::onAction)
+    MyScreen(state, versionName, snackbarHostState, viewModel::onAction)
 }
 
 @Composable
 private fun MyScreen(
     state: MyState,
     versionName: String,
+    snackbarHostState: SnackbarHostState,
     onAction: (MyAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = { RunTopBar(title = stringResource(R.string.settings_my_title)) },
+        snackbarHost = { RunToastHost(snackbarHostState) },
     ) { padding ->
         if (state.loading) return@Scaffold
         Column(
@@ -106,6 +132,20 @@ private fun MyScreen(
                     modifier = Modifier.testTag("settings_my_profile"),
                 )
             }
+            RunSection(title = stringResource(R.string.settings_my_section_app)) {
+                RunListItem(
+                    title = stringResource(R.string.settings_my_theme),
+                    onClick = { onAction(MyAction.ThemeClicked) },
+                    modifier = Modifier.testTag("settings_my_theme"),
+                )
+            }
+            RunSection(title = stringResource(R.string.settings_my_section_support)) {
+                RunListItem(
+                    title = stringResource(R.string.settings_my_contact),
+                    onClick = { onAction(MyAction.ContactClicked) },
+                    modifier = Modifier.testTag("settings_my_contact"),
+                )
+            }
             Text(
                 text = stringResource(R.string.settings_my_version, versionName),
                 style = AppThemeTokens.typography.bodySm,
@@ -113,6 +153,7 @@ private fun MyScreen(
                 modifier = Modifier.align(Alignment.CenterHorizontally).testTag("settings_my_version"),
             )
         }
+        state.themeSheet?.let { ThemeSheet(it, onAction) }
     }
 }
 
@@ -178,7 +219,7 @@ private fun Preview(
     themeType: AppThemeType = AppThemeType.VOLT,
     mode: AppThemeMode = AppThemeMode.SYSTEM,
 ) {
-    AppTheme(type = themeType, mode = mode) { MyScreen(state, "1.0.0", {}) }
+    AppTheme(type = themeType, mode = mode) { MyScreen(state, "1.0.0", remember { SnackbarHostState() }, {}) }
 }
 
 @ScreenPreviews
@@ -188,3 +229,8 @@ private fun MyPreview() = Preview(PREVIEW_STATE)
 @ScreenPreviews
 @Composable
 private fun MyInkDarkPreview() = Preview(PREVIEW_STATE.copy(goal = null), AppThemeType.INK, AppThemeMode.DARK)
+
+@ScreenPreviews
+@Composable
+private fun MyThemeSheetPreview() =
+    Preview(PREVIEW_STATE.copy(themeSheet = ThemeSetting(AppThemeType.SUNRISE, AppThemeMode.DARK)))

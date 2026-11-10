@@ -11,6 +11,7 @@ android {
 
 dependencies {
     implementation(projects.core.designsystem)
+    implementation(projects.core.data)
     implementation(projects.core.navigation)
     implementation(projects.core.tracking)
     implementation(projects.feature.home.api)
@@ -32,7 +33,6 @@ dependencies {
     // debug 빌드 전용 추적 테스트 화면 (tracking.md 8-3): 실제 GPS ↔ GPX 재생 전환, 거리 · 시간 표기
     debugImplementation(projects.core.common)
     debugImplementation(projects.core.location)
-    debugImplementation(projects.core.data)
     debugImplementation(projects.core.ui)
 
     // KoinModulesTest
