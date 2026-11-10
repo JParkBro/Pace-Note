@@ -92,7 +92,7 @@ pacenote/
 
 | 상황 | 결과 타입 (api) | app의 처리 |
 |---|---|---|
-| 앱 시작 | – | 약관 동의 전 → `OnboardingKey` / 진행 중 기록 있음 → `[HomeKey, RunKey(recoverRunId)]` / 그 외 → `HomeKey` |
+| 앱 시작 | – | 온보딩 완료 전 → `OnboardingKey`(그동안 알림 · 위젯 진입 무시) / 진행 중 기록 있음 → `[HomeKey, RunKey(recoverRunId)]` / 그 외 → `HomeKey` |
 | 온보딩 완료 | `OnboardingResult.Done` | `replaceAll(HomeKey)` |
 | 러닝 결과 "완료" | `RunResult.Finished` | `replaceAll(HomeKey)` (러닝 흐름 제거) |
 | 알림 탭 (`EXTRA_OPEN_RUN`) | – | 진행 중 기록이 있으면 `[HomeKey, RunKey()]`, 없으면 무시 |
@@ -166,7 +166,7 @@ pacenote/
 
 - 1 ~ 8단계에서 `firebase-*` 의존성, `google-services` · `firebase-crashlytics` 플러그인을 모듈에 적용하지 않습니다 (catalog 항목은 그대로 둠).
 - 기능 플래그(`FeatureFlags`)는 9-2 전까지 코드 기본값만 돌려주는 로컬 구현을 씁니다 (`roadmap.md` 5장).
-- 시작 시 온보딩 분기(`OnboardingKey`)는 온보딩이 붙는 9-3부터 넣습니다. 그 전에는 홈으로 시작합니다.
+- 온보딩은 로컬 부분(O2 기본 정보 · O3 첫 목표)만 1부에 둡니다 (2026-11-10 결정). 시작 시 온보딩 분기는 "온보딩 완료" 기준이고, O0 시작 · O1 약관 동의는 9-3에서 앞에 붙입니다.
 
 **1부 — 로컬 앱 (Room · DataStore만)**
 
@@ -180,13 +180,14 @@ pacenote/
 7. `feature:settings` (로컬 설정: M2 ~ M5, M8), 음성 안내 설정 연결 → **로컬 앱 완성**
    - M7 약관 및 정책은 정책 페이지(Hosting)가 필요해 9-3으로 미룹니다.
 8. `widget` (`widget/CLAUDE.md`)
+   - `feature:onboarding` O2 · O3 (로컬), 시작 시 온보딩 분기
 
 **2부 — 외부 설정이 필요한 작업 (최후순위)**
 
 9. 서버
    - 9-1 `firebase/` 보안 규칙 · 에뮬레이터 테스트
    - 9-2 `core:firebase` (App Check, 에뮬레이터 연결, Crashlytics), `google-services` 플러그인 적용, `FeatureFlags`를 Remote Config로 교체 · 차단 스위치
-   - 9-3 `policy-site/` Hosting, M7 약관 및 정책, Google 로그인 (Credential Manager), `feature:onboarding` O0 ~ O3 · 서버 동의 기록, 시작 시 온보딩 분기
+   - 9-3 `policy-site/` Hosting, M7 약관 및 정책, Google 로그인 (Credential Manager), `feature:onboarding` O0 · O1을 O2 앞에 추가 · 서버 동의 기록
    - 9-4 `core:sync` 백업 Push · Pull, 게스트 기록 이전, M6
    - 9-5 계정 · 회원 탈퇴 (M10)
 10. 인앱 업데이트 · 강제 업데이트 화면 (`RELEASE_AND_UPDATE.md` 6장)

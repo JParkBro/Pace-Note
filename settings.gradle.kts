@@ -41,6 +41,8 @@ include(":core:tracking")
 include(":core:data")
 include(":core:testing")
 
+include(":feature:onboarding:api")
+include(":feature:onboarding:impl")
 include(":feature:home:api")
 include(":feature:home:impl")
 include(":feature:run:api")
