@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- P1-a 권한 안내 -->
+    <string name="run_permission_title">위치 권한이 필요해요</string>
+    <string name="run_permission_body">러닝 중 거리와 경로를 기록하려면 앱을 사용하는 동안 정확한 위치를 써야 해요. 알림을 허용하면 진행 상황을 알림에서 볼 수 있어요.</string>
+    <string name="run_permission_coarse_only">정확한 거리를 재려면 \'정확한 위치\'가 필요해요</string>
+    <string name="run_permission_allow">권한 허용</string>
+    <string name="run_permission_settings">설정에서 허용</string>
+    <!-- P1-b 배터리 안내 -->
+    <string name="run_battery_title">배터리 최적화를 꺼 주세요</string>
+    <string name="run_battery_body">일부 기기는 화면이 꺼지면 기록을 멈춰요. 배터리 최적화 목록에서 이 앱을 \'최적화 안 함\'으로 바꾸면 끊김 없이 기록돼요.</string>
+    <string name="run_battery_open">설정 열기</string>
+    <string name="run_battery_later">다음에 하기</string>
+    <!-- P1-c GPS 대기 -->
+    <string name="run_gps_title_good">신호가 잡혔어요</string>
+    <string name="run_gps_title_weak">신호가 약해요</string>
+    <string name="run_gps_title_lost">GPS 신호를 찾고 있어요</string>
+    <string name="run_gps_location_off">위치가 꺼져 있어요</string>
+    <string name="run_gps_turn_on">위치 켜기</string>
+    <string name="run_gps_start">시작</string>
+    <string name="run_gps_start_without_signal">신호 없이 시작</string>
+    <!-- P2 카운트다운 -->
+    <string name="run_countdown_hint">화면을 탭하면 바로 시작해요</string>
+    <!-- P3 · P3-L · P4 -->
+    <string name="run_recording_distance">거리 (%1$s)</string>
+    <string name="run_recording_time">시간</string>
+    <string name="run_recording_current_pace">현재 페이스</string>
+    <string name="run_recording_average_pace">평균 페이스</string>
+    <string name="run_recording_route">지금까지 달린 경로</string>
+    <string name="run_recording_pause">일시정지</string>
+    <string name="run_recording_pause_hint">탭하여 일시정지</string>
+    <string name="run_recording_resume">재개</string>
+    <string name="run_recording_stop">길게 눌러 종료</string>
+    <string name="run_recording_lock">화면 잠금</string>
+    <string name="run_recording_unlock">길게 눌러 잠금 해제</string>
+    <string name="run_recording_auto_paused">멈춤 감지됨</string>
+    <string name="run_recording_paused">일시정지됨</string>
+    <!-- P5 종료 확인 -->
+    <string name="run_finish_title">러닝을 마칠까요?</string>
+    <string name="run_finish_summary">%1$s %2$s · %3$s</string>
+    <string name="run_finish_save">저장하고 마치기</string>
+    <string name="run_finish_discard">저장하지 않고 마치기</string>
+    <string name="run_finish_save_short">저장하기</string>
+    <string name="run_finish_continue">계속 달리기</string>
+    <!-- P8 복구 -->
+    <string name="run_recover_title">끝나지 않은 러닝이 있어요</string>
+    <string name="run_recover_old">어제 시작한 기록이에요</string>
+    <string name="run_recover_summary">%1$s 시작 · %2$s %3$s · %4$s</string>
+    <string name="run_recover_continue">이어서 달리기</string>
+    <string name="run_recover_save">저장하고 마치기</string>
+    <string name="run_recover_discard">기록 버리기</string>
+    <string name="run_error">문제가 생겼어요. 다시 시도해 주세요</string>
+</resources>

@@ -11,6 +11,7 @@ dependencies {
     api(projects.core.common)
     api(projects.core.data)
     api(projects.core.location)
+    api(projects.core.tracking)
     api(libs.junit)
     api(libs.kotlinx.coroutines.test)
 }

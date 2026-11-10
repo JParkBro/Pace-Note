@@ -8,6 +8,8 @@ complexity:
   CyclomaticComplexMethod:
     active: true
     ignoreAnnotated: ['Composable']
+    # MVI onAction은 Action마다 한 줄짜리 when 분기라 분기 수가 곧 Action 수다 (CODING_CONVENTIONS 5장)
+    ignoreSimpleWhenEntries: true
   LongParameterList:
     ignoreAnnotated: ['Composable']
   TooManyFunctions:
