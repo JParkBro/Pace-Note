@@ -46,7 +46,7 @@
 - 계산(거리 · 페이스 · 스플릿 · 칼로리 · 자동 일시정지)은 `core:domain`, GPX 재생 테스트로 검증.
 - **서버는 Firebase Spark 한 곳, 결제 수단 없음.** Auth · Firestore · Remote Config · App Check · Crashlytics · Hosting. Cloud Functions · Storage · Cloudflare 없음.
 - dev · prod 빌드가 Firebase 프로젝트 하나를 함께 쓰고, 디버그 빌드는 에뮬레이터 연결이 기본.
-- **개발은 로컬 앱(Room · DataStore만) 먼저.** Firebase · 로그인 · 정책 페이지 · 콘솔 설정처럼 외부 설정이 필요한 작업은 최후순위 (`module-map.md` 9장, 2026-11-10 결정).
+- **로컬 앱(Room · DataStore만)을 1.0.0으로 먼저 낸다.** Firebase · 로그인 · 정책 페이지 · 인앱 업데이트처럼 외부 설정이 필요한 작업은 2.0.0 (`roadmap.md` 1 · 2장, `module-map.md` 9장, 2026-11-10 결정).
 - 모든 ID는 UUID, 날짜는 `yyyy-MM-dd`, 시각은 epoch millis.
 
 **디자인**
@@ -65,6 +65,7 @@
 | Room 스키마 버전 | 스키마를 바꾸면 version을 올리고 Migration · 마이그레이션 테스트 추가 | **출시 전까지 version 1을 고쳐 쓰고** `schemas/…/1.json`을 덮어씀. 개발 기기에서 스키마가 안 맞으면 앱 데이터를 지우고 다시 설치 | 출시 전에는 보존할 사용자 데이터가 없어 Migration이 비용만 듦. **첫 출시 빌드부터는 공통 규칙을 따름** |
 | `core:network` (Ktor) | 공통 스택에 포함 | v1에는 만들지 않음 (`pacenote.jvm.ktor` 플러그인 · Ktor 카탈로그 항목도 없음) | 외부 HTTP 호출이 없음. 필요해지면 추가 |
 | PR 필수 검사 `screenshot` | `pr-title` · `lint` · `unit-test` · `screenshot` | Roborazzi를 도입할 때까지 `screenshot` 제외 | 아직 화면이 없고 Roborazzi를 구성하지 않음 |
+| MAJOR 버전 | 데이터 호환이 깨지는 개편에만 MAJOR | 외부 설정 묶음(`cloud`)을 **2.0.0**으로 냄 | 로컬 전용 앱 → 계정 · 서버가 붙는 앱으로의 전환을 사용자 · 스토어에 분명히 구분 (2026-11-10 결정). 데이터 호환 규칙은 그대로 |
 | 자동 증가 ID 금지 | 모든 ID는 UUID | `run_point`는 (`run_id`, `seq`) 복합 키 | 기록 하나에 점이 수천 개라 UUID 비용이 크고, 기기 밖으로 나가지 않음 |
 
 > 요금 · 정책 수치는 2026년 10~11월 기준으로 확인한 내용입니다. 출시 전 공식 문서에서 다시 확인하세요.

@@ -17,7 +17,7 @@
 
 Cloud Functions는 없다 (Spark 요금제라 쓸 수 없고, v1에 필요한 서버 로직도 없음).
 
-**지금은 Room · DataStore만 쓰는 로컬 앱을 먼저 완성한다.** Firebase · Google 로그인 · 정책 페이지 Hosting · 콘솔 설정 등 외부 설정이 필요한 작업은 최후순위다 (`docs/run/module-map.md` 9장 2부). 그 전까지 Firebase 의존성 · 플러그인을 모듈에 적용하지 않는다.
+**Room · DataStore만 쓰는 로컬 앱을 1.0.0으로 먼저 낸다.** Firebase · Google 로그인 · 정책 페이지 Hosting · 인앱 업데이트 등 외부 설정이 필요한 작업은 앱 2.0.0(마일스톤 `cloud`)이다 (`docs/run/roadmap.md` 1 · 2장, `docs/run/module-map.md` 9장 2부). 그 전까지 Firebase 의존성 · 플러그인을 모듈에 적용하지 않는다.
 
 아직 없는 모듈 · 폴더는 `docs/run/module-map.md` 9장 순서대로 만든다. 현재 Gradle 모듈은 `settings.gradle.kts`가 기준이다.
 
