@@ -151,7 +151,7 @@ private fun DetailContent(
                     text = memo,
                     style = AppThemeTokens.typography.bodyMd,
                     color = AppThemeTokens.colors.textPrimary,
-                    modifier = Modifier.testTag("record_detail_memo"),
+                    modifier = Modifier.padding(AppSpacing.md).testTag("record_detail_memo"),
                 )
             }
         }

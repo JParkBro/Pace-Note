@@ -64,7 +64,10 @@ internal fun RecordStatsContent(
         if (stats == null) return@Column
         PeriodBar(stats, thisYear, onAction)
         RunCard {
-            Column(verticalArrangement = Arrangement.spacedBy(AppSpacing.lg)) {
+            Column(
+                modifier = Modifier.padding(AppSpacing.md),
+                verticalArrangement = Arrangement.spacedBy(AppSpacing.lg),
+            ) {
                 RunStatTile(
                     value = RunFormat.distance(stats.current.distanceM, unit),
                     label =

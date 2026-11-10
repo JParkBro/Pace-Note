@@ -97,7 +97,7 @@ fun RunSplitTable(
     RunSection(title = stringResource(R.string.ui_run_splits), modifier = modifier.testTag("run_split_table")) {
         splits.forEach { split ->
             Row(
-                modifier = Modifier.fillMaxWidth().padding(vertical = AppSpacing.xs),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = AppSpacing.md, vertical = AppSpacing.sm),
                 horizontalArrangement = Arrangement.spacedBy(AppSpacing.md),
             ) {
                 Text(text = split.index.toString(), style = typography.bodyMd, color = colors.textTertiary)
