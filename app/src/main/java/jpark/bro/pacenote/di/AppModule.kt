@@ -4,10 +4,13 @@ import jpark.bro.pacenote.core.navigation.Navigator
 import jpark.bro.pacenote.core.tracking.di.trackingModule
 import jpark.bro.pacenote.feature.home.api.HomeKey
 import jpark.bro.pacenote.feature.home.impl.di.homeModule
+import jpark.bro.pacenote.feature.onboarding.api.OnboardingResultHandler
+import jpark.bro.pacenote.feature.onboarding.impl.di.onboardingModule
 import jpark.bro.pacenote.feature.record.impl.di.recordModule
 import jpark.bro.pacenote.feature.run.api.RunResultHandler
 import jpark.bro.pacenote.feature.run.impl.di.runModule
 import jpark.bro.pacenote.feature.settings.impl.di.settingsModule
+import jpark.bro.pacenote.navigation.AppOnboardingResultHandler
 import jpark.bro.pacenote.navigation.AppRunResultHandler
 import jpark.bro.pacenote.navigation.AppStartRouter
 import jpark.bro.pacenote.navigation.appTopLevelKeys
@@ -21,11 +24,12 @@ import org.koin.dsl.module
 @OptIn(KoinExperimentalAPI::class)
 val appModule =
     module {
-        includes(trackingModule, homeModule, recordModule, runModule, settingsModule, widgetModule)
+        includes(trackingModule, onboardingModule, homeModule, recordModule, runModule, settingsModule, widgetModule)
 
         single { Navigator(HomeKey, appTopLevelKeys) }
         singleOf(::AppRunResultHandler) bind RunResultHandler::class
         singleOf(::AppStartRouter)
+        singleOf(::AppOnboardingResultHandler) bind OnboardingResultHandler::class
 
         includes(buildTypeModule)
     }

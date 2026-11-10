@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_skip">건너뛰기</string>
+    <string name="onboarding_next">다음</string>
+    <string name="onboarding_back">뒤로</string>
+    <string name="onboarding_error">문제가 생겼어요. 다시 시도해 주세요</string>
+
+    <string name="onboarding_basic_title">기본 정보</string>
+    <string name="onboarding_basic_body">설정 메뉴에서 언제든 다시 바꿀 수 있어요.</string>
+    <string name="onboarding_basic_weight">체중 (kg)</string>
+    <string name="onboarding_basic_weight_hint">칼로리 계산에만 사용해요</string>
+    <string name="onboarding_basic_weight_invalid">20 ~ 300 사이로 입력해 주세요</string>
+    <string name="onboarding_basic_unit">거리 단위</string>
+    <string name="onboarding_basic_unit_km">km</string>
+    <string name="onboarding_basic_unit_mile">mile</string>
+
+    <string name="onboarding_goal_title">이번 주 목표</string>
+    <string name="onboarding_goal_distance">주간 거리</string>
+    <string name="onboarding_goal_count">주간 횟수</string>
+    <string name="onboarding_goal_count_unit">회</string>
+    <string name="onboarding_goal_decrease">목표 줄이기</string>
+    <string name="onboarding_goal_increase">목표 늘리기</string>
+    <string name="onboarding_goal_body">목표는 내 정보 › 목표에서 바꿀 수 있어요.</string>
+    <string name="onboarding_goal_start">시작하기</string>
+</resources>
