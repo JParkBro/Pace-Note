@@ -76,4 +76,16 @@ internal class StatsRepositoryTest : RepositoryTest() {
             assertEquals(4, totals.getValue(YearMonth.of(2026, 10)).runCount)
             assertEquals(1, totals.getValue(YearMonth.of(2026, 11)).runCount)
         }
+
+    @Test
+    fun `기간 기록은 앞뒤 하루씩 넓게 읽음`() =
+        runTest {
+            insertSampleWeek()
+            db.runDao().upsertRun(runEntity("before", startedAt = seoulMs(10, 24, 7, 0)))
+            db.runDao().upsertRun(runEntity("sun", startedAt = seoulMs(10, 25, 7, 0)))
+
+            val ids = repository.observeRunsAround(thisWeek, thisWeek.plusDays(7)).first().map { it.id }
+
+            assertEquals(setOf("1028", "1027", "1026", "sun"), ids.toSet())
+        }
 }
