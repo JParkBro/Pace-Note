@@ -1,9 +1,12 @@
 plugins {
     alias(libs.plugins.pacenote.android.library)
+    alias(libs.plugins.pacenote.android.compose)
 }
 
 android {
     namespace = "jpark.bro.pacenote.core.navigation"
 }
 
-// Navigator · 탭별 백스택은 첫 화면(feature:run)을 만들 때 추가한다
+dependencies {
+    api(libs.androidx.navigation3.runtime)
+}
