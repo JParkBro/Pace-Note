@@ -8,4 +8,24 @@
     <string name="record_run_summary">%1$s · %2$s</string>
     <string name="record_empty">아직 기록이 없어요</string>
     <string name="record_start_run">달리기 시작</string>
+    <string name="record_tab_list">목록</string>
+    <string name="record_tab_stats">통계</string>
+    <string name="record_stats_week">주간</string>
+    <string name="record_stats_month">월간</string>
+    <string name="record_stats_previous">이전 기간</string>
+    <string name="record_stats_next">다음 기간</string>
+    <string name="record_stats_week_range">%1$s – %2$s</string>
+    <string name="record_stats_total_distance">총 러닝 거리</string>
+    <string name="record_stats_distance">거리</string>
+    <string name="record_stats_count">횟수</string>
+    <string name="record_stats_count_value">%1$d회</string>
+    <string name="record_stats_average_pace">평균 페이스</string>
+    <string name="record_stats_week_bar">%1$d주</string>
+    <string name="record_stats_chart">기간별 거리 막대 그래프</string>
+    <string name="record_stats_more_week">지난주보다 %1$s%2$s 더 달렸어요</string>
+    <string name="record_stats_less_week">지난주보다 %1$s%2$s 덜 달렸어요</string>
+    <string name="record_stats_same_week">지난주와 같은 거리를 달렸어요</string>
+    <string name="record_stats_more_month">지난달보다 %1$s%2$s 더 달렸어요</string>
+    <string name="record_stats_less_month">지난달보다 %1$s%2$s 덜 달렸어요</string>
+    <string name="record_stats_same_month">지난달과 같은 거리를 달렸어요</string>
 </resources>

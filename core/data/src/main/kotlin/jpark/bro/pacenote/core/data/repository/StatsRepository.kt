@@ -4,6 +4,7 @@ import jpark.bro.pacenote.core.data.mapper.toModel
 import jpark.bro.pacenote.core.database.dao.RunDao
 import jpark.bro.pacenote.core.domain.goal.WeeklyProgress
 import jpark.bro.pacenote.core.domain.stats.RunMonth
+import jpark.bro.pacenote.core.model.Run
 import jpark.bro.pacenote.core.model.RunTotals
 import jpark.bro.pacenote.core.model.WeeklySummary
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -23,6 +24,15 @@ interface StatsRepository {
 
     /** 달별 거리 · 횟수 합계 (R1 월 헤더). 기록이 없는 달은 들어 있지 않다. */
     fun observeMonthlyTotals(): Flow<Map<YearMonth, RunTotals>>
+
+    /**
+     * [from] ~ [until](포함하지 않음) 무렵에 시작한 끝난 기록 (R2 통계).
+     * 기록마다 시간대가 달라 앞뒤로 하루씩 넓게 돌려준다. 기간 판단은 `PeriodStats`에 맡긴다.
+     */
+    fun observeRunsAround(
+        from: LocalDate,
+        until: LocalDate,
+    ): Flow<List<Run>>
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -31,25 +41,31 @@ internal class DefaultStatsRepository(
     private val authRepository: AuthRepository,
     private val clock: Clock,
 ) : StatsRepository {
-    override fun observeWeeklySummary(weekStart: LocalDate): Flow<WeeklySummary> {
-        // 기록마다 시간대가 달라 기기 시간대 기준 앞뒤 하루씩 넓게 읽고, 주 판단은 WeeklyProgress에 맡긴다
+    override fun observeWeeklySummary(weekStart: LocalDate): Flow<WeeklySummary> =
+        observeRunsAround(weekStart, weekStart.plusDays(DAYS_IN_WEEK)).map { runs ->
+            WeeklyProgress.summarize(runs, weekStart)
+        }
+
+    override fun observeRunsAround(
+        from: LocalDate,
+        until: LocalDate,
+    ): Flow<List<Run>> {
+        // 기록마다 시간대가 달라 기기 시간대 기준 앞뒤 하루씩 넓게 읽는다. 정확한 기간 판단은 core:domain이 한다
         val zone = clock.zone
         val fromMs =
-            weekStart
+            from
                 .minusDays(1)
                 .atStartOfDay(zone)
                 .toInstant()
                 .toEpochMilli()
         val untilMs =
-            weekStart
-                .plusDays(DAYS_IN_WEEK + 1)
+            until
+                .plusDays(1)
                 .atStartOfDay(zone)
                 .toInstant()
                 .toEpochMilli()
         return authRepository.observeUserId().flatMapLatest { owner ->
-            runDao.observeInRange(owner, fromMs, untilMs).map { runs ->
-                WeeklyProgress.summarize(runs.map { it.toModel() }, weekStart)
-            }
+            runDao.observeInRange(owner, fromMs, untilMs).map { runs -> runs.map { it.toModel() } }
         }
     }
 
