@@ -17,6 +17,7 @@ lifecycleRuntimeKtx = "2.11.0"
 activityCompose = "1.13.0"
 composeBom = "2026.09.00"
 roomRuntime = "2.8.5"
+paging = "3.5.3"
 ksp = "2.3.9"
 koin = "4.2.2"
 navigation3 = "1.2.0"
@@ -51,6 +52,10 @@ androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+room-paging = { module = "androidx.room:room-paging", version.ref = "roomRuntime" }
+androidx-paging-common = { module = "androidx.paging:paging-common", version.ref = "paging" }
+androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
+androidx-paging-testing = { module = "androidx.paging:paging-testing", version.ref = "paging" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }

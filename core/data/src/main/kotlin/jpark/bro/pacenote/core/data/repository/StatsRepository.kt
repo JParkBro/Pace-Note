@@ -3,6 +3,7 @@ package jpark.bro.pacenote.core.data.repository
 import jpark.bro.pacenote.core.data.mapper.toModel
 import jpark.bro.pacenote.core.database.dao.RunDao
 import jpark.bro.pacenote.core.domain.goal.WeeklyProgress
+import jpark.bro.pacenote.core.domain.stats.RunMonth
 import jpark.bro.pacenote.core.model.RunTotals
 import jpark.bro.pacenote.core.model.WeeklySummary
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import java.time.Clock
 import java.time.LocalDate
+import java.time.YearMonth
 
 /** 홈 · 내 정보의 합계. 주 경계는 기록의 시간대로 판단한다 (`WeeklyProgress`). */
 interface StatsRepository {
@@ -18,6 +20,9 @@ interface StatsRepository {
     fun observeWeeklySummary(weekStart: LocalDate): Flow<WeeklySummary>
 
     fun observeTotals(): Flow<RunTotals>
+
+    /** 달별 거리 · 횟수 합계 (R1 월 헤더). 기록이 없는 달은 들어 있지 않다. */
+    fun observeMonthlyTotals(): Flow<Map<YearMonth, RunTotals>>
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -51,6 +56,15 @@ internal class DefaultStatsRepository(
     override fun observeTotals(): Flow<RunTotals> =
         authRepository.observeUserId().flatMapLatest { owner ->
             runDao.observeTotals(owner).map { it.toModel() }
+        }
+
+    override fun observeMonthlyTotals(): Flow<Map<YearMonth, RunTotals>> =
+        authRepository.observeUserId().flatMapLatest { owner ->
+            runDao.observeMonthRows(owner).map { rows ->
+                rows
+                    .groupBy { RunMonth.of(it.startedAt, it.zoneId) }
+                    .mapValues { (_, inMonth) -> RunTotals(inMonth.sumOf { it.distanceM }, inMonth.size) }
+            }
         }
 
     private companion object {

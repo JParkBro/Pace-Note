@@ -1,5 +1,6 @@
 package jpark.bro.pacenote.core.database.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Embedded
 import androidx.room.Query
@@ -19,6 +20,13 @@ data class RunWithSplits(
 data class RunTotalsRow(
     val distanceM: Double,
     val runCount: Int,
+)
+
+/** 월별 합계용 가벼운 행. 월 판단은 기록의 시간대로 해야 해서 SQL이 아니라 코드에서 묶는다. */
+data class RunMonthRow(
+    val startedAt: Long,
+    val zoneId: String,
+    val distanceM: Double,
 )
 
 /**
@@ -49,6 +57,24 @@ interface RunDao {
         owner: String?,
         limit: Int,
     ): Flow<List<RunEntity>>
+
+    /** 기록 목록(R1). 최신순으로 페이지 단위로 읽는다. */
+    @Query(
+        """
+        SELECT * FROM run
+        WHERE owner_user_id IS :owner AND status = 'FINISHED' AND deleted_at IS NULL
+        ORDER BY started_at DESC
+        """,
+    )
+    fun pagingSource(owner: String?): PagingSource<Int, RunEntity>
+
+    @Query(
+        """
+        SELECT started_at AS startedAt, zone_id AS zoneId, distance_m AS distanceM FROM run
+        WHERE owner_user_id IS :owner AND status = 'FINISHED' AND deleted_at IS NULL
+        """,
+    )
+    fun observeMonthRows(owner: String?): Flow<List<RunMonthRow>>
 
     /** [fromMs] 이상 [untilMs] 미만에 시작한 기록 */
     @Query(
