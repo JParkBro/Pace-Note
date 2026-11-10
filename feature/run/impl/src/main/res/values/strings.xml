@@ -49,5 +49,17 @@
     <string name="run_recover_continue">이어서 달리기</string>
     <string name="run_recover_save">저장하고 마치기</string>
     <string name="run_recover_discard">기록 버리기</string>
+    <string name="run_result_done">완료</string>
+    <string name="run_result_route">달린 경로</string>
+    <string name="run_result_distance">거리 (%1$s)</string>
+    <string name="run_result_time">시간</string>
+    <string name="run_result_average_pace">평균 페이스</string>
+    <string name="run_result_calories">칼로리 (kcal)</string>
+    <string name="run_result_goal">이번 주 목표 %1$d%%</string>
+    <string name="run_result_goal_remaining_distance">%1$s%2$s 남았어요</string>
+    <string name="run_result_goal_remaining_count">%1$d회 남았어요</string>
+    <string name="run_result_splits">구간</string>
+    <string name="run_result_memo_hint">메모 남기기</string>
+
     <string name="run_error">문제가 생겼어요. 다시 시도해 주세요</string>
 </resources>
