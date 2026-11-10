@@ -43,7 +43,6 @@ internal fun RunFinishSheet(
 ) {
     RunBottomSheet(onDismissRequest = { onAction(RunAction.FinishSheetDismissed) }) {
         Column(
-            modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Text(
