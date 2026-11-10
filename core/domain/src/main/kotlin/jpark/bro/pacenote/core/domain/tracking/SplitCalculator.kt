@@ -4,9 +4,14 @@ import jpark.bro.pacenote.core.model.RunSplit
 import kotlin.math.roundToLong
 
 /** km 구간. 1,000m 배수를 넘는 순간을 두 점 사이 선형 보간으로 찾는다 (docs/run/tracking.md 5장). */
-class SplitCalculator {
-    private val completed = mutableListOf<RunSplit>()
-    private var lastBoundaryMovingMs = 0L
+class SplitCalculator(
+    restoredSplits: List<RunSplit> = emptyList(),
+) {
+    private val completed = restoredSplits.toMutableList()
+    private var lastBoundaryMovingMs = restoredSplits.sumOf { it.movingMs }
+
+    /** 지금까지 완성된 1km 구간. 기록 중 `run_split`에 바로 저장해 복구 때 다시 읽는다. */
+    val completedSplits: List<RunSplit> get() = completed.toList()
 
     /** 거리가 한 번 늘어난 구간을 넣는다. 신호 공백 뒤처럼 여러 km를 한 번에 넘어도 된다. */
     fun add(

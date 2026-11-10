@@ -4,6 +4,8 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import jpark.bro.pacenote.core.database.dao.GoalDao
 import jpark.bro.pacenote.core.database.dao.RunDao
+import jpark.bro.pacenote.core.database.dao.RunRecoveryDao
+import jpark.bro.pacenote.core.database.dao.RunTrackingDao
 import jpark.bro.pacenote.core.database.dao.SyncCursorDao
 import jpark.bro.pacenote.core.database.entity.GoalHistoryEntity
 import jpark.bro.pacenote.core.database.entity.RunEntity
@@ -25,6 +27,10 @@ import jpark.bro.pacenote.core.database.entity.SyncCursorEntity
 )
 abstract class PacenoteDatabase : RoomDatabase() {
     abstract fun runDao(): RunDao
+
+    abstract fun runTrackingDao(): RunTrackingDao
+
+    abstract fun runRecoveryDao(): RunRecoveryDao
 
     abstract fun goalDao(): GoalDao
 
