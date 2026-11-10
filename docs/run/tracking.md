@@ -201,7 +201,8 @@ sealed interface TrackingState {
 - 서비스는 **앱이 화면에 보이는 상태에서 사용자 동작(카운트다운 끝 · "이어서 달리기")으로만** 시작합니다. 위젯 · 알림 버튼은 앱 화면을 열 뿐 서비스를 직접 시작하지 않습니다.
 - `startForegroundService()` 직후 서비스는 즉시 `startForeground()`를 호출합니다 (알림을 먼저 띄우고 위치 요청은 그 다음).
 - 시작 전 확인: 정밀 위치 권한, 기기 위치 켜짐. 없으면 서비스를 띄우지 않고 P1로.
-- 종료: `finish()` → 버퍼 저장 → 위치 요청 해제 → `stopForeground(REMOVE)` → `stopSelf()`.
+- 시작: `RunTracker.start()`가 성공하면 `ForegroundRunTracker`가 `startForegroundService()`를 부릅니다. 위치 요청은 준비(`prepare()`, 앱이 보이는 상태)부터 이미 켜져 있습니다.
+- 종료: `finish()` → 버퍼 저장 → 위치 요청 해제 → 상태가 Idle이 되면 서비스가 `stopForeground(REMOVE)` → `stopSelf()`.
 - 앱을 최근 앱 목록에서 밀어도 서비스는 계속됩니다 (포그라운드 서비스). 이것이 기대 동작이며, 알림의 "열기"로 돌아옵니다.
 
 ### 7-3. 배터리 최적화
@@ -220,7 +221,7 @@ sealed interface TrackingState {
 | 버튼 | 일시정지 / 재개, 열기 |
 | 탭 | `MainActivity` + `AppIntents.EXTRA_OPEN_RUN` → P3 / P4 |
 
-- 알림 권한이 없어도 포그라운드 서비스는 동작합니다 (알림만 안 보임). P1-a에서 알림 권한을 거부하면 "진행 상황을 알림에서 볼 수 없어요" 한 줄만 안내합니다.
+- 알림 권한이 없어도 포그라운드 서비스는 동작합니다 (알림만 안 보임). Android 12 이하는 알림 런타임 권한이 없으므로 권한 확인을 건너뜁니다. P1-a에서 알림 권한을 거부하면 "진행 상황을 알림에서 볼 수 없어요" 한 줄만 안내합니다.
 
 ### 7-5. Play Console 신고
 
@@ -263,7 +264,7 @@ sealed interface TrackingState {
 - [ ] 러닝 중 `adb shell am kill` / 설정에서 강제 종료 → 다시 열면 P8
 - [ ] 위치 권한 거부 · 대략 위치만 허용 · 기기 위치 꺼짐 → P1 안내
 - [ ] 음악 앱 재생 중 음성 안내 → 덕킹 후 복귀
-- [ ] 디버그 빌드의 `GpxReplaySource`로 실내에서 전체 흐름 재생 (개발자 옵션 메뉴)
+- [ ] 디버그 빌드의 `GpxReplaySource`로 실내에서 전체 흐름 재생 (debug 빌드 첫 화면의 "추적 테스트": 실제 GPS · GPX 1배 · 10배, `app/src/debug`)
 
 ## 9. 음성 안내 (`VoiceAnnouncer`)
 

@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 
 /** Fused Location Provider 구현. 권한 확인은 호출하는 쪽(P1)이 한다. */
-internal class FusedLocationSource(
+class FusedLocationSource(
     private val context: Context,
 ) : LocationSource {
     private val client = LocationServices.getFusedLocationProviderClient(context)
