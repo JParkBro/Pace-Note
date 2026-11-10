@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_title">이번 주</string>
+    <string name="home_week_range">%1$s – %2$s</string>
+    <string name="home_week_distance">이번 주 거리</string>
+    <string name="home_goal_distance">/ %1$s %2$s</string>
+    <string name="home_goal_count">/ %1$d회</string>
+    <string name="home_goal_achieved">이번 주 목표 달성!</string>
+    <string name="home_goal_progress">이번 주 목표 진행률</string>
+    <string name="home_run_count_value">%1$d회</string>
+    <string name="home_run_count">러닝</string>
+    <string name="home_time">시간</string>
+    <string name="home_average_pace">평균 페이스</string>
+    <string name="home_start_run">달리기 시작</string>
+    <string name="home_recent_runs">최근 기록</string>
+    <string name="home_recent_run_summary">%1$s · %2$s · %3$s</string>
+    <string name="home_recent_run_route">달린 경로</string>
+    <string name="home_empty">첫 러닝을 시작해 보세요</string>
+</resources>

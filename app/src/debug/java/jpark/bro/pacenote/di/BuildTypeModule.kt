@@ -1,7 +1,5 @@
 package jpark.bro.pacenote.di
 
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.navigation3.runtime.NavKey
 import jpark.bro.pacenote.R
@@ -13,9 +11,9 @@ import jpark.bro.pacenote.core.location.LocationSource
 import jpark.bro.pacenote.core.navigation.Navigator
 import jpark.bro.pacenote.debug.DebugLocationSource
 import jpark.bro.pacenote.debug.TrackingDebugScreen
+import jpark.bro.pacenote.feature.home.impl.HomeDebugMenu
 import kotlinx.serialization.Serializable
 import org.koin.android.ext.koin.androidContext
-import org.koin.compose.koinInject
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.dsl.module
 import org.koin.dsl.navigation3.navigation
@@ -40,13 +38,15 @@ val buildTypeModule =
             }
         }
         single<LocationSource> { get<DebugLocationSource>() }
-    }
 
-/** debug 빌드의 임시 홈: 추적 테스트 화면으로 이동 */
-@Composable
-fun ColumnScope.BuildTypeHomeExtras(navigator: Navigator = koinInject()) {
-    RunSecondaryButton(
-        text = stringResource(R.string.debug_tracking_open),
-        onClick = { navigator.goTo(DebugTrackingKey) },
-    )
-}
+        // 홈 맨 아래: 추적 테스트 화면으로 이동
+        single {
+            val navigator = get<Navigator>()
+            HomeDebugMenu {
+                RunSecondaryButton(
+                    text = stringResource(R.string.debug_tracking_open),
+                    onClick = { navigator.goTo(DebugTrackingKey) },
+                )
+            }
+        }
+    }

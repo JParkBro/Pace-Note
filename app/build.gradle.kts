@@ -14,6 +14,7 @@ dependencies {
     implementation(projects.core.navigation)
     implementation(projects.core.tracking)
     implementation(projects.feature.home.api)
+    implementation(projects.feature.home.impl)
     implementation(projects.feature.run.api)
     implementation(projects.feature.run.impl)
 
