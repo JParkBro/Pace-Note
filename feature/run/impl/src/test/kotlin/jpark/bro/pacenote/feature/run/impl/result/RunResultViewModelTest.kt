@@ -193,4 +193,23 @@ class RunResultViewModelTest {
                 assertEquals(RunResultEvent.Finish, awaitItem())
             }
         }
+
+    @Test
+    fun `공유 카드 만들기를 누르면 남은 메모를 저장하고 공유 카드로`() =
+        runTest {
+            val vm = viewModel()
+            runCurrent()
+
+            vm.event.test {
+                vm.onAction(RunResultAction.MemoChanged("공유 전 메모"))
+                vm.onAction(RunResultAction.ShareClicked)
+                assertEquals(RunResultEvent.OpenShareCard(run.id), awaitItem())
+            }
+            assertEquals(
+                "공유 전 메모",
+                runs.runs.value
+                    .single()
+                    .memo,
+            )
+        }
 }

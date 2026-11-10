@@ -5,4 +5,9 @@ internal sealed interface RunResultEvent {
     data object Finish : RunResultEvent
 
     data object ShowError : RunResultEvent
+
+    /** 공유 카드(P7). 남은 메모를 저장한 뒤 연다 */
+    data class OpenShareCard(
+        val runId: String,
+    ) : RunResultEvent
 }

@@ -8,6 +8,7 @@ android {
 
 dependencies {
     implementation(projects.feature.run.api)
+    implementation(projects.feature.record.api)
     implementation(projects.core.tracking)
     implementation(projects.core.common)
     // 기기 위치 켜기 요청 (시스템 설정 대화상자, product-spec 5-2)

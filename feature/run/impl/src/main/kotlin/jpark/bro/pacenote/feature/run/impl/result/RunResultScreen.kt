@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -21,6 +22,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import jpark.bro.pacenote.core.designsystem.AppSpacing
 import jpark.bro.pacenote.core.designsystem.AppTheme
 import jpark.bro.pacenote.core.designsystem.AppThemeTokens
+import jpark.bro.pacenote.core.designsystem.component.RunPrimaryButton
 import jpark.bro.pacenote.core.designsystem.component.RunToastHost
 import jpark.bro.pacenote.core.designsystem.component.RunTopBar
 import jpark.bro.pacenote.core.designsystem.preview.ScreenPreviews
@@ -42,6 +44,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlin.math.PI
 import kotlin.math.sin
+import jpark.bro.pacenote.core.designsystem.R as DesignR
 
 private val STARTED_AT_FORMAT = DateTimeFormatter.ofPattern("M월 d일 a h:mm", Locale.KOREAN)
 
@@ -49,6 +52,7 @@ private val STARTED_AT_FORMAT = DateTimeFormatter.ofPattern("M월 d일 a h:mm", 
 @Composable
 internal fun RunResultRoot(
     onFinished: (RunResult) -> Unit,
+    onOpenShareCard: (runId: String) -> Unit,
     viewModel: RunResultViewModel,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -60,6 +64,7 @@ internal fun RunResultRoot(
         when (event) {
             RunResultEvent.Finish -> onFinished(RunResult.Finished)
             RunResultEvent.ShowError -> snackbarHostState.showSnackbar(errorMessage)
+            is RunResultEvent.OpenShareCard -> onOpenShareCard(event.runId)
         }
     }
     RunResultScreen(state, snackbarHostState, viewModel::onAction)
@@ -123,6 +128,12 @@ private fun RunResultScreen(
             state.weeklyGoal?.let { ResultGoalCard(it, state.distanceUnit) }
             if (state.splits.isNotEmpty()) RunSplitTable(state.splits)
             ResultMemo(state.memo) { onAction(RunResultAction.MemoChanged(it)) }
+            RunPrimaryButton(
+                text = stringResource(R.string.run_result_share),
+                onClick = { onAction(RunResultAction.ShareClicked) },
+                icon = DesignR.drawable.ic_share,
+                modifier = Modifier.fillMaxWidth().testTag("run_result_share"),
+            )
         }
     }
 }

@@ -54,6 +54,7 @@
     <string name="run_result_goal_remaining_distance">%1$s%2$s 남았어요</string>
     <string name="run_result_goal_remaining_count">%1$d회 남았어요</string>
     <string name="run_result_memo_hint">메모 남기기</string>
+    <string name="run_result_share">공유 카드 만들기</string>
 
     <string name="run_error">문제가 생겼어요. 다시 시도해 주세요</string>
 </resources>

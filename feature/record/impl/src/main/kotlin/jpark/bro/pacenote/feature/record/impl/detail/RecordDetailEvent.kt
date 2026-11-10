@@ -5,5 +5,9 @@ internal sealed interface RecordDetailEvent {
         val runId: String,
     ) : RecordDetailEvent
 
+    data class OpenShareCard(
+        val runId: String,
+    ) : RecordDetailEvent
+
     data object NavigateBack : RecordDetailEvent
 }

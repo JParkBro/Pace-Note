@@ -27,6 +27,7 @@ import jpark.bro.pacenote.core.designsystem.AppThemeTokens
 import jpark.bro.pacenote.core.designsystem.component.RunCard
 import jpark.bro.pacenote.core.designsystem.component.RunIconButton
 import jpark.bro.pacenote.core.designsystem.component.RunPaceChart
+import jpark.bro.pacenote.core.designsystem.component.RunSecondaryButton
 import jpark.bro.pacenote.core.designsystem.component.RunSection
 import jpark.bro.pacenote.core.designsystem.component.RunTopBar
 import jpark.bro.pacenote.core.designsystem.preview.ScreenPreviews
@@ -54,12 +55,14 @@ import jpark.bro.pacenote.core.designsystem.R as DesignR
 internal fun RecordDetailRoot(
     onBack: () -> Unit,
     onEdit: (runId: String) -> Unit,
+    onShare: (runId: String) -> Unit,
     viewModel: RecordDetailViewModel,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     ObserveEvents(viewModel.event) { event ->
         when (event) {
             is RecordDetailEvent.OpenEdit -> onEdit(event.runId)
+            is RecordDetailEvent.OpenShareCard -> onShare(event.runId)
             RecordDetailEvent.NavigateBack -> onBack()
         }
     }
@@ -106,7 +109,7 @@ private fun RecordDetailScreen(
         when {
             state.loading -> Unit
             state.missing -> Missing(Modifier.padding(padding))
-            else -> DetailContent(state, Modifier.padding(padding))
+            else -> DetailContent(state, onAction, Modifier.padding(padding))
         }
     }
 }
@@ -114,6 +117,7 @@ private fun RecordDetailScreen(
 @Composable
 private fun DetailContent(
     state: RecordDetailState,
+    onAction: (RecordDetailAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -125,6 +129,12 @@ private fun DetailContent(
         verticalArrangement = Arrangement.spacedBy(AppSpacing.gutter),
     ) {
         RunRouteCard(state.route)
+        RunSecondaryButton(
+            text = stringResource(R.string.record_detail_share),
+            onClick = { onAction(RecordDetailAction.ShareClicked) },
+            icon = DesignR.drawable.ic_share,
+            modifier = Modifier.fillMaxWidth().testTag("record_detail_share"),
+        )
         RunSummaryStats(
             distanceM = state.distanceM,
             movingMs = state.movingMs,
