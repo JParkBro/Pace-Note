@@ -42,6 +42,7 @@ internal class MyViewModel(
     override fun onAction(action: MyAction) {
         when (action) {
             MyAction.GoalClicked -> sendEvent(MyEvent.OpenGoal)
+            MyAction.RunSettingsClicked -> sendEvent(MyEvent.OpenRunSettings)
             MyAction.ProfileClicked -> sendEvent(MyEvent.OpenProfile)
         }
     }

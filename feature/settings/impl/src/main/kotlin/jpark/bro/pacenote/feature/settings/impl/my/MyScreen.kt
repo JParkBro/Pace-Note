@@ -44,6 +44,7 @@ import kotlin.math.roundToInt
 internal fun MyRoot(
     onOpenGoal: () -> Unit,
     onOpenProfile: () -> Unit,
+    onOpenRunSettings: () -> Unit,
     viewModel: MyViewModel,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -58,6 +59,7 @@ internal fun MyRoot(
     ObserveEvents(viewModel.event) { event ->
         when (event) {
             MyEvent.OpenGoal -> onOpenGoal()
+            MyEvent.OpenRunSettings -> onOpenRunSettings()
             MyEvent.OpenProfile -> onOpenProfile()
         }
     }
@@ -92,6 +94,11 @@ private fun MyScreen(
                     subtitle = goalText(state.goal, state.distanceUnit),
                     onClick = { onAction(MyAction.GoalClicked) },
                     modifier = Modifier.testTag("settings_my_goal"),
+                )
+                RunListItem(
+                    title = stringResource(R.string.settings_my_run_settings),
+                    onClick = { onAction(MyAction.RunSettingsClicked) },
+                    modifier = Modifier.testTag("settings_my_run_settings"),
                 )
                 RunListItem(
                     title = stringResource(R.string.settings_my_profile),

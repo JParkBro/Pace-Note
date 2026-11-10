@@ -38,13 +38,15 @@ class MyViewModelTest {
         }
 
     @Test
-    fun `목표 · 내 정보 수정으로 이동`() =
+    fun `목표 · 러닝 설정 · 내 정보 수정으로 이동`() =
         runTest {
             val vm = viewModel()
 
             vm.event.test {
                 vm.onAction(MyAction.GoalClicked)
                 assertEquals(MyEvent.OpenGoal, awaitItem())
+                vm.onAction(MyAction.RunSettingsClicked)
+                assertEquals(MyEvent.OpenRunSettings, awaitItem())
                 vm.onAction(MyAction.ProfileClicked)
                 assertEquals(MyEvent.OpenProfile, awaitItem())
             }

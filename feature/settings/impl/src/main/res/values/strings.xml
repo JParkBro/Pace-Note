@@ -32,4 +32,31 @@
     <string name="settings_profile_unit">거리 단위</string>
     <string name="settings_profile_unit_km">킬로미터 (km)</string>
     <string name="settings_profile_unit_mile">마일 (mi)</string>
+
+    <string name="settings_my_run_settings">러닝 설정</string>
+    <string name="settings_run_title">러닝 설정</string>
+    <string name="settings_run_section_voice">음성 안내</string>
+    <string name="settings_run_voice">음성 안내</string>
+    <string name="settings_run_voice_interval">안내 간격</string>
+    <string name="settings_run_voice_items">안내 항목</string>
+    <string name="settings_run_interval_0_5km">0.5km</string>
+    <string name="settings_run_interval_1km">1km</string>
+    <string name="settings_run_interval_2km">2km</string>
+    <string name="settings_run_interval_5min">5분</string>
+    <string name="settings_run_interval_10min">10분</string>
+    <string name="settings_run_item_distance">거리</string>
+    <string name="settings_run_item_time">시간</string>
+    <string name="settings_run_item_average_pace">평균 페이스</string>
+    <string name="settings_run_item_split_pace">구간 페이스</string>
+    <string name="settings_run_section_recording">기록</string>
+    <string name="settings_run_auto_pause">자동 일시정지</string>
+    <string name="settings_run_auto_pause_desc">멈추면 기록을 잠시 멈추고, 다시 달리면 이어서 기록해요</string>
+    <string name="settings_run_countdown">시작 카운트다운</string>
+    <string name="settings_run_countdown_off">없음</string>
+    <string name="settings_run_countdown_seconds">%1$d초</string>
+    <string name="settings_run_keep_screen_on">화면 켜짐 유지</string>
+    <string name="settings_run_keep_screen_on_desc">러닝 중 화면이 꺼지지 않아요. 배터리를 더 써요</string>
+    <string name="settings_run_battery_guide">배터리 최적화 안내 다시 보기</string>
+    <string name="settings_run_battery_guide_reset">다음 러닝을 시작할 때 다시 안내해요</string>
+    <string name="settings_run_applies_next">바꾼 설정은 다음 러닝부터 적용돼요</string>
 </resources>
