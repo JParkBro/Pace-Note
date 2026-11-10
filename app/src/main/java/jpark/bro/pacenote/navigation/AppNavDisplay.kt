@@ -18,12 +18,13 @@ import jpark.bro.pacenote.core.designsystem.component.RunTab
 import jpark.bro.pacenote.core.navigation.Navigator
 import jpark.bro.pacenote.feature.home.api.HomeKey
 import jpark.bro.pacenote.feature.record.api.RecordKey
+import jpark.bro.pacenote.feature.settings.api.SettingsKey
 import org.koin.compose.koinInject
 import org.koin.compose.navigation3.koinEntryProvider
 import org.koin.core.annotation.KoinExperimentalAPI
 import jpark.bro.pacenote.core.designsystem.R as DesignR
 
-/** 하단 탭 (product-spec 4-1). 내 정보 탭은 설정 화면(7단계)과 함께 추가한다. */
+/** 하단 탭 (product-spec 4-1) */
 private enum class AppTab(
     val key: NavKey,
     @StringRes val label: Int,
@@ -31,6 +32,7 @@ private enum class AppTab(
 ) {
     HOME(HomeKey, R.string.app_tab_home, DesignR.drawable.ic_home),
     RECORD(RecordKey, R.string.app_tab_record, DesignR.drawable.ic_bar_chart),
+    MY(SettingsKey, R.string.app_tab_my, DesignR.drawable.ic_person),
 }
 
 /** [Navigator]에 넘길 하단 탭 첫 화면들 */

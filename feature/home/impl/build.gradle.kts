@@ -10,4 +10,5 @@ dependencies {
     implementation(projects.feature.home.api)
     implementation(projects.feature.run.api)
     implementation(projects.feature.record.api)
+    implementation(projects.feature.settings.api)
 }
