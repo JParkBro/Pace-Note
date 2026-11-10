@@ -177,8 +177,9 @@ pacenote/
    - 2026-11-09 결정: 실기기 확인을 5단계와 병행한다. 확인 항목은 #31 · #32 본문 체크리스트에서 마무리하고, 문제가 나오면 5단계보다 먼저 고친다.
 5. `feature:run` — P1 ~ P6, P8 (공유 카드 버튼은 6단계에서 연결)
 6. `feature:home`, `feature:record` (R1 ~ R4), 공유 카드(P7)
-7. `feature:settings` (로컬 설정: M2 ~ M5, M8), 음성 안내 설정 연결 → **로컬 앱 완성**
+7. `feature:settings` (로컬 설정: M1 ~ M5), 음성 안내 설정 연결 → **로컬 앱 완성**
    - M7 약관 및 정책은 정책 페이지(Hosting)가 필요해 9-3으로 미룹니다.
+   - M8 앱 정보는 "최신 여부"가 인앱 업데이트와 함께라 10단계로 미룹니다. 버전은 M1 맨 아래에 표시합니다.
 8. `widget` (`widget/CLAUDE.md`)
    - `feature:onboarding` O2 · O3 (로컬), 시작 시 온보딩 분기
 
@@ -188,10 +189,10 @@ pacenote/
    - 9-1 `firebase/` 보안 규칙 · 에뮬레이터 테스트
    - 9-2 `core:data` `FeatureFlags` 인터페이스 · 차단 스위치(`backup_enabled`, 업데이트 기준) 코드 기본값 구현 (콘솔 불필요, 먼저 진행)
    - 9-2 후반 (`app/google-services.json` 필요) `core:firebase` (App Check, 에뮬레이터 연결, Crashlytics), `google-services` · `firebase-crashlytics` 플러그인 적용, `FeatureFlags`를 Remote Config 구현으로 교체
-   - 9-3 `policy-site/` Hosting, M7 약관 및 정책, Google 로그인 (Credential Manager), `feature:onboarding` O0 · O1을 O2 앞에 추가 · 서버 동의 기록
+   - 9-3 `policy-site/` Hosting, M7 약관 및 정책 · 오픈소스 · Pretendard 라이선스, M1 앱 평가하기(In-App Review), Google 로그인 (Credential Manager), `feature:onboarding` O0 · O1을 O2 앞에 추가 · 서버 동의 기록
    - 9-4 `core:sync` 백업 Push · Pull, 게스트 기록 이전, M6
    - 9-5 계정 · 회원 탈퇴 (M10)
-10. 인앱 업데이트 · 강제 업데이트 화면 (`RELEASE_AND_UPDATE.md` 6장)
+10. 인앱 업데이트 · 강제 업데이트 화면 (`RELEASE_AND_UPDATE.md` 6장), M8 앱 정보
 11. **직접 확인 · 등록 (사람이 콘솔에서)**: `infra-and-billing-protection.md` 6장 체크리스트, Play Console 포그라운드 서비스 신고 · 데이터 보안, 위치정보 관련 확인
 
 ## 10. widget 모듈 (Glance)
