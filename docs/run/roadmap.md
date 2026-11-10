@@ -123,7 +123,7 @@ v1 출시 이후 모든 기능은 아래 순서로 넣습니다. 1인 개발이�
 | 키 이름 | 새 기능: `feature_{name}_enabled` / 차단 스위치: `{area}_enabled` (예: `backup_enabled`) |
 | 기본값 | 코드 기본값은 **false**. Remote Config를 못 받아도 미완성 기능이 열리지 않게 |
 | 읽는 곳 | `core:data`의 `FeatureFlags` 인터페이스 한 곳 (`core:firebase`의 `RemoteFlags`를 감싼다). ViewModel은 이 인터페이스만 참조 |
-| Firebase 전 | `module-map.md` 9장 1부(로컬 앱) 동안은 코드 기본값만 돌려주는 로컬 구현. 9-2에서 Remote Config 구현으로 바꾼다 (인터페이스는 그대로) |
+| Firebase 전 | `google-services.json`을 받기 전까지는 코드 기본값만 돌려주는 `LocalFeatureFlags`. 9-2 후반(`core:firebase`)에서 Remote Config 구현으로 바꾼다 (인터페이스 · 기본값은 그대로) |
 | 수명 | 기능 플래그는 임시. 두 번의 출시 동안 안정적이면 제거. 차단 스위치는 영구 |
 | 테스트 | 플래그 ON · OFF 두 상태 모두 ViewModel 테스트 작성 |
 

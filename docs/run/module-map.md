@@ -186,7 +186,8 @@ pacenote/
 
 9. 서버
    - 9-1 `firebase/` 보안 규칙 · 에뮬레이터 테스트
-   - 9-2 `core:firebase` (App Check, 에뮬레이터 연결, Crashlytics), `google-services` 플러그인 적용, `FeatureFlags`를 Remote Config로 교체 · 차단 스위치
+   - 9-2 `core:data` `FeatureFlags` 인터페이스 · 차단 스위치(`backup_enabled`, 업데이트 기준) 코드 기본값 구현 (콘솔 불필요, 먼저 진행)
+   - 9-2 후반 (`app/google-services.json` 필요) `core:firebase` (App Check, 에뮬레이터 연결, Crashlytics), `google-services` · `firebase-crashlytics` 플러그인 적용, `FeatureFlags`를 Remote Config 구현으로 교체
    - 9-3 `policy-site/` Hosting, M7 약관 및 정책, Google 로그인 (Credential Manager), `feature:onboarding` O0 · O1을 O2 앞에 추가 · 서버 동의 기록
    - 9-4 `core:sync` 백업 Push · Pull, 게스트 기록 이전, M6
    - 9-5 계정 · 회원 탈퇴 (M10)
