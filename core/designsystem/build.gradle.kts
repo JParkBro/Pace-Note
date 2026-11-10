@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.pacenote.android.library)
     alias(libs.plugins.pacenote.android.compose)
+    alias(libs.plugins.pacenote.roborazzi)
 }
 
 android {

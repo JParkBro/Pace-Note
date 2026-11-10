@@ -11,6 +11,7 @@ class FeatureImplConventionPlugin : Plugin<Project> {
             pluginManager.apply("pacenote.android.library")
             pluginManager.apply("pacenote.android.compose")
             pluginManager.apply("pacenote.koin")
+            pluginManager.apply("pacenote.roborazzi")
             pluginManager.apply("org.jetbrains.kotlin.plugin.serialization")
 
             dependencies {

@@ -52,7 +52,7 @@ internal fun WeekCard(
 ) {
     RunCard(modifier = Modifier.testTag("home_week")) {
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(AppSpacing.lg),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(AppSpacing.lg),
         ) {
@@ -121,7 +121,7 @@ private fun GoalRing(
                         RunFormat.distance(state.distanceM, state.distanceUnit) to
                             stringResource(
                                 R.string.home_goal_distance,
-                                RunFormat.distance(goal.value, state.distanceUnit),
+                                (goal.value / RunFormat.unitMeters(state.distanceUnit)).roundToInt().toString(),
                                 unit,
                             )
                     }

@@ -161,7 +161,10 @@ private fun MyScreen(
 @Composable
 private fun SummaryCard(state: MyState) {
     RunCard(modifier = Modifier.testTag("settings_my_summary")) {
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(vertical = AppSpacing.lg),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+        ) {
             RunStatTile(
                 value = RunFormat.distance(state.totalDistanceM, state.distanceUnit),
                 label =

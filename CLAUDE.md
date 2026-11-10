@@ -103,7 +103,7 @@ Ktor는 공통 스택이지만 v1에는 외부 HTTP가 없어 `core:network`를 
 
 ### 빌드 구성
 
-- convention plugin은 `build-logic/` (`pacenote.android.application`, `pacenote.android.library`, `pacenote.android.compose`, `pacenote.jvm.library`, `pacenote.koin`, `pacenote.room`, `pacenote.feature.api`, `pacenote.feature.impl`).
+- convention plugin은 `build-logic/` (`pacenote.android.application`, `pacenote.android.library`, `pacenote.android.compose`, `pacenote.jvm.library`, `pacenote.koin`, `pacenote.room`, `pacenote.feature.api`, `pacenote.feature.impl`, `pacenote.roborazzi`).
 - 버전 · SDK · applicationId는 `gradle/libs.versions.toml`의 `project*` 값. versionCode는 `MAJOR*1_000_000 + MINOR*10_000 + PATCH*100 + 빌드번호`.
 - 기본 패키지는 `jpark.bro.pacenote`. dev flavor는 applicationId에 `.dev`가 붙는다.
 - Gradle 데몬 JVM은 21 (`gradle/gradle-daemon-jvm.properties`). detekt 1.23이 JDK 25에서 동작하지 않는다.
@@ -122,9 +122,11 @@ Ktor는 공통 스택이지만 v1에는 외부 HTTP가 없어 `core:network`를 
 | 포맷 자동 수정 | `./gradlew ktlintFormat` |
 | 정적 분석 | `./gradlew ktlintCheck detekt lintDevDebug` |
 | 테마 색 코드 생성 | `python3 scripts/generate-theme-colors.py` |
+| 스크린샷 비교 | `./gradlew verifyRoborazziDevDebug` (다르면 실패) |
+| 스크린샷 기준 갱신 | `./gradlew recordRoborazziDevDebug` (의도한 UI 변경 후, 바뀐 PNG를 함께 커밋) |
 | DB 마이그레이션 테스트 | `./gradlew :core:database:connectedDevDebugAndroidTest` (기기 필요) |
 
-스크린샷 테스트(Roborazzi)는 아직 구성하지 않았다. `docs/common/TESTING.md` 5장대로 도입하면 `verifyRoborazziDevDebug` · `recordRoborazziDevDebug`를 이 표에 추가한다.
+스크린샷 테스트(Roborazzi, `docs/common/TESTING.md` 5-10)는 `pacenote.roborazzi` convention이 `core:designsystem`과 `feature:*:impl`의 private Preview를 찍는다. 기준 이미지는 모듈의 `src/test/screenshots/`.
 
 ### 모듈 규칙
 
@@ -196,7 +198,7 @@ di/{Feature}Module.kt  viewModelOf + navigation<{Feature}Key>
 | `core:domain` 계산 | 경계값 단위 테스트 + **GPX 재생 테스트** (`core:domain` testFixtures의 fixture, `tracking.md` 8장) |
 | 추적 서비스 · `RunTracker` | Fake `LocationSource`로 시작 · 일시정지 · 재개 · 종료 · 복구 테스트 |
 | ViewModel | 주요 Action의 State · Event 테스트 (성공 · 실패) |
-| Screen UI | Preview 추가 · 수정 (Roborazzi 도입 후 스크린샷 기준 갱신) |
+| Screen UI | Preview 추가 · 수정 + `recordRoborazziDevDebug`로 스크린샷 기준 갱신 |
 | DB 스키마 | Migration 테스트 |
 | Koin 모듈 | `verify()` 통과 |
 

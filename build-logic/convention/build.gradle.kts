@@ -20,6 +20,7 @@ dependencies {
     compileOnly(libs.room.gradlePlugin)
     compileOnly(libs.detekt.gradlePlugin)
     compileOnly(libs.ktlint.gradlePlugin)
+    compileOnly(libs.roborazzi.gradlePlugin)
 }
 
 gradlePlugin {
@@ -51,6 +52,10 @@ gradlePlugin {
         register("featureApi") {
             id = libs.plugins.pacenote.feature.api.get().pluginId
             implementationClass = "FeatureApiConventionPlugin"
+        }
+        register("roborazzi") {
+            id = libs.plugins.pacenote.roborazzi.get().pluginId
+            implementationClass = "RoborazziConventionPlugin"
         }
         register("featureImpl") {
             id = libs.plugins.pacenote.feature.impl.get().pluginId

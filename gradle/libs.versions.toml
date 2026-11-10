@@ -35,6 +35,8 @@ playServicesLocation = "21.4.0"
 glance = "1.2.0"
 workRuntime = "2.12.0"
 robolectric = "4.17"
+roborazzi = "1.77.0"
+composablePreviewScanner = "0.9.3"
 androidxTestCore = "1.7.0"
 androidxTestExtJunit = "1.3.0"
 detekt = "1.23.8"
@@ -115,6 +117,10 @@ firebase-appcheck-debug = { module = "com.google.firebase:firebase-appcheck-debu
 # test
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+roborazzi = { module = "io.github.takahirom.roborazzi:roborazzi", version.ref = "roborazzi" }
+roborazzi-compose = { module = "io.github.takahirom.roborazzi:roborazzi-compose", version.ref = "roborazzi" }
+roborazzi-compose-preview-scanner-support = { module = "io.github.takahirom.roborazzi:roborazzi-compose-preview-scanner-support", version.ref = "roborazzi" }
+composable-preview-scanner = { module = "io.github.sergio-sastre.ComposablePreviewScanner:android", version.ref = "composablePreviewScanner" }
 androidx-test-core = { module = "androidx.test:core", version.ref = "androidxTestCore" }
 androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "androidxTestExtJunit" }
 
@@ -126,6 +132,7 @@ ksp-gradlePlugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.g
 room-gradlePlugin = { module = "androidx.room:room-gradle-plugin", version.ref = "roomRuntime" }
 detekt-gradlePlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 ktlint-gradlePlugin = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlintGradle" }
+roborazzi-gradlePlugin = { module = "io.github.takahirom.roborazzi:roborazzi-gradle-plugin", version.ref = "roborazzi" }
 
 [plugins]
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
@@ -140,6 +147,7 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 room = { id = "androidx.room", version.ref = "roomRuntime" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGradle" }
+roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 
 # convention plugins (build-logic)
 pacenote-android-application = { id = "pacenote.android.application", version = "unspecified" }
@@ -150,6 +158,7 @@ pacenote-koin = { id = "pacenote.koin", version = "unspecified" }
 pacenote-room = { id = "pacenote.room", version = "unspecified" }
 pacenote-feature-api = { id = "pacenote.feature.api", version = "unspecified" }
 pacenote-feature-impl = { id = "pacenote.feature.impl", version = "unspecified" }
+pacenote-roborazzi = { id = "pacenote.roborazzi", version = "unspecified" }
 
 [bundles]
 compose = [
@@ -180,6 +189,16 @@ robolectric = [
     "robolectric",
     "androidx-test-core",
     "androidx-test-ext-junit",
+]
+screenshot-test = [
+    "roborazzi",
+    "roborazzi-compose",
+    "roborazzi-compose-preview-scanner-support",
+    "composable-preview-scanner",
+    "robolectric",
+    "androidx-test-core",
+    "androidx-test-ext-junit",
+    "androidx-compose-ui-test-junit4",
 ]
 test = [
     "junit",

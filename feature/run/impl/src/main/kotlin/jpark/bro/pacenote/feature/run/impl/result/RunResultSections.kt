@@ -43,7 +43,10 @@ internal fun ResultGoalCard(
     val colors = AppThemeTokens.colors
     val typography = AppThemeTokens.typography
     RunCard(modifier = Modifier.testTag("run_result_goal")) {
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(start = AppSpacing.md, end = AppSpacing.md, top = AppSpacing.md),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             Text(
                 text = stringResource(R.string.run_result_goal, (goal.ratio * PERCENT).roundToInt()),
                 style = typography.bodyMd,
@@ -54,7 +57,7 @@ internal fun ResultGoalCard(
                 Text(text = remainingText(goal, unit), style = typography.bodySm, color = colors.textSecondary)
             }
         }
-        RunProgressBar(progress = goal.ratio.toFloat(), modifier = Modifier.padding(top = AppSpacing.sm))
+        RunProgressBar(progress = goal.ratio.toFloat(), modifier = Modifier.padding(AppSpacing.md))
     }
 }
 

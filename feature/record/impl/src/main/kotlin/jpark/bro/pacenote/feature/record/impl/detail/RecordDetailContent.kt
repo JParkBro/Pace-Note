@@ -57,16 +57,18 @@ private val PACE_CHART_HEIGHT = 140.dp
 internal fun TimesCard(state: RecordDetailState) {
     val zone = ZoneId.of(state.zoneId)
     RunCard(modifier = Modifier.testTag("record_detail_times")) {
-        TimeRow(stringResource(R.string.record_detail_elapsed), RunFormat.duration(state.elapsedMs))
-        TimeRow(
-            stringResource(R.string.record_detail_started),
-            DATE_TIME_FORMAT.format(Instant.ofEpochMilli(state.startedAt).atZone(zone)),
-        )
-        state.endedAt?.let {
+        Column(modifier = Modifier.padding(horizontal = AppSpacing.md, vertical = AppSpacing.sm)) {
+            TimeRow(stringResource(R.string.record_detail_elapsed), RunFormat.duration(state.elapsedMs))
             TimeRow(
-                stringResource(R.string.record_detail_ended),
-                DATE_TIME_FORMAT.format(Instant.ofEpochMilli(it).atZone(zone)),
+                stringResource(R.string.record_detail_started),
+                DATE_TIME_FORMAT.format(Instant.ofEpochMilli(state.startedAt).atZone(zone)),
             )
+            state.endedAt?.let {
+                TimeRow(
+                    stringResource(R.string.record_detail_ended),
+                    DATE_TIME_FORMAT.format(Instant.ofEpochMilli(it).atZone(zone)),
+                )
+            }
         }
     }
 }
@@ -97,7 +99,13 @@ internal fun PaceChart(splits: List<SplitRow>) {
             paceSecPerKm = points.map { it.second },
             labels = points.map { it.first.toString() },
             contentDescription = stringResource(R.string.record_detail_pace_chart),
-            modifier = Modifier.fillMaxWidth().height(PACE_CHART_HEIGHT).testTag("record_detail_pace_chart"),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        AppSpacing.md,
+                    ).height(PACE_CHART_HEIGHT)
+                    .testTag("record_detail_pace_chart"),
         )
     }
 }
