@@ -162,13 +162,13 @@ pacenote/
 
 **위험한 것(추적)을 먼저** 실기기에서 검증하고, 서버(로그인 · 백업)는 앱이 혼자서 완성된 뒤에 붙입니다.
 
-**2026-11-10 결정: 로컬 앱 먼저, 외부 설정은 최후순위.** 당분간 개인용 앱처럼 **Room · DataStore만** 씁니다. 1 ~ 8단계는 Firebase 프로젝트 · `google-services.json` · 콘솔 설정 없이 빌드 · 실행되어야 합니다. 외부 서비스나 사람이 콘솔에서 해야 하는 설정이 필요한 작업(Firebase 전체, Google 로그인, 정책 페이지 Hosting, 인앱 업데이트, Play Console)은 모두 9단계 이후로 미룹니다.
+**2026-11-10 결정: 로컬 앱을 1.0.0으로 먼저 내고, 외부 설정은 2.0.0(마일스톤 `cloud`).** 당분간 개인용 앱처럼 **Room · DataStore만** 씁니다. 1 ~ 8단계는 Firebase 프로젝트 · `google-services.json` · 콘솔 설정 없이 빌드 · 실행되어야 합니다. 외부 서비스나 사람이 콘솔에서 해야 하는 설정이 필요한 작업(Firebase 전체, Google 로그인, 정책 페이지 Hosting, 인앱 업데이트, Play Console)은 모두 9단계 이후로 미룹니다.
 
 - 1 ~ 8단계에서 `firebase-*` 의존성, `google-services` · `firebase-crashlytics` 플러그인을 모듈에 적용하지 않습니다 (catalog 항목은 그대로 둠).
 - 기능 플래그(`FeatureFlags`)는 9-2 전까지 코드 기본값만 돌려주는 로컬 구현을 씁니다 (`roadmap.md` 5장).
 - 온보딩은 로컬 부분(O2 기본 정보 · O3 첫 목표)만 1부에 둡니다 (2026-11-10 결정). 시작 시 온보딩 분기는 "온보딩 완료" 기준이고, O0 시작 · O1 약관 동의는 9-3에서 앞에 붙입니다.
 
-**1부 — 로컬 앱 (Room · DataStore만)**
+**1부 — 로컬 앱 (Room · DataStore만) = 앱 1.0.0**
 
 1. `core:model`, `core:common`, `core:domain` — 계산 전부 + GPX fixture 재생 테스트 (`tracking.md` 8장)
 2. `core:designsystem` — 테마 토큰 8 팔레트(생성 스크립트), 타이포, `Run*` 컴포넌트, `RouteCanvas`
@@ -183,7 +183,7 @@ pacenote/
 8. `widget` (`widget/CLAUDE.md`)
    - `feature:onboarding` O2 · O3 (로컬), 시작 시 온보딩 분기
 
-**2부 — 외부 설정이 필요한 작업 (최후순위)**
+**2부 — 외부 설정이 필요한 작업 = 앱 2.0.0 (`roadmap.md` 1 · 2장)**
 
 9. 서버
    - 9-1 `firebase/` 보안 규칙 · 에뮬레이터 테스트
