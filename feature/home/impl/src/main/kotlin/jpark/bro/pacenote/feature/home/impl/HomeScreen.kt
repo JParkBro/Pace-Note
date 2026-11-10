@@ -43,6 +43,7 @@ private const val DAYS_TO_SUNDAY = 6L
 internal fun HomeRoot(
     onStartRun: () -> Unit,
     onOpenRun: (runId: String) -> Unit,
+    onOpenGoal: () -> Unit,
     viewModel: HomeViewModel,
     debugMenu: HomeDebugMenu? = null,
 ) {
@@ -50,6 +51,7 @@ internal fun HomeRoot(
     ObserveEvents(viewModel.event) { event ->
         when (event) {
             HomeEvent.StartRun -> onStartRun()
+            HomeEvent.OpenGoal -> onOpenGoal()
             is HomeEvent.OpenRun -> onOpenRun(event.runId)
         }
     }
@@ -76,7 +78,7 @@ private fun HomeScreen(
                     .padding(horizontal = AppSpacing.marginMobile, vertical = AppSpacing.lg),
             verticalArrangement = Arrangement.spacedBy(AppSpacing.lg),
         ) {
-            if (!state.loading) WeekCard(state)
+            if (!state.loading) WeekCard(state, onAction)
             RunPrimaryButton(
                 text = stringResource(R.string.home_start_run),
                 onClick = { onAction(HomeAction.StartRunClicked) },

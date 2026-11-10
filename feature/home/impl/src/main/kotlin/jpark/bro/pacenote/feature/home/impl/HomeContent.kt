@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -45,7 +46,10 @@ private val RECENT_RUN_FORMAT = DateTimeFormatter.ofPattern("M.d (E) a h:mm", Lo
 
 /** 이번 주 진행 카드: 목표 링(목표가 없으면 이번 주 거리만) + 횟수 · 시간 · 평균 페이스 */
 @Composable
-internal fun WeekCard(state: HomeState) {
+internal fun WeekCard(
+    state: HomeState,
+    onAction: (HomeAction) -> Unit,
+) {
     RunCard(modifier = Modifier.testTag("home_week")) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -55,6 +59,16 @@ internal fun WeekCard(state: HomeState) {
             val goal = state.goal
             if (goal == null) {
                 WeekDistance(state.distanceM, state.distanceUnit)
+                TextButton(
+                    onClick = { onAction(HomeAction.SetGoalClicked) },
+                    modifier = Modifier.testTag("home_set_goal"),
+                ) {
+                    Text(
+                        text = stringResource(R.string.home_set_goal),
+                        style = AppThemeTokens.typography.labelLg,
+                        color = AppThemeTokens.colors.textSecondary,
+                    )
+                }
             } else {
                 GoalRing(state, goal)
                 if (goal.achieved) {

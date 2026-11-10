@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_back">뒤로</string>
+    <string name="settings_save">저장</string>
+    <string name="settings_error">문제가 생겼어요. 다시 시도해 주세요</string>
+
+    <string name="settings_my_title">내 정보</string>
+    <string name="settings_my_total_distance">누적 거리 (%1$s)</string>
+    <string name="settings_my_total_runs">누적 러닝</string>
+    <string name="settings_my_total_runs_value">%1$d회</string>
+    <string name="settings_my_section_running">러닝</string>
+    <string name="settings_my_goal">목표</string>
+    <string name="settings_my_goal_distance">주간 %1$s%2$s</string>
+    <string name="settings_my_goal_count">주 %1$d회</string>
+    <string name="settings_my_goal_none">정하지 않음</string>
+    <string name="settings_my_profile">내 정보 수정</string>
+    <string name="settings_my_version">앱 버전 %1$s</string>
+
+    <string name="settings_goal_title">목표</string>
+    <string name="settings_goal_distance">주간 거리</string>
+    <string name="settings_goal_count">주간 횟수</string>
+    <string name="settings_goal_count_unit">회</string>
+    <string name="settings_goal_decrease">목표 줄이기</string>
+    <string name="settings_goal_increase">목표 늘리기</string>
+    <string name="settings_goal_average_distance">최근 4주 평균 %1$s%2$s</string>
+    <string name="settings_goal_average_count">최근 4주 평균 %1$s회</string>
+
+    <string name="settings_profile_title">내 정보 수정</string>
+    <string name="settings_profile_weight">체중 (kg)</string>
+    <string name="settings_profile_weight_hint">입력하면 칼로리를 계산해요</string>
+    <string name="settings_profile_weight_invalid">20 ~ 300 사이로 입력해 주세요</string>
+    <string name="settings_profile_unit">거리 단위</string>
+    <string name="settings_profile_unit_km">킬로미터 (km)</string>
+    <string name="settings_profile_unit_mile">마일 (mi)</string>
+</resources>

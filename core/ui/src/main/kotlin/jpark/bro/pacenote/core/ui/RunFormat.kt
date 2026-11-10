@@ -54,7 +54,8 @@ object RunFormat {
             DistanceUnit.MILE -> R.string.ui_unit_mile
         }
 
-    private fun unitMeters(unit: DistanceUnit): Double =
+    /** 거리 단위 하나의 미터 (1km = 1,000m, 1mi = 1,609.344m). 목표처럼 단위로 입력받는 값을 미터로 바꿀 때 쓴다 */
+    fun unitMeters(unit: DistanceUnit): Double =
         when (unit) {
             DistanceUnit.KM -> METERS_PER_KM
             DistanceUnit.MILE -> METERS_PER_MILE

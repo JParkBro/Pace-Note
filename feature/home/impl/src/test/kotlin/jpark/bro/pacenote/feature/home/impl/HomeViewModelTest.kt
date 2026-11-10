@@ -172,4 +172,15 @@ class HomeViewModelTest {
                 assertEquals(HomeEvent.OpenRun("run-1028"), awaitItem())
             }
         }
+
+    @Test
+    fun `목표 정하기를 누르면 목표 화면으로`() =
+        runTest {
+            val vm = viewModel()
+
+            vm.event.test {
+                vm.onAction(HomeAction.SetGoalClicked)
+                assertEquals(HomeEvent.OpenGoal, awaitItem())
+            }
+        }
 }

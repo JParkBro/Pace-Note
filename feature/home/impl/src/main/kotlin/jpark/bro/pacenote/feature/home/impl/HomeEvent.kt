@@ -4,6 +4,9 @@ internal sealed interface HomeEvent {
     /** 러닝 준비(P1)부터 */
     data object StartRun : HomeEvent
 
+    /** 목표(M2) */
+    data object OpenGoal : HomeEvent
+
     /** 기록 상세(R3) */
     data class OpenRun(
         val runId: String,
