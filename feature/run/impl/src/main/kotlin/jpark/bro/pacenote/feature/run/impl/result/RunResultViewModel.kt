@@ -8,6 +8,7 @@ import jpark.bro.pacenote.core.data.repository.StatsRepository
 import jpark.bro.pacenote.core.domain.goal.WeeklyProgress
 import jpark.bro.pacenote.core.domain.route.PolylineCodec
 import jpark.bro.pacenote.core.domain.tracking.Pace
+import jpark.bro.pacenote.core.domain.tracking.SplitRows
 import jpark.bro.pacenote.core.model.Goal
 import jpark.bro.pacenote.core.model.Run
 import jpark.bro.pacenote.core.model.WeeklySummary
@@ -107,18 +108,9 @@ internal class RunResultViewModel(
             averagePaceSecPerKm = Pace.secPerKm(run.movingMs, run.distanceM),
             calories = run.calories,
             route = run.routePolyline?.let { PolylineCodec.decode(it, run.routeSegments) }.orEmpty(),
-            splits = resultSplits(run),
+            splits = SplitRows.of(run.splits),
             memo = run.memo.orEmpty(),
         )
-
-    private fun resultSplits(run: Run): List<ResultSplit> {
-        var endM = 0.0
-        return run.splits.sortedBy { it.index }.map { split ->
-            endM += split.distanceM
-            // 마지막 짧은 구간(10m 이상만 저장됨)도 환산 페이스를 보여준다
-            ResultSplit(split.index, endM, Pace.secPerKm(split.movingMs, split.distanceM, minDistanceM = 0.0))
-        }
-    }
 
     private fun resultGoal(
         summary: WeeklySummary,

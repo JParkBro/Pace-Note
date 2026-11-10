@@ -2,4 +2,12 @@
 <resources>
     <string name="ui_unit_km">km</string>
     <string name="ui_unit_mile">mi</string>
+
+    <!-- 기록 요약 (결과 P6 · 상세 R3 공용) -->
+    <string name="ui_run_route">달린 경로</string>
+    <string name="ui_run_distance">거리 (%1$s)</string>
+    <string name="ui_run_time">시간</string>
+    <string name="ui_run_average_pace">평균 페이스</string>
+    <string name="ui_run_calories">칼로리 (kcal)</string>
+    <string name="ui_run_splits">구간</string>
 </resources>

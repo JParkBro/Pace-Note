@@ -24,11 +24,15 @@ import jpark.bro.pacenote.core.designsystem.AppThemeTokens
 import jpark.bro.pacenote.core.designsystem.component.RunToastHost
 import jpark.bro.pacenote.core.designsystem.component.RunTopBar
 import jpark.bro.pacenote.core.designsystem.preview.ScreenPreviews
+import jpark.bro.pacenote.core.domain.tracking.SplitRow
 import jpark.bro.pacenote.core.model.AppThemeMode
 import jpark.bro.pacenote.core.model.AppThemeType
 import jpark.bro.pacenote.core.model.GoalType
 import jpark.bro.pacenote.core.model.RoutePoint
 import jpark.bro.pacenote.core.ui.ObserveEvents
+import jpark.bro.pacenote.core.ui.RunRouteCard
+import jpark.bro.pacenote.core.ui.RunSplitTable
+import jpark.bro.pacenote.core.ui.RunSummaryStats
 import jpark.bro.pacenote.feature.run.api.RunResult
 import jpark.bro.pacenote.feature.run.impl.R
 import jpark.bro.pacenote.feature.run.impl.ui.RunLoadingContent
@@ -108,10 +112,16 @@ private fun RunResultScreen(
                     .padding(horizontal = AppSpacing.marginMobile, vertical = AppSpacing.lg),
             verticalArrangement = Arrangement.spacedBy(AppSpacing.gutter),
         ) {
-            ResultRoute(state.route)
-            ResultStats(state)
+            RunRouteCard(state.route)
+            RunSummaryStats(
+                distanceM = state.distanceM,
+                movingMs = state.movingMs,
+                averagePaceSecPerKm = state.averagePaceSecPerKm,
+                calories = state.calories,
+                unit = state.distanceUnit,
+            )
             state.weeklyGoal?.let { ResultGoalCard(it, state.distanceUnit) }
-            if (state.splits.isNotEmpty()) ResultSplits(state.splits)
+            if (state.splits.isNotEmpty()) RunSplitTable(state.splits)
             ResultMemo(state.memo) { onAction(RunResultAction.MemoChanged(it)) }
         }
     }
@@ -124,12 +134,12 @@ private const val PREVIEW_ROUTE_POINTS = 40
 @Suppress("MagicNumber")
 private val PREVIEW_SPLITS =
     listOf(
-        ResultSplit(1, 1_000.0, 352.0),
-        ResultSplit(2, 2_000.0, 344.0),
-        ResultSplit(3, 3_000.0, 340.0),
-        ResultSplit(4, 4_000.0, 350.0),
-        ResultSplit(5, 5_000.0, 347.0),
-        ResultSplit(6, 5_210.0, 340.0),
+        SplitRow(1, 1_000.0, 352.0),
+        SplitRow(2, 2_000.0, 344.0),
+        SplitRow(3, 3_000.0, 340.0),
+        SplitRow(4, 4_000.0, 350.0),
+        SplitRow(5, 5_000.0, 347.0),
+        SplitRow(6, 5_210.0, 340.0),
     )
 
 /** 동서로 2km쯤 가며 남북으로 한 번 굽이치는 경로 */
