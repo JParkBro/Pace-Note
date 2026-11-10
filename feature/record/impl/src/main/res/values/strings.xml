@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="record_title">기록</string>
+    <string name="record_month">%1$d월</string>
+    <string name="record_month_with_year">%1$d년 %2$d월</string>
+    <string name="record_month_totals">%1$s %2$s · %3$d회</string>
+    <string name="record_run_route">달린 경로</string>
+    <string name="record_run_summary">%1$s · %2$s</string>
+    <string name="record_empty">아직 기록이 없어요</string>
+    <string name="record_start_run">달리기 시작</string>
+</resources>
