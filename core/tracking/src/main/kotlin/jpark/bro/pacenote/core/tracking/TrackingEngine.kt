@@ -2,13 +2,15 @@ package jpark.bro.pacenote.core.tracking
 
 import jpark.bro.pacenote.core.common.ElapsedClock
 import jpark.bro.pacenote.core.common.suspendRunCatching
-import jpark.bro.pacenote.core.data.repository.AuthRepository
 import jpark.bro.pacenote.core.data.repository.SettingsRepository
+import jpark.bro.pacenote.core.domain.tracking.AnnouncementScheduler
 import jpark.bro.pacenote.core.domain.tracking.GpsStatusEvaluator
 import jpark.bro.pacenote.core.domain.tracking.RunMetricsAccumulator
 import jpark.bro.pacenote.core.location.LocationSource
 import jpark.bro.pacenote.core.model.PauseState
 import jpark.bro.pacenote.core.model.RawLocation
+import jpark.bro.pacenote.core.tracking.voice.VoiceAnnouncer
+import jpark.bro.pacenote.core.tracking.voice.VoiceGuide
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
@@ -32,8 +34,8 @@ import kotlinx.coroutines.sync.withLock
 internal class TrackingEngine(
     private val locationSource: LocationSource,
     private val recorder: RunRecorder,
-    private val authRepository: AuthRepository,
     private val settingsRepository: SettingsRepository,
+    private val voiceAnnouncer: VoiceAnnouncer,
     private val elapsedClock: ElapsedClock,
     private val scope: CoroutineScope,
 ) : RunTracker {
@@ -67,16 +69,23 @@ internal class TrackingEngine(
             if (mutableState.value !is TrackingState.Preparing) return@withLock notAllowed("start", mutableState.value)
             suspendRunCatching {
                 val now = nowMs
-                val autoPause = settingsRepository.observeRunSettings().first().autoPauseEnabled
-                val current =
-                    if (recoverRunId == null) {
-                        val runId = recorder.create(authRepository.observeUserId().first(), now)
-                        RecordingSession(runId, RunMetricsAccumulator(now, autoPause), recorder, emptyList())
+                val settings = settingsRepository.observeRunSettings().first()
+                val resumed = recoverRunId?.let { recorder.resume(it, now) }
+                val runId = resumed?.runId ?: recorder.create(now)
+                val accumulator = RunMetricsAccumulator(now, settings.autoPauseEnabled, resumed?.progress)
+                val voice =
+                    if (settings.voiceEnabled) {
+                        voiceAnnouncer.prepare()
+                        val unit = settingsRepository.observeProfile().first().distanceUnit
+                        VoiceGuide(
+                            AnnouncementScheduler(settings.voiceInterval, settings.voiceItems),
+                            voiceAnnouncer,
+                            unit,
+                        ).also { it.skipPassed(accumulator.metrics(now)) }
                     } else {
-                        val resumed = recorder.resume(recoverRunId, now)
-                        val accumulator = RunMetricsAccumulator(now, autoPause, resumed.progress)
-                        RecordingSession(resumed.runId, accumulator, recorder, resumed.route)
+                        null
                     }
+                val current = RecordingSession(runId, accumulator, recorder, resumed?.route.orEmpty(), voice)
                 session = current
                 mutableState.value = current.snapshot(now, gps.status(now))
                 current.runId
@@ -111,6 +120,7 @@ internal class TrackingEngine(
             suspendRunCatching { current.finish(save, weightKg, now) }
                 .onSuccess {
                     session = null
+                    voiceAnnouncer.release()
                     mutableState.value = TrackingState.Idle
                 }.onFailure {
                     // 저장에 실패하면 기록을 이어간다. 버퍼는 남아 있어 다음 저장 때 다시 쓴다
@@ -162,7 +172,7 @@ internal class TrackingEngine(
             return
         }
         // 쓰기 실패는 다음 저장 때 다시 시도한다. 계산과 상태 갱신은 멈추지 않는다
-        suspendRunCatching { if (point != null) current.onPoint(point, now) else current.flushIfDue(now) }
+        suspendRunCatching { if (point != null) current.onPoint(point, now) else current.onTick(now) }
         mutableState.value = current.snapshot(now, gps.status(now))
     }
 
