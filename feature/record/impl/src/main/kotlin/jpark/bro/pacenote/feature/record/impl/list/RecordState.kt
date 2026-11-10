@@ -1,11 +1,13 @@
 package jpark.bro.pacenote.feature.record.impl.list
 
 import androidx.paging.PagingData
+import jpark.bro.pacenote.core.domain.stats.PeriodSummary
 import jpark.bro.pacenote.core.model.DistanceUnit
 import jpark.bro.pacenote.core.model.RoutePoint
 import jpark.bro.pacenote.core.model.RunTotals
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
+import java.time.LocalDate
 import java.time.YearMonth
 
 /**
@@ -19,6 +21,8 @@ internal data class RecordState(
     val distanceUnit: DistanceUnit = DistanceUnit.KM,
     /** 올해가 아닌 달은 월 머리에 연도를 붙인다 */
     val thisYear: Int = 0,
+    val tab: RecordTab = RecordTab.LIST,
+    val stats: RecordStats? = null,
 ) {
     val isEmpty: Boolean get() = !loading && monthTotals.isEmpty()
 }
@@ -45,3 +49,20 @@ internal sealed interface RecordItem {
         override val key: String get() = "run-$id"
     }
 }
+
+/** 기록 탭 안의 목록(R1) · 통계(R2) */
+internal enum class RecordTab { LIST, STATS }
+
+/**
+ * 통계(R2) 한 기간.
+ *
+ * @property today 오늘 막대를 강조하고, 이번 기간보다 뒤로는 못 가게 한다
+ * @property previousDistanceM 지난주 · 지난달 거리 (대비 문장)
+ */
+internal data class RecordStats(
+    val current: PeriodSummary,
+    val previousDistanceM: Double,
+    val averagePaceSecPerKm: Double?,
+    val today: LocalDate,
+    val canGoNext: Boolean,
+)
