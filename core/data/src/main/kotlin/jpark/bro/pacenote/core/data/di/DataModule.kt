@@ -9,8 +9,10 @@ import jpark.bro.pacenote.core.data.repository.DefaultOnboardingRepository
 import jpark.bro.pacenote.core.data.repository.DefaultRunRepository
 import jpark.bro.pacenote.core.data.repository.DefaultSettingsRepository
 import jpark.bro.pacenote.core.data.repository.DefaultStatsRepository
+import jpark.bro.pacenote.core.data.repository.FeatureFlags
 import jpark.bro.pacenote.core.data.repository.GoalRepository
 import jpark.bro.pacenote.core.data.repository.GuestAuthRepository
+import jpark.bro.pacenote.core.data.repository.LocalFeatureFlags
 import jpark.bro.pacenote.core.data.repository.OnboardingRepository
 import jpark.bro.pacenote.core.data.repository.RunRepository
 import jpark.bro.pacenote.core.data.repository.SettingsRepository
@@ -35,4 +37,5 @@ val dataModule =
         singleOf(::DefaultGoalRepository) { bind<GoalRepository>() }
         singleOf(::DefaultSettingsRepository) { bind<SettingsRepository>() }
         singleOf(::DefaultOnboardingRepository) { bind<OnboardingRepository>() }
+        singleOf(::LocalFeatureFlags) { bind<FeatureFlags>() }
     }
