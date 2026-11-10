@@ -23,3 +23,7 @@ google-services.json
 
 # Kotlin 컴파일러 캐시
 .kotlin/
+
+# Android Studio "Generate Signed Bundle" 출력 (app/{flavor}/release)
+/app/prod/
+/app/dev/

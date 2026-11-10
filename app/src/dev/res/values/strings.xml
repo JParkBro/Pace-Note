@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- dev flavor는 prod와 함께 설치되므로 런처에서 구분한다 -->
+    <string name="app_name">런닝 dev</string>
+</resources>
