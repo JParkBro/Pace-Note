@@ -97,6 +97,15 @@ erDiagram
 | 러닝 설정 (음성 · 자동 일시정지 · 카운트다운 · 화면 켜짐), 배터리 안내 표시 여부 | DataStore (`RunPrefsDataStore`) | ✗ | 기기별 설정 |
 | 테마 · 모드, 온보딩 완료 | DataStore (`AppPrefsDataStore`) | ✗ | |
 
+### Android 자동 백업 (2026-11-10 결정)
+
+| 대상 | 클라우드 백업 (사용자 Google Drive) | 기기 간 이전 (직접 전송) |
+|---|---|---|
+| DataStore (`files/datastore/`) | 포함 | 포함 |
+| 기록 DB (`pacenote.db`) | **제외** (원시 GPS 점이 기기 밖으로 나가지 않게) | 포함 (서버를 거치지 않음) |
+
+규칙 파일: `app/src/main/res/xml/data_extraction_rules.xml`(Android 12+), `backup_rules.xml`(11 이하). 기록의 클라우드 백업은 Firestore 백업(2.0.0)이 맡습니다.
+
 ### Room에만 있는 컬럼 · 테이블
 
 | 대상 | 추가 컬럼 / 테이블 |
