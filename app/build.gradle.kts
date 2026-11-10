@@ -20,6 +20,7 @@ dependencies {
     implementation(projects.feature.record.impl)
     implementation(projects.feature.settings.api)
     implementation(projects.feature.settings.impl)
+    implementation(projects.widget)
     implementation(projects.feature.run.api)
     implementation(projects.feature.run.impl)
 
