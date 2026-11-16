@@ -64,7 +64,7 @@ Firebase Spark(무료) 한 곳만 쓰는 구성, 각 흐름의 구현 포인트,
 ### 2-4. 정책 문서 (Firebase Hosting)
 
 - `firebase/policy-site/public/`에 (Firebase CLI가 `firebase.json` 폴더 밖 경로를 배포하지 못해 `firebase/` 안에 둡니다) `privacy.html` · `terms.html` · `location.html`, `firebase.json`의 `hosting`(`cleanUrls`, `/` → `/privacy` 리다이렉트).
-- **1.0.0에는 `privacy.html`만 있습니다** (2026-11-16 결정). 로컬 전용 기준 문구(계정 · 서버 없음, 기록은 기기에만 저장)이고, `terms.html` · `location.html`과 서버 저장을 반영한 개정은 2.0.0(9-3)에서 합니다.
+- **1.0.0에는 `privacy.html` · `terms.html`만 있습니다** (공통 스타일 `policy.css`, 테마 적용 `policy.js`) (2026-11-16 결정). 로컬 전용 기준 문구(계정 · 서버 없음, 기록은 기기에만 저장)이고, `location.html`과 서버 저장을 반영한 개정은 2.0.0(9-3)에서 합니다.
 - 주소: `https://{firebase-project-id}.web.app/{privacy|terms|location}`. Play 스토어 개인정보 처리방침 URL로 사용.
 - 앱의 정책 문서 화면은 `RunWebView`(이 사이트만 열고, 다른 링크는 막음)로 엽니다.
 - 테마 토큰 CSS(`docs/run/assets/theme-tokens.css`)를 복사해 앱과 같은 색으로 보이게 합니다 (`?theme=volt&mode=dark`).
