@@ -15,7 +15,7 @@
 pacenote/
 ├─ app/ core/ feature/ widget/ build-logic/   # Android 앱 (루트가 Gradle 프로젝트)
 ├─ firebase/         # firestore.rules, firestore.indexes.json, firebase.json(에뮬레이터 · Hosting), 규칙 테스트
-├─ policy-site/      # Firebase Hosting: 개인정보 처리방침, 이용약관, 위치정보 이용약관
+│  └─ policy-site/   # Firebase Hosting(firebase.json 폴더 안에 있어야 배포됨): 개인정보 처리방침, 이용약관, 위치정보 이용약관
 ├─ scripts/          # generate-theme-colors.py (theme-tokens.json → ThemeTokens.kt)
 └─ docs/
    ├─ common/        # 범용 문서
@@ -166,6 +166,7 @@ pacenote/
 
 - 1 ~ 8단계에서 `firebase-*` 의존성, `google-services` · `firebase-crashlytics` 플러그인을 모듈에 적용하지 않습니다 (catalog 항목은 그대로 둠).
 - 기능 플래그(`FeatureFlags`)는 9-2 전까지 코드 기본값만 돌려주는 로컬 구현을 씁니다 (`roadmap.md` 5장).
+- 예외 (2026-11-16 결정): Play 등록에 개인정보 처리방침 URL이 필요해 `firebase/policy-site/public/privacy.html` 한 장만 1부에서 Firebase Hosting에 배포합니다. 앱 밖 정적 페이지라 앱 모듈은 그대로 Firebase 없이 빌드됩니다 (`roadmap.md` 3장).
 - 온보딩은 로컬 부분(O2 기본 정보 · O3 첫 목표)만 1부에 둡니다 (2026-11-10 결정). 시작 시 온보딩 분기는 "온보딩 완료" 기준이고, O0 시작 · O1 약관 동의는 9-3에서 앞에 붙입니다.
 
 **1부 — 로컬 앱 (Room · DataStore만) = 앱 1.0.0**
@@ -189,7 +190,7 @@ pacenote/
    - 9-1 `firebase/` 보안 규칙 · 에뮬레이터 테스트
    - 9-2 `core:data` `FeatureFlags` 인터페이스 · 차단 스위치(`backup_enabled`, 업데이트 기준) 코드 기본값 구현 (콘솔 불필요, 먼저 진행)
    - 9-2 후반 (`app/google-services.json` 필요) `core:firebase` (App Check, 에뮬레이터 연결, Crashlytics), `google-services` · `firebase-crashlytics` 플러그인 적용, `FeatureFlags`를 Remote Config 구현으로 교체
-   - 9-3 `policy-site/` Hosting, M7 약관 및 정책 · 오픈소스 · Pretendard 라이선스, M1 앱 평가하기(In-App Review), Google 로그인 (Credential Manager), `feature:onboarding` O0 · O1을 O2 앞에 추가 · 서버 동의 기록
+   - 9-3 `firebase/policy-site/`에 이용약관 · 위치정보 이용약관 추가 · 개인정보 처리방침 개정(서버 저장 반영), M7 약관 및 정책 · 오픈소스 · Pretendard 라이선스, M1 앱 평가하기(In-App Review), Google 로그인 (Credential Manager), `feature:onboarding` O0 · O1을 O2 앞에 추가 · 서버 동의 기록
    - 9-4 `core:sync` 백업 Push · Pull, 게스트 기록 이전, M6
    - 9-5 계정 · 회원 탈퇴 (M10)
 10. 인앱 업데이트 · 강제 업데이트 화면 (`RELEASE_AND_UPDATE.md` 6장), M8 앱 정보
