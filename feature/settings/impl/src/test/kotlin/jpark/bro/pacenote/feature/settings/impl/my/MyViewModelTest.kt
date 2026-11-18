@@ -111,6 +111,17 @@ class MyViewModelTest {
         }
 
     @Test
+    fun `다른 앱 둘러보기를 누르면 소개 페이지로`() =
+        runTest {
+            val vm = viewModel()
+
+            vm.event.test {
+                vm.onAction(MyAction.MoreAppsClicked)
+                assertEquals(MyEvent.OpenMoreApps, awaitItem())
+            }
+        }
+
+    @Test
     fun `오픈소스 라이선스를 누르면 라이선스 목록으로`() =
         runTest {
             val vm = viewModel()

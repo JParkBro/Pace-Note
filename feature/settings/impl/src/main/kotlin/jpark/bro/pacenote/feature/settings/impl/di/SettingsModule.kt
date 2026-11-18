@@ -5,6 +5,9 @@ import jpark.bro.pacenote.feature.settings.api.GoalKey
 import jpark.bro.pacenote.feature.settings.api.SettingsKey
 import jpark.bro.pacenote.feature.settings.impl.goal.GoalRoot
 import jpark.bro.pacenote.feature.settings.impl.goal.GoalViewModel
+import jpark.bro.pacenote.feature.settings.impl.moreapps.MoreAppsKey
+import jpark.bro.pacenote.feature.settings.impl.moreapps.MoreAppsRoot
+import jpark.bro.pacenote.feature.settings.impl.moreapps.MoreAppsViewModel
 import jpark.bro.pacenote.feature.settings.impl.my.MyRoot
 import jpark.bro.pacenote.feature.settings.impl.my.MyViewModel
 import jpark.bro.pacenote.feature.settings.impl.profile.ProfileEditKey
@@ -26,6 +29,7 @@ val settingsModule =
         viewModelOf(::GoalViewModel)
         viewModelOf(::ProfileEditViewModel)
         viewModelOf(::RunSettingsViewModel)
+        viewModelOf(::MoreAppsViewModel)
 
         navigation<SettingsKey> {
             val navigator = get<Navigator>()
@@ -33,6 +37,7 @@ val settingsModule =
                 onOpenGoal = { navigator.goTo(GoalKey) },
                 onOpenProfile = { navigator.goTo(ProfileEditKey) },
                 onOpenRunSettings = { navigator.goTo(RunSettingsKey) },
+                onOpenMoreApps = { navigator.goTo(MoreAppsKey) },
                 viewModel = koinViewModel(),
             )
         }
@@ -43,6 +48,10 @@ val settingsModule =
 
         navigation<RunSettingsKey> {
             RunSettingsRoot(onBack = get<Navigator>()::goBack, viewModel = koinViewModel())
+        }
+
+        navigation<MoreAppsKey> {
+            MoreAppsRoot(onBack = get<Navigator>()::goBack, viewModel = koinViewModel())
         }
 
         navigation<ProfileEditKey> {

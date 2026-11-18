@@ -4,6 +4,13 @@ plugins {
 
 android {
     namespace = "jpark.bro.pacenote.feature.settings.impl"
+    buildFeatures {
+        buildConfig = true
+    }
+    defaultConfig {
+        // 다른 앱 둘러보기 페이지의 from. dev flavor의 applicationIdSuffix(.dev)가 붙지 않은 출시 패키지 이름
+        buildConfigField("String", "RELEASE_APPLICATION_ID", "\"${libs.versions.projectApplicationId.get()}\"")
+    }
 }
 
 dependencies {

@@ -80,6 +80,10 @@
     <string name="settings_contact_subject">[흰선] 문의</string>
     <string name="settings_contact_body">\n\n\n---\n앱 버전: %1$s\n기기: %2$s\nAndroid: %3$s</string>
     <string name="settings_contact_no_app">메일 앱을 찾을 수 없어요</string>
+    <string name="settings_my_more_apps">다른 앱 둘러보기</string>
+    <string name="settings_more_apps_title">다른 앱 둘러보기</string>
+    <string name="settings_more_apps_failed">페이지를 불러오지 못했어요. 인터넷 연결을 확인해 주세요.</string>
+    <string name="settings_more_apps_retry">다시 시도</string>
     <!-- 문의 메일 받는 주소 -->
     <string name="settings_contact_email" translatable="false">jparkbro@gmail.com</string>
 </resources>

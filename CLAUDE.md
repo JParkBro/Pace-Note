@@ -99,7 +99,7 @@ Cloud Functions는 없다 (Spark 요금제라 쓸 수 없고, v1에 필요한 �
 
 Kotlin · Jetpack Compose · Navigation 3 · Koin(`koin-compose-navigation3`) · Room · DataStore · WorkManager · Glance · Fused Location Provider · TextToSpeech · Firebase(Auth, Firestore, Remote Config, App Check, Crashlytics) · Credential Manager(Google 로그인)
 
-Ktor는 공통 스택이지만 v1에는 외부 HTTP가 없어 `core:network`를 만들지 않는다. 필요해지면 추가한다.
+Ktor는 공통 스택이지만 v1에는 호출하는 외부 API가 없어 `core:network`를 만들지 않는다 (인터넷은 다른 앱 둘러보기(M11) 웹뷰만 쓴다). 필요해지면 추가한다.
 
 ### 빌드 구성
 

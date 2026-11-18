@@ -36,7 +36,7 @@ pacenote/
 │  │                        PolylineSimplifier · PolylineCodec, RouteProjector, decideUpdate
 │  ├─ navigation/     Navigator, 탭별 백스택 (홈 / 기록 / 내 정보), AppIntents (탭별 백스택은 탭 화면과 함께 추가)
 │  ├─ designsystem/   AppColors(31 토큰) · 8 팔레트, 타이포 · 간격, Run* 컴포넌트, RouteCanvas
-│  ├─ ui/             MviViewModel, ObserveEvents, RunFormat(거리 · 시간 · 페이스 표기), 권한 요청 헬퍼, RunWebView (권한 헬퍼 · RunWebView는 쓰는 화면과 함께 추가)
+│  ├─ ui/             MviViewModel, ObserveEvents, RunFormat(거리 · 시간 · 페이스 표기), 권한 요청 헬퍼, RunWebView · webLinkTarget(링크 정책) (권한 헬퍼는 쓰는 화면과 함께 추가)
 │  ├─ database/       Room (run, run_point, run_split, goal_history, sync_cursor)
 │  ├─ datastore/      테마 · 모드, 온보딩 · 약관 동의, 러닝 설정, 체중 · 단위, 배터리 안내 표시 여부
 │  ├─ location/       LocationSource (Fused 구현 · GPX 재생 구현), 위치 설정 확인
@@ -51,7 +51,7 @@ pacenote/
 │  ├─ home/        api/ impl/     H1
 │  ├─ run/         api/ impl/     P1 ~ P6, P8
 │  ├─ record/      api/ impl/     R1 ~ R4, P7
-│  └─ settings/    api/ impl/     M1 ~ M10
+│  └─ settings/    api/ impl/     M1 ~ M11
 └─ widget/           Glance 위젯 (widget/CLAUDE.md)
 ```
 
@@ -84,7 +84,7 @@ pacenote/
 | `onboarding:impl` | `StartKey`(O0), `TermsKey`(O1), `BasicInfoKey`(O2), `FirstGoalKey`(O3) |
 | `run:impl` | `RunResultKey(runId)`(P6). P1 ~ P5 · P8은 `RunKey` 한 화면 안의 단계 상태 |
 | `record:impl` | `RunEditKey(runId)`(R4) |
-| `settings:impl` | `RunSettingsKey`(M3), `ProfileEditKey`(M4), `BackupKey`(M6), `PolicyListKey`(M7), `AppInfoKey`(M8), `AccountKey`(M10), `WithdrawKey` |
+| `settings:impl` | `RunSettingsKey`(M3), `ProfileEditKey`(M4), `BackupKey`(M6), `PolicyListKey`(M7), `AppInfoKey`(M8), `AccountKey`(M10), `WithdrawKey`, `MoreAppsKey`(M11) |
 
 > P1 ~ P5를 화면 하나(`RunKey`)의 단계로 두는 이유: 권한 → GPS → 카운트다운 → 기록 → 일시정지가 같은 `TrackingState`를 보며 이어지고, 뒤로 가기 동작이 단계마다 달라서(기록 중 뒤로 = 앱 백그라운드) 백스택 항목으로 나누면 오히려 복잡해집니다.
 

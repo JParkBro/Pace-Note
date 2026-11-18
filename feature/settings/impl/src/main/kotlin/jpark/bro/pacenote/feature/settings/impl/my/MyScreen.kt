@@ -51,6 +51,7 @@ internal fun MyRoot(
     onOpenGoal: () -> Unit,
     onOpenProfile: () -> Unit,
     onOpenRunSettings: () -> Unit,
+    onOpenMoreApps: () -> Unit,
     viewModel: MyViewModel,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -97,6 +98,10 @@ internal fun MyRoot(
 
             MyEvent.OpenProfile -> {
                 onOpenProfile()
+            }
+
+            MyEvent.OpenMoreApps -> {
+                onOpenMoreApps()
             }
         }
     }
@@ -157,6 +162,11 @@ private fun MyScreen(
                     title = stringResource(R.string.settings_my_contact),
                     onClick = { onAction(MyAction.ContactClicked) },
                     modifier = Modifier.testTag("settings_my_contact"),
+                )
+                RunListItem(
+                    title = stringResource(R.string.settings_my_more_apps),
+                    onClick = { onAction(MyAction.MoreAppsClicked) },
+                    modifier = Modifier.testTag("settings_my_more_apps"),
                 )
             }
             RunSection(title = stringResource(R.string.settings_my_section_info)) {
