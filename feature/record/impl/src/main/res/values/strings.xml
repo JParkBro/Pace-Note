@@ -70,7 +70,7 @@
     <string name="record_share_share">공유</string>
     <string name="record_share_saved">사진 앱에 저장했어요</string>
     <string name="record_share_card">공유 카드 미리보기</string>
-    <!-- 카드 아래쪽 작은 앱 이름 · 저장 폴더 (Pictures/런닝). 앱 표시 이름이 정해지면 함께 바꾼다 -->
-    <string name="record_share_brand" translatable="false">런닝</string>
-    <string name="record_share_folder" translatable="false">런닝</string>
+    <!-- 카드 아래쪽 작은 앱 이름 · 저장 폴더 (Pictures/흰선). 앱 표시 이름이 정해지면 함께 바꾼다 -->
+    <string name="record_share_brand" translatable="false">흰선</string>
+    <string name="record_share_folder" translatable="false">흰선</string>
 </resources>

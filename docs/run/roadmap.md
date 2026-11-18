@@ -49,11 +49,11 @@
 | 공유 | 공유 카드(흰 선 + 수치, 배경 선택), 이미지 저장 · 공유 |
 | 기록 | 목록(월별), 상세, 편집 · 삭제, 주 · 월 통계 |
 | 목표 | 주간 거리 또는 주간 횟수 |
-| 기타 | 테마 4종 × 라이트 · 다크, 홈 위젯, 오픈소스 · 글꼴 라이선스 고지 |
+| 기타 | 테마 4종 × 라이트 · 다크, 홈 위젯, 오픈소스 · 글꼴 라이선스 고지, 개인정보 처리방침 · 서비스 이용약관 웹 페이지(앱 밖) |
 
 ### cloud — 계정 · 백업 (앱 2.0.0)
 
-`module-map.md` 9 ~ 10단계. Firebase(Spark) · Google 로그인 · 기록 백업 · 복원 · 게스트 기록 이전 · 회원 탈퇴, 정책 페이지(Hosting) · 약관 동의(O0 · O1) · 약관 및 정책(M7), Remote Config 차단 스위치, App Check, Crashlytics, 인앱 · 강제 업데이트 · 앱 정보(M8), 앱 평가하기.
+`module-map.md` 9 ~ 10단계. Firebase(Spark) · Google 로그인 · 기록 백업 · 복원 · 게스트 기록 이전 · 회원 탈퇴, 정책 페이지 나머지(위치정보 이용약관, 개인정보 처리방침 · 이용약관 개정) · 약관 동의(O0 · O1) · 약관 및 정책(M7), Remote Config 차단 스위치, App Check, Crashlytics, 인앱 · 강제 업데이트 · 앱 정보(M8), 앱 평가하기.
 
 ### v2 — 꾸준함 강화 (MINOR 출시: cloud 전이면 1.x, 후면 2.x)
 
@@ -71,10 +71,10 @@ Wear OS, 같은 코스 기록 비교(경로 모양 매칭), 친구 · 챌린지 
 |---|---|---|
 | 지도 | **사용하지 않음.** 경로는 Canvas 흰 선 | 지도 SDK 비용 · 키 · 쿼터 없음. 공유 카드에 장소 정보 노출 없음 |
 | 로그인 | **Google만**, 로그인 없이도 사용 가능 | 카카오 커스텀 토큰이 필요 없어 서버 함수 · Cloudflare Worker가 없음 |
-| Firebase | **cloud(2.0.0)부터** 사용 (Spark, 결제 수단 없음) | Auth · Firestore · Remote Config · App Check · Crashlytics · Hosting |
+| Firebase | 앱은 **cloud(2.0.0)부터** 사용 (Spark, 결제 수단 없음). 1.0.0은 Hosting의 정책 페이지 2종만 | Auth · Firestore · Remote Config · App Check · Crashlytics · Hosting |
 | 서버에 올리는 것 | 기록 요약 + **단순화한 경로**(점 수백 개 수준의 인코딩 polyline) | 기록 1건 = Firestore 문서 1개, 1MiB 한도와 거리가 멀다 |
 | 원시 GPS 점 | 기기(Room)에만 보관 | 전체 경로 서버 보관은 필요해지면 별도 검토 (Spark에는 파일 저장소가 없음) |
-| 정책 페이지 | 2.0.0부터 Firebase Hosting (Spark). 1.0.0 Play 등록용 개인정보 처리방침 URL 위치는 미정 | **Cloudflare를 전혀 쓰지 않음** |
+| 정책 페이지 | Firebase Hosting (Spark). **개인정보 처리방침 · 서비스 이용약관을 1.0.0에 먼저 배포**합니다. 처리방침은 Play 등록 URL로 씁니다 (2026-11-16 결정, 로컬 전용 기준 문구). 위치정보 이용약관과 앱 안 M7 화면은 2.0.0 | **Cloudflare를 전혀 쓰지 않음.** 1.0.0 앱 모듈에는 Firebase 의존성이 없음 (Hosting은 앱 밖 정적 페이지) |
 
 > 로그인은 선택입니다. 온보딩 O0에 "Google로 시작 / 로그인 없이 시작" 두 버튼을 둡니다. 필수로 바꾸려면 O0의 두 번째 버튼을 빼고 `product-spec.md` 1장 · `data-model-erd.md` 5장의 게스트 흐름을 정리합니다.
 

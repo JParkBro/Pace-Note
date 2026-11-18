@@ -3,9 +3,18 @@
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
+  "hosting": {
+    "public": "policy-site/public",
+    "cleanUrls": true,
+    "ignore": ["**/.*"],
+    "redirects": [
+      { "source": "/", "destination": "/privacy", "type": 302 }
+    ]
+  },
   "emulators": {
     "auth": { "port": 9099 },
     "firestore": { "port": 8080 },
+    "hosting": { "port": 5002 },
     "ui": { "enabled": false },
     "singleProjectMode": true
   }
