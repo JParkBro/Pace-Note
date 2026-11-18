@@ -66,6 +66,7 @@
 | `core:network` (Ktor) | 공통 스택에 포함 | v1에는 만들지 않음 (`pacenote.jvm.ktor` 플러그인 · Ktor 카탈로그 항목도 없음) | 외부 HTTP 호출이 없음. 필요해지면 추가 |
 | PR 필수 검사 `screenshot` | `pr-title` · `lint` · `unit-test` · `screenshot` | Roborazzi를 도입할 때까지 `screenshot` 제외 | 아직 화면이 없고 Roborazzi를 구성하지 않음 |
 | MAJOR 버전 | 데이터 호환이 깨지는 개편에만 MAJOR | 외부 설정 묶음(`cloud`)을 **2.0.0**으로 냄 | 로컬 전용 앱 → 계정 · 서버가 붙는 앱으로의 전환을 사용자 · 스토어에 분명히 구분 (2026-11-10 결정). 데이터 호환 규칙은 그대로 |
+| 빌드번호 | 같은 버전을 다시 올릴 때만 빌드번호를 올림, CD가 태그로 계산 (RELEASE_AND_UPDATE 2장) | AAB를 만들 때마다 `projectVersionCode`를 1 올리고, versionName은 요청할 때만 올림 (`CLAUDE.md` "AAB 만들기") | CD 전 로컬에서 직접 번들을 만들어 콘솔에 올리므로, 빌드마다 versionCode가 겹치지 않게 함 |
 | 자동 증가 ID 금지 | 모든 ID는 UUID | `run_point`는 (`run_id`, `seq`) 복합 키 | 기록 하나에 점이 수천 개라 UUID 비용이 크고, 기기 밖으로 나가지 않음 |
 
 > 요금 · 정책 수치는 2026년 10~11월 기준으로 확인한 내용입니다. 출시 전 공식 문서에서 다시 확인하세요.
