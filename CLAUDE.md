@@ -126,6 +126,18 @@ Ktor는 공통 스택이지만 v1에는 외부 HTTP가 없어 `core:network`를 
 | 스크린샷 기준 갱신 | `./gradlew recordRoborazziDevDebug` (의도한 UI 변경 후, 바뀐 PNG를 함께 커밋) |
 | DB 마이그레이션 테스트 | `./gradlew :core:database:connectedDevDebugAndroidTest` (기기 필요) |
 
+### AAB(출시 번들) 만들기
+
+사용자가 "aab(abb) 만들어 줘"라고 하면:
+
+1. `gradle/libs.versions.toml`의 `projectVersionCode`를 **무조건 1 올린다** (빌드번호 자리, 예: `1000000` → `1000001`).
+2. `projectVersionName`(예: `1.0.0`)은 **사용자가 따로 요청할 때만** 올린다. 올리면 versionCode를 새 버전의 빌드번호 0으로 맞춘다 (`1.0.1` → `1000100`, 이전 값보다 커야 함).
+3. `./gradlew :app:bundleProdRelease`로 만든다. 서명은 루트 `keystore.properties`(커밋 금지)를 쓴다. 결과물은 `app/build/outputs/bundle/prodRelease/`.
+4. 바뀐 versionCode · versionName과 결과물 경로를 알려 준다.
+
+- 빌드번호는 0~99다. 99에서 더 올려야 하면 진행하지 말고 사용자에게 버전(PATCH)을 올릴지 묻는다.
+- 스토어에 올린 versionCode는 다시 쓸 수 없으므로 내리지 않는다.
+
 스크린샷 테스트(Roborazzi, `docs/common/TESTING.md` 5-10)는 `pacenote.roborazzi` convention이 `core:designsystem`과 `feature:*:impl`의 private Preview를 찍는다. 기준 이미지는 모듈의 `src/test/screenshots/`.
 
 ### 모듈 규칙
