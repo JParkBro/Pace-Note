@@ -31,6 +31,8 @@ internal sealed interface MyAction {
 
     data object ContactClicked : MyAction
 
+    data object MoreAppsClicked : MyAction
+
     data object OssLicensesClicked : MyAction
 
     /** Pretendard 글꼴 라이선스(OFL) 시트 */

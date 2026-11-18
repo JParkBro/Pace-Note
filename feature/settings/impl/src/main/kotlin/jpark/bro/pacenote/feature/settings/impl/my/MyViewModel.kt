@@ -61,6 +61,7 @@ internal class MyViewModel(
             MyAction.ThemeApplyClicked -> applyTheme()
             MyAction.ThemeSheetDismissed -> closeThemeSheet()
             MyAction.ContactClicked -> sendEvent(MyEvent.OpenContact)
+            MyAction.MoreAppsClicked -> sendEvent(MyEvent.OpenMoreApps)
             MyAction.OssLicensesClicked -> sendEvent(MyEvent.OpenOssLicenses)
             MyAction.FontLicenseClicked -> setState { copy(fontLicenseSheetVisible = true) }
             MyAction.FontLicenseSheetDismissed -> setState { copy(fontLicenseSheetVisible = false) }

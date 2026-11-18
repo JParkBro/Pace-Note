@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- 다른 앱 둘러보기(M11) 웹뷰. 앱의 외부 통신은 이 화면뿐이다 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application>
         <!--
           오픈소스 라이선스 화면(play-services-oss-licenses)은 AppCompatActivity라 AppCompat 테마가 필요하다.
