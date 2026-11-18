@@ -19,6 +19,8 @@ val LocalAppTypography = staticCompositionLocalOf<AppTypography> { error("AppThe
 
 val LocalProgressBrush = staticCompositionLocalOf<Brush> { error("AppTheme 밖에서 AppThemeTokens를 사용했습니다.") }
 
+val LocalAppIsDark = staticCompositionLocalOf<Boolean> { error("AppTheme 밖에서 AppThemeTokens를 사용했습니다.") }
+
 /**
  * 앱 테마. 선택한 테마 · 모드는 DataStore에 저장하고 위젯도 같은 팔레트를 쓴다 (theme-guide.md).
  * Material 컴포넌트도 토큰 색 · 글자 스타일을 쓰도록 colorScheme · typography를 매핑한다.
@@ -35,6 +37,7 @@ fun AppTheme(
         LocalAppColors provides colors,
         LocalAppTypography provides DefaultTypography,
         LocalProgressBrush provides progressBrush(type, dark, colors),
+        LocalAppIsDark provides dark,
     ) {
         MaterialTheme(
             colorScheme = colors.toColorScheme(dark),
@@ -80,6 +83,12 @@ object AppThemeTokens {
         @Composable
         @ReadOnlyComposable
         get() = LocalProgressBrush.current
+
+    /** 지금 테마가 다크인지. 웹 페이지처럼 토큰을 쓸 수 없는 곳에 라이트 · 다크만 넘길 때 쓴다 */
+    val isDark: Boolean
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalAppIsDark.current
 }
 
 private fun AppColors.toColorScheme(dark: Boolean): ColorScheme {
