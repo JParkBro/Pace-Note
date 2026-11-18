@@ -24,6 +24,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import java.time.LocalDate
+import java.time.ZonedDateTime
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeViewModelTest {
@@ -36,8 +37,16 @@ class HomeViewModelTest {
     private val stats = FakeStatsRepository()
     private val goals = FakeGoalRepository()
     private val settings = FakeSettingsRepository()
+    private val clock = FakeClock()
 
-    private fun viewModel() = HomeViewModel(runs, stats, goals, settings, FakeClock())
+    private fun viewModel() = HomeViewModel(runs, stats, goals, settings, clock)
+
+    private fun seoul(
+        month: Int,
+        day: Int,
+        hour: Int,
+        minute: Int,
+    ) = ZonedDateTime.of(2026, month, day, hour, minute, 0, 0, FakeClock.SEOUL).toInstant()
 
     private fun goal(
         type: GoalType,
@@ -182,5 +191,45 @@ class HomeViewModelTest {
                 vm.onAction(HomeAction.SetGoalClicked)
                 assertEquals(HomeEvent.OpenGoal, awaitItem())
             }
+        }
+
+    @Test
+    fun `일요일 23시 59분까지는 이번 주, 월요일 0시에 화면이 다시 보이면 새 주로 바뀜`() =
+        runTest {
+            val nextWeekStart = weekStart.plusWeeks(1)
+            stats.weeklySummaries.value =
+                mapOf(
+                    weekStart to WeeklySummary(weekStart, 12_400.0, 4_360_000, 3),
+                    nextWeekStart to WeeklySummary(nextWeekStart, 5_000.0, 1_800_000, 1),
+                )
+            val vm = viewModel()
+            runCurrent()
+
+            clock.now = seoul(11, 1, 23, 59)
+            vm.onAction(HomeAction.ScreenStarted)
+            runCurrent()
+            assertEquals(weekStart, vm.state.value.weekStart)
+            assertEquals(3, vm.state.value.runCount)
+
+            clock.now = seoul(11, 2, 0, 0)
+            vm.onAction(HomeAction.ScreenStarted)
+            runCurrent()
+            assertEquals(nextWeekStart, vm.state.value.weekStart)
+            assertEquals(5_000.0, vm.state.value.distanceM, 0.0)
+            assertEquals(1, vm.state.value.runCount)
+        }
+
+    @Test
+    fun `화면이 다시 보이기 전에는 주가 바뀌어도 그대로`() =
+        runTest {
+            weekOf(12_400.0, 4_360_000, 3)
+            val vm = viewModel()
+            runCurrent()
+
+            clock.now = seoul(11, 2, 0, 0)
+            runCurrent()
+
+            assertEquals(weekStart, vm.state.value.weekStart)
+            assertEquals(3, vm.state.value.runCount)
         }
 }

@@ -19,6 +19,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.YearMonth
@@ -32,8 +33,9 @@ class RecordViewModelTest {
     private val runs = FakeRunRepository()
     private val stats = FakeStatsRepository()
     private val settings = FakeSettingsRepository()
+    private val clock = FakeClock()
 
-    private fun viewModel() = RecordViewModel(runs, stats, settings, FakeClock())
+    private fun viewModel() = RecordViewModel(runs, stats, settings, clock)
 
     private fun seoulMs(dateTime: String) =
         LocalDateTime
@@ -206,5 +208,66 @@ class RecordViewModelTest {
                 vm.onAction(RecordAction.RunClicked("1028"))
                 assertEquals(RecordEvent.OpenRun("1028"), awaitItem())
             }
+        }
+
+    @Test
+    fun `주가 바뀐 뒤 화면이 다시 보이면 통계가 새 이번 주로 옮겨감`() =
+        runTest {
+            stats.runs.value = sampleRuns()
+            val vm = viewModel()
+            runCurrent()
+
+            // 11.1 (일) 23:59까지는 10.26 주, 11.2 (월) 00:00부터 새 주
+            clock.now = Instant.ofEpochMilli(seoulMs("2026-11-01T23:59"))
+            vm.onAction(RecordAction.ScreenStarted)
+            runCurrent()
+            assertEquals(
+                LocalDate.of(2026, 10, 26),
+                vm.state.value.stats!!
+                    .current.start,
+            )
+
+            clock.now = Instant.ofEpochMilli(seoulMs("2026-11-02T00:00"))
+            vm.onAction(RecordAction.ScreenStarted)
+            runCurrent()
+
+            val recordStats = vm.state.value.stats!!
+            assertEquals(LocalDate.of(2026, 11, 2), recordStats.current.start)
+            assertEquals(LocalDate.of(2026, 11, 2), recordStats.today)
+            assertEquals(0, recordStats.current.runCount)
+            assertEquals(12_400.0, recordStats.previousDistanceM, 0.001)
+            assertFalse(recordStats.canGoNext)
+        }
+
+    @Test
+    fun `지난 기간을 보던 중에는 주가 바뀌어도 그 기간에 머묾`() =
+        runTest {
+            stats.runs.value = sampleRuns()
+            val vm = viewModel()
+            runCurrent()
+            vm.onAction(RecordAction.PreviousPeriodClicked)
+            runCurrent()
+
+            clock.now = Instant.ofEpochMilli(seoulMs("2026-11-02T00:00"))
+            vm.onAction(RecordAction.ScreenStarted)
+            runCurrent()
+
+            val recordStats = vm.state.value.stats!!
+            assertEquals(LocalDate.of(2026, 10, 19), recordStats.current.start)
+            assertEquals(LocalDate.of(2026, 11, 2), recordStats.today)
+            assertTrue(recordStats.canGoNext)
+        }
+
+    @Test
+    fun `해가 바뀐 뒤 화면이 다시 보이면 올해도 바뀜`() =
+        runTest {
+            val vm = viewModel()
+            runCurrent()
+
+            clock.now = Instant.ofEpochMilli(seoulMs("2027-01-01T00:00"))
+            vm.onAction(RecordAction.ScreenStarted)
+            runCurrent()
+
+            assertEquals(2027, vm.state.value.thisYear)
         }
 }

@@ -26,7 +26,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import java.time.Clock
 import java.time.LocalDate
-import java.time.Year
 
 /**
  * 기록 탭 (product-spec 5-7).
@@ -46,28 +45,36 @@ internal class RecordViewModel(
             .map { page -> page.map { it.toRow() }.withMonthHeaders() }
             .cachedIn(viewModelScope)
 
+    // 기록은 탭 루트라 ViewModel이 프로세스가 끝날 때까지 남는다. 오늘을 한 번만 읽으면 날짜가 바뀌어도 옛 기간에 머문다
+    private val today = MutableStateFlow(LocalDate.now(clock))
+
     private val selectedPeriod = MutableStateFlow(selectionOf(StatsPeriod.WEEK))
 
     init {
-        combine(statsRepository.observeMonthlyTotals(), settingsRepository.observeProfile()) { totals, profile ->
+        combine(
+            statsRepository.observeMonthlyTotals(),
+            settingsRepository.observeProfile(),
+            today,
+        ) { totals, profile, today ->
             setState {
                 copy(
                     loading = false,
                     items = this@RecordViewModel.items,
                     monthTotals = totals,
                     distanceUnit = profile.distanceUnit,
-                    thisYear = Year.now(clock).value,
+                    thisYear = today.year,
                 )
             }
         }.launchIn(viewModelScope)
-        selectedPeriod
-            .flatMapLatest { selection -> observeStats(selection) }
+        combine(selectedPeriod, today, ::Pair)
+            .flatMapLatest { (selection, today) -> observeStats(selection, today) }
             .onEach { stats -> setState { copy(stats = stats) } }
             .launchIn(viewModelScope)
     }
 
     override fun onAction(action: RecordAction) {
         when (action) {
+            RecordAction.ScreenStarted -> refreshToday()
             RecordAction.StartRunClicked -> sendEvent(RecordEvent.StartRun)
             is RecordAction.RunClicked -> sendEvent(RecordEvent.OpenRun(action.runId))
             is RecordAction.TabSelected -> setState { copy(tab = action.tab) }
@@ -81,12 +88,31 @@ internal class RecordViewModel(
         selectedPeriod.update { it.copy(start = PeriodStats.shift(it.period, it.start, count)) }
     }
 
-    private fun observeStats(selection: StatsSelection): Flow<RecordStats> {
+    /** 이번 기간을 보고 있었으면 새 이번 기간으로 따라가고, 지난 기간을 보던 중이면 그 기간에 둔다. */
+    private fun refreshToday() {
+        val previous = today.value
+        val now = LocalDate.now(clock)
+        if (now == previous) return
+        selectedPeriod.update {
+            if (it.start ==
+                PeriodStats.startOf(it.period, previous)
+            ) {
+                it.copy(start = PeriodStats.startOf(it.period, now))
+            } else {
+                it
+            }
+        }
+        today.value = now
+    }
+
+    private fun observeStats(
+        selection: StatsSelection,
+        today: LocalDate,
+    ): Flow<RecordStats> {
         val (period, start) = selection
         val previousStart = PeriodStats.shift(period, start, -1)
         return statsRepository.observeRunsAround(previousStart, PeriodStats.endOf(period, start)).map { runs ->
             val current = PeriodStats.summarize(runs, period, start)
-            val today = today()
             RecordStats(
                 current = current,
                 previousDistanceM = PeriodStats.summarize(runs, period, previousStart).distanceM,
@@ -97,9 +123,7 @@ internal class RecordViewModel(
         }
     }
 
-    private fun today(): LocalDate = LocalDate.now(clock)
-
-    private fun selectionOf(period: StatsPeriod) = StatsSelection(period, PeriodStats.startOf(period, today()))
+    private fun selectionOf(period: StatsPeriod) = StatsSelection(period, PeriodStats.startOf(period, today.value))
 
     private fun Run.toRow(): RecordItem.RunRow =
         RecordItem.RunRow(
