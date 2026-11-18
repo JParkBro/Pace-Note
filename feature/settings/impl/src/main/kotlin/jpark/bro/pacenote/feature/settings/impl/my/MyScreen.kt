@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.LifecycleStartEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import jpark.bro.pacenote.core.designsystem.AppSpacing
@@ -53,6 +54,10 @@ internal fun MyRoot(
     viewModel: MyViewModel,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    LifecycleStartEffect(Unit) {
+        viewModel.onAction(MyAction.ScreenStarted)
+        onStopOrDispose {}
+    }
     val context = LocalContext.current
     val versionName =
         remember {

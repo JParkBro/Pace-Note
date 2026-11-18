@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.LifecycleStartEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import jpark.bro.pacenote.core.designsystem.AppSpacing
 import jpark.bro.pacenote.core.designsystem.AppTheme
@@ -48,6 +49,10 @@ internal fun HomeRoot(
     debugMenu: HomeDebugMenu? = null,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    LifecycleStartEffect(Unit) {
+        viewModel.onAction(HomeAction.ScreenStarted)
+        onStopOrDispose {}
+    }
     ObserveEvents(viewModel.event) { event ->
         when (event) {
             HomeEvent.StartRun -> onStartRun()

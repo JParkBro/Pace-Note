@@ -4,6 +4,9 @@ import jpark.bro.pacenote.core.model.AppThemeMode
 import jpark.bro.pacenote.core.model.AppThemeType
 
 internal sealed interface MyAction {
+    /** 화면이 다시 보일 때마다 Root가 보낸다. 그 사이 주가 바뀌었으면 이번 주 목표를 다시 읽는다 */
+    data object ScreenStarted : MyAction
+
     data object GoalClicked : MyAction
 
     data object RunSettingsClicked : MyAction

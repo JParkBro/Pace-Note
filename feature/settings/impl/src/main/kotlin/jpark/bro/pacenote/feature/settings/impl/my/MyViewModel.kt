@@ -7,8 +7,11 @@ import jpark.bro.pacenote.core.data.repository.StatsRepository
 import jpark.bro.pacenote.core.domain.goal.WeeklyProgress
 import jpark.bro.pacenote.core.model.ThemeSetting
 import jpark.bro.pacenote.core.ui.MviViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import java.time.Clock
@@ -18,16 +21,20 @@ import java.time.LocalDate
  * 내 정보(M1, product-spec 7장)와 테마 시트(M5). 계정 · 백업 · 약관 · 앱 평가 · 앱 정보(최신 여부)는
  * 외부 설정이 필요해 2.0.0에서 붙인다. 그 전까지 라이선스 고지는 "정보" 섹션에 직접 둔다.
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 internal class MyViewModel(
     statsRepository: StatsRepository,
     goalRepository: GoalRepository,
     private val settingsRepository: SettingsRepository,
-    clock: Clock,
+    private val clock: Clock,
 ) : MviViewModel<MyState, MyAction, MyEvent>(MyState()) {
+    // 내 정보는 탭 루트라 ViewModel이 프로세스가 끝날 때까지 남는다. 주를 한 번만 읽으면 다음 주에도 지난주 목표를 본다
+    private val weekStart = MutableStateFlow(currentWeekStart())
+
     init {
         combine(
             statsRepository.observeTotals(),
-            goalRepository.observeGoalFor(WeeklyProgress.weekStart(LocalDate.now(clock))),
+            weekStart.flatMapLatest { goalRepository.observeGoalFor(it) },
             settingsRepository.observeProfile(),
         ) { totals, goal, profile ->
             setState {
@@ -44,6 +51,7 @@ internal class MyViewModel(
 
     override fun onAction(action: MyAction) {
         when (action) {
+            MyAction.ScreenStarted -> weekStart.value = currentWeekStart()
             MyAction.GoalClicked -> sendEvent(MyEvent.OpenGoal)
             MyAction.RunSettingsClicked -> sendEvent(MyEvent.OpenRunSettings)
             MyAction.ProfileClicked -> sendEvent(MyEvent.OpenProfile)
@@ -58,6 +66,8 @@ internal class MyViewModel(
             MyAction.FontLicenseSheetDismissed -> setState { copy(fontLicenseSheetVisible = false) }
         }
     }
+
+    private fun currentWeekStart(): LocalDate = WeeklyProgress.weekStart(LocalDate.now(clock))
 
     // 테마 시트(M5): 고르는 즉시 앱 전체에 미리보기, 적용하면 저장, 닫으면 원래대로 (product-spec 7장)
 

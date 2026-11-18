@@ -9,7 +9,7 @@
 | 루트 (`app/`, `core/`, `feature/`, `widget/`, `build-logic/`) | Android 앱 (Kotlin, Compose, 멀티 모듈) | 이 파일의 "Android 앱" 섹션 |
 | `widget/` | Glance 홈 위젯 | `widget/CLAUDE.md` |
 | `firebase/` | Firestore 보안 규칙 · 인덱스 · 에뮬레이터 설정, Hosting 설정 | `firebase/CLAUDE.md` |
-| `policy-site/` | Firebase Hosting(`public/`): 개인정보 처리방침 · 이용약관 · 위치정보 이용약관 | `docs/run/infra-and-billing-protection.md` 2-4 |
+| `firebase/policy-site/` | Firebase Hosting(`public/`): 개인정보 처리방침 · 이용약관 · 위치정보 이용약관 | `docs/run/infra-and-billing-protection.md` 2-4 |
 | `config/detekt/` | detekt 규칙 | – |
 | `scripts/` | `generate-theme-colors.py` (theme-tokens.json → ThemeTokens.kt), `generate-gpx-fixtures.py` (GPX fixture · 기대값) | – |
 | `docs/common/` | 범용 규칙 (아키텍처, 컨벤션, 테스트, Git, 출시 · 업데이트) | – |
@@ -17,7 +17,7 @@
 
 Cloud Functions는 없다 (Spark 요금제라 쓸 수 없고, v1에 필요한 서버 로직도 없음).
 
-**Room · DataStore만 쓰는 로컬 앱을 1.0.0으로 먼저 낸다.** Firebase · Google 로그인 · 정책 페이지 Hosting · 인앱 업데이트 등 외부 설정이 필요한 작업은 앱 2.0.0(마일스톤 `cloud`)이다 (`docs/run/roadmap.md` 1 · 2장, `docs/run/module-map.md` 9장 2부). 그 전까지 Firebase 의존성 · 플러그인을 모듈에 적용하지 않는다.
+**Room · DataStore만 쓰는 로컬 앱을 1.0.0으로 먼저 낸다.** Firebase · Google 로그인 · 정책 페이지 Hosting · 인앱 업데이트 등 외부 설정이 필요한 작업은 앱 2.0.0(마일스톤 `cloud`)이다 (`docs/run/roadmap.md` 1 · 2장, `docs/run/module-map.md` 9장 2부). 예외로 개인정보 처리방침 · 서비스 이용약관 페이지만 1.0.0에 Hosting 배포한다 (앱 밖 정적 페이지). 그 전까지 Firebase 의존성 · 플러그인을 모듈에 적용하지 않는다.
 
 아직 없는 모듈 · 폴더는 `docs/run/module-map.md` 9장 순서대로 만든다. 현재 Gradle 모듈은 `settings.gradle.kts`가 기준이다.
 

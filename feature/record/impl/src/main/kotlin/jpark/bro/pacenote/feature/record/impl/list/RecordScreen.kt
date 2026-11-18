@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.LifecycleStartEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
@@ -64,6 +65,10 @@ internal fun RecordRoot(
     viewModel: RecordViewModel,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    LifecycleStartEffect(Unit) {
+        viewModel.onAction(RecordAction.ScreenStarted)
+        onStopOrDispose {}
+    }
     ObserveEvents(viewModel.event) { event ->
         when (event) {
             RecordEvent.StartRun -> onStartRun()
