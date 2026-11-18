@@ -8,7 +8,7 @@
 |---|---|
 | `firestore.rules` | 보안 규칙 |
 | `firestore.indexes.json` | 복합 인덱스 |
-| `firebase.json` | 에뮬레이터 설정. Hosting(`../policy-site/public`, `cleanUrls`)은 9-3에서 `policy-site/`와 함께 추가 |
+| `firebase.json` | 에뮬레이터 설정, Hosting(`policy-site/public`, `cleanUrls`, `/` → `/privacy`). 1.0.0은 개인정보 처리방침 · 서비스 이용약관만 있고 `--only hosting`으로 배포한다. 위치정보 이용약관은 9-3에서 추가 |
 | `tests/rules.test.js` | 보안 규칙 테스트 (vitest + `@firebase/rules-unit-testing`) |
 | `package.json` · `package-lock.json` · `.npmrc` | 테스트 도구 (버전 고정, Node 24.12 이상) |
 
