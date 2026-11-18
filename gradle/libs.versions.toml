@@ -1,8 +1,8 @@
 [versions]
 # project
 projectApplicationId = "jpark.bro.pacenote"
-# versionCode = MAJOR*1_000_000 + MINOR*10_000 + PATCH*100 + 빌드번호 (docs/common/RELEASE_AND_UPDATE.md 3장)
-projectVersionCode = "1000000"
+# versionCode = 1부터 AAB를 만들 때마다 1씩 올리는 정수. versionName과 따로 간다 (CLAUDE.md "AAB 만들기")
+projectVersionCode = "2"
 projectVersionName = "1.0.0"
 projectCompileSdkVersion = "37"
 projectMinSdkVersion = "30"

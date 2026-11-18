@@ -34,7 +34,7 @@
 - MAJOR(`2.0.0`)는 데이터 호환이 깨지는 대규모 개편에만 씁니다. 마일스톤이 바뀌었다고 올리지 않습니다.
 - **예외 (2026-11-10 결정):** 외부 설정이 필요한 묶음(마일스톤 `cloud`: Firebase · Google 로그인 · 백업 · 정책 페이지 · 인앱 업데이트)은 앱 `2.0.0`으로 냅니다. 로컬 전용 앱이 계정 · 서버가 붙는 앱으로 바뀌는 전환이라 MAJOR로 구분합니다. 데이터 호환 규칙(6장)은 그대로 지킵니다. `docs/run/README.md` "공통 문서와 다르게 가는 부분".
 
-> versionCode는 `MAJOR*1_000_000 + MINOR*10_000 + PATCH*100 + 빌드번호`입니다 (GIT_CONVENTIONS 6-2, RELEASE_AND_UPDATE 3장).
+> versionCode는 versionName과 따로, AAB를 만들 때마다 1씩 올리는 정수입니다 (`docs/run/README.md` "공통 문서와 다르게 가는 부분", 공통 규칙은 GIT_CONVENTIONS 6-2 · RELEASE_AND_UPDATE 3장).
 
 ## 2. 마일스톤별 범위
 

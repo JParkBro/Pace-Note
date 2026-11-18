@@ -104,7 +104,7 @@ Ktor는 공통 스택이지만 v1에는 호출하는 외부 API가 없어 `core:
 ### 빌드 구성
 
 - convention plugin은 `build-logic/` (`pacenote.android.application`, `pacenote.android.library`, `pacenote.android.compose`, `pacenote.jvm.library`, `pacenote.koin`, `pacenote.room`, `pacenote.feature.api`, `pacenote.feature.impl`, `pacenote.roborazzi`).
-- 버전 · SDK · applicationId는 `gradle/libs.versions.toml`의 `project*` 값. versionCode는 `MAJOR*1_000_000 + MINOR*10_000 + PATCH*100 + 빌드번호`.
+- 버전 · SDK · applicationId는 `gradle/libs.versions.toml`의 `project*` 값. versionCode는 AAB를 만들 때마다 1씩 올리는 정수 (versionName과 무관, 아래 "AAB 만들기").
 - 기본 패키지는 `jpark.bro.pacenote`. dev flavor는 applicationId에 `.dev`가 붙는다.
 - Gradle 데몬 JVM은 21 (`gradle/gradle-daemon-jvm.properties`). detekt 1.23이 JDK 25에서 동작하지 않는다.
 - `google-services` · `firebase-crashlytics` 플러그인은 `app/google-services.json`을 받은 뒤 app에 적용한다.
@@ -130,17 +130,16 @@ Ktor는 공통 스택이지만 v1에는 호출하는 외부 API가 없어 `core:
 
 사용자가 "aab(abb) · 앱 번들 만들어 줘"라고 하면:
 
-1. **versionCode**: `gradle/libs.versions.toml`의 `projectVersionCode`를 **무조건 1 올린다** (빌드번호 자리, 예: `1000000` → `1000001`).
-2. **버전(versionName)**: `projectVersionName`(예: `1.0.0`)은 **사용자가 요청할 때만, 요청한 값으로** 바꾼다. 바꾸면 versionCode를 새 버전의 빌드번호 0으로 맞춘다 (`1.0.1` → `1000100`, 이전 값보다 커야 함). 요청이 없으면 그대로 둔다.
+1. **versionCode**: `gradle/libs.versions.toml`의 `projectVersionCode`를 **무조건 1 올린다** (예: `2` → `3`). 버전을 바꿀 때도 똑같이 1만 올린다.
+2. **버전(versionName)**: `projectVersionName`(예: `1.0.0`)은 **사용자가 요청할 때만, 요청한 값으로** 바꾼다. 요청이 없으면 그대로 둔다.
 3. `./gradlew :app:bundleProdRelease`로 만든다. 서명은 루트 `keystore.properties`(커밋 금지)를 쓴다. 결과물은 `app/build/outputs/bundle/prodRelease/`.
-4. **출시명**: Play Console "출시명" 칸에 넣을 값. 형식 `{versionName} ({versionCode})` (예: `1.0.0 (1000001)`).
+4. **출시명**: Play Console "출시명" 칸에 넣을 값. 형식 `{versionName} ({versionCode})` (예: `1.0.0 (2)`).
 5. **출시 노트**: Play Console "출시 노트" 칸에 그대로 붙여 넣을 수 있게 작성한다.
    - 범위: 직전에 `projectVersionCode`를 바꾼 커밋 이후 `main`에 들어온 변경 (`git log -- gradle/libs.versions.toml`로 찾는다). 첫 출시면 앱 소개 위주로 쓴다.
    - 사용자가 체감하는 변경만 쓴다 (새 기능 · 바뀐 화면 · 고친 문제). 리팩터링 · 문서 · 테스트 · CI는 빼고, 그런 것뿐이면 "안정성을 개선했어요." 한 줄.
    - 한국어 존댓말 "~했어요" 톤, `- ` 목록, **500자 이내** (Play 한도). `<ko-KR>` … `</ko-KR>` 태그로 감싼다.
 6. 바뀐 versionCode · versionName, 결과물 경로, 출시명, 출시 노트를 한 번에 알려 준다. 버전 변경 커밋은 사용자가 요청할 때 한다.
 
-- 빌드번호는 0~99다. 99에서 더 올려야 하면 진행하지 말고 사용자에게 버전(PATCH)을 올릴지 묻는다.
 - 스토어에 올린 versionCode는 다시 쓸 수 없으므로 내리지 않는다.
 
 스크린샷 테스트(Roborazzi, `docs/common/TESTING.md` 5-10)는 `pacenote.roborazzi` convention이 `core:designsystem`과 `feature:*:impl`의 private Preview를 찍는다. 기준 이미지는 모듈의 `src/test/screenshots/`.
