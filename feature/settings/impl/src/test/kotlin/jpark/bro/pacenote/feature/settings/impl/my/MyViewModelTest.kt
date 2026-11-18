@@ -18,6 +18,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Rule
 import org.junit.Test
+import java.time.LocalDate
+import java.time.ZonedDateTime
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MyViewModelTest {
@@ -26,8 +28,10 @@ class MyViewModelTest {
 
     private val stats = FakeStatsRepository()
     private val settings = FakeSettingsRepository()
+    private val goals = FakeGoalRepository()
+    private val clock = FakeClock()
 
-    private fun viewModel() = MyViewModel(stats, FakeGoalRepository(), settings, FakeClock())
+    private fun viewModel() = MyViewModel(stats, goals, settings, clock)
 
     @Test
     fun `누적 거리 · 횟수를 보여주고 목표가 없으면 정하지 않음`() =
@@ -126,5 +130,20 @@ class MyViewModelTest {
             assertEquals(true, vm.state.value.fontLicenseSheetVisible)
             vm.onAction(MyAction.FontLicenseSheetDismissed)
             assertEquals(false, vm.state.value.fontLicenseSheetVisible)
+        }
+
+    @Test
+    fun `주가 바뀐 뒤 화면이 다시 보이면 새 주의 목표를 읽음`() =
+        runTest {
+            val vm = viewModel()
+            runCurrent()
+            assertEquals(LocalDate.of(2026, 10, 26), goals.observedWeekStart)
+
+            // 11.2 (월) 00:00부터 새 주
+            clock.now = ZonedDateTime.of(2026, 11, 2, 0, 0, 0, 0, FakeClock.SEOUL).toInstant()
+            vm.onAction(MyAction.ScreenStarted)
+            runCurrent()
+
+            assertEquals(LocalDate.of(2026, 11, 2), goals.observedWeekStart)
         }
 }
