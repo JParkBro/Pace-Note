@@ -32,7 +32,7 @@ internal object ShareImageExporter {
         return captured.scale(EXPORT_WIDTH, height)
     }
 
-    /** 사진 앱(`Pictures/런닝`)에 저장한다. API 29+ MediaStore라 저장소 권한이 필요 없다. */
+    /** 사진 앱(`Pictures/흰선`)에 저장한다. API 29+ MediaStore라 저장소 권한이 필요 없다. */
     suspend fun saveToGallery(
         context: Context,
         bitmap: Bitmap,
