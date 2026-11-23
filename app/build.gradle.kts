@@ -12,9 +12,11 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.common)
     implementation(projects.core.designsystem)
     implementation(projects.core.data)
     implementation(projects.core.navigation)
+    implementation(projects.core.ui)
     implementation(projects.core.tracking)
     implementation(projects.feature.onboarding.api)
     implementation(projects.feature.onboarding.impl)
@@ -35,10 +37,12 @@ dependencies {
     implementation(libs.bundles.koin.compose)
     implementation(libs.kotlinx.serialization.json)
 
+    // 인앱 업데이트 (docs/run/in-app-update.md). -ktx는 requestAppUpdateInfo() · isFlexibleUpdateAllowed
+    implementation(libs.app.update)
+    implementation(libs.app.update.ktx)
+
     // debug 빌드 전용 추적 테스트 화면 (tracking.md 8-3): 실제 GPS ↔ GPX 재생 전환, 거리 · 시간 표기
-    debugImplementation(projects.core.common)
     debugImplementation(projects.core.location)
-    debugImplementation(projects.core.ui)
 
     // KoinModulesTest
     testImplementation(libs.bundles.robolectric)

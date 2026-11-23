@@ -1,5 +1,7 @@
 package jpark.bro.pacenote.di
 
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import jpark.bro.pacenote.core.navigation.Navigator
 import jpark.bro.pacenote.core.tracking.di.trackingModule
 import jpark.bro.pacenote.feature.home.api.HomeKey
@@ -14,9 +16,12 @@ import jpark.bro.pacenote.navigation.AppOnboardingResultHandler
 import jpark.bro.pacenote.navigation.AppRunResultHandler
 import jpark.bro.pacenote.navigation.AppStartRouter
 import jpark.bro.pacenote.navigation.appTopLevelKeys
+import jpark.bro.pacenote.update.UpdateViewModel
 import jpark.bro.pacenote.widget.di.widgetModule
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
@@ -30,6 +35,10 @@ val appModule =
         singleOf(::AppRunResultHandler) bind RunResultHandler::class
         singleOf(::AppStartRouter)
         singleOf(::AppOnboardingResultHandler) bind OnboardingResultHandler::class
+
+        // 인앱 업데이트: UpdateViewModel과 MainActivity가 같은 인스턴스를 쓴다 (docs/run/in-app-update.md 4장)
+        single<AppUpdateManager> { AppUpdateManagerFactory.create(androidContext()) }
+        viewModelOf(::UpdateViewModel)
 
         includes(buildTypeModule)
     }
