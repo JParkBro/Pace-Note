@@ -462,15 +462,17 @@ Stitch 디자인 시스템 원본: [design/_stitch-design-system/DESIGN.md](desi
 | `RunBars.kt` | `RunTopBar(isScrolled)` · `RunBottomBar` | 상단 헤더 · 하단 탭바 |
 | `RunBottomSheet.kt` | `RunBottomSheet` · `RunSheetHandle` | 바텀시트 |
 | `RunFeedback.kt` | `RunInfoBox(TIP · WARNING)` · `RunToast` · `RunToastHost` | 안내 박스 · 토스트 |
-| `RunMascot.kt` | `RunMascot(pose = IDLE · WAVE · JUMP · WORRIED)` · `RunMascotLoading`(통통 튀기), 크기 `RunMascotDefaults.Size`(120dp) · `SizeSmall`(64dp) | 마스코트 · 로딩 (아래 "마스코트") |
+| `RunMascot.kt` | `RunMascot(pose = IDLE · WAVE · JUMP · WORRIED)` · `RunMascotLoading`(숨쉬기 8프레임), 크기 `RunMascotDefaults.Size`(120dp) · `SizeSmall`(64dp) | 마스코트 · 로딩 (아래 "마스코트") |
 
 **마스코트** (2026-11-23 결정)
 
-- 보라 픽셀 캐릭터. 원본 · 정리 스크립트는 저장소 밖(`~/Downloads/Mascot`, README에 규격)에 있고, 앱에는 정리본(80×80 투명 PNG) 중 쓰는 것만 `core/designsystem/src/main/res/drawable-nodpi/mascot_*.png`로 복사한다 (파일 이름에서 `_80`을 뺌).
+- 보라 픽셀 캐릭터. 원본 · 정리 스크립트는 저장소 밖에 있다: 숨쉬기 정리본과 다른 프로젝트용 안내는 `~/Documents/WorkSpace/Mascot/`(README · USE_IN_OTHER_PROJECTS.md), 나머지 정리본 · 원본은 `~/Downloads/Mascot/`. 앱에는 정리본(80×80 투명 PNG) 중 쓰는 것만 `core/designsystem/src/main/res/drawable-nodpi/`에 복사한다. 낱장은 파일 이름에서 `_80`을 빼고(`mascot_jump.png`), 시트는 이름 그대로(`mascot_breath_sheet_80x80_8f.png`).
+- 구현은 구독캘린더(subcal)의 `SubCalMascot.kt`와 같다 (`MascotSprite` · `rememberLoopFrame` · `mascotPixelScale` · `mascotSemantics`). 마스코트 쪽 그림이 바뀌면 subcal 구현을 기준으로 다시 맞춘다.
+- 로딩(`RunMascotLoading`): 숨쉬기 + 눈 깜빡임 시트 8프레임 × 125ms(8fps, 한 바퀴 1초) 반복. 2026-11-23에 통통 튀기(2프레임)에서 바꿈.
 - 쓰는 자리: 로딩(`RunMascotLoading`이 `CircularProgressIndicator`를 대신함: 러닝 확인 · 저장 중, P6 결과, M11), 빈 상태(H1 최근 기록 `IDLE` · R1 `WAVE`), 실패(M11 `WORRIED`), 목표 달성(H1 `JUMP`). 러닝 중(P2 · P3) · 알림 · 위젯에는 넣지 않는다.
 - 색은 테마와 상관없이 마스코트 고유색이다 (PNG라 토큰 규칙 대상이 아님). 새 자세는 원본 정리 후 `RunMascotPose`에 추가한다.
-- 픽셀이 뭉개지지 않도록 보간 없이(`FilterQuality.None`), 원하는 크기 안에서 가장 큰 **정수 배율**로 그린다.
-- 옆에 같은 뜻의 문구가 있으면 장식이라 `contentDescription = null`. 로딩은 "불러오는 중".
+- 픽셀이 뭉개지지 않도록 보간 없이(`FilterQuality.None`), `size` 안에 들어가는 가장 큰 **정수 배율**로 가운데에 그린다 (`mascotPixelScale`, `MascotScaleTest`). 시트는 80px 프레임을 `srcOffset`으로 잘라 그린다. `Image`로 직접 그리지 않는다.
+- 옆에 같은 뜻의 문구가 있으면 장식이라 `contentDescription = null`. 로딩은 "불러오는 중" + 진행 중(불확정)으로 읽힌다.
 - Preview · 스크린샷(`LocalInspectionMode`)에서는 로딩 애니메이션을 첫 프레임으로 고정한다.
 
 화면 전용 모양(홈 진행 링 카드, 공유 카드 레이아웃)은 각 feature에 둡니다. 거리 · 시간 · 페이스 문자열은 `core:ui`의 `RunFormat`으로만 만듭니다.
