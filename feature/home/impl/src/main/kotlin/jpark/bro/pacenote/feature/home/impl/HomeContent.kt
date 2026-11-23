@@ -25,6 +25,9 @@ import jpark.bro.pacenote.core.designsystem.component.RunBadge
 import jpark.bro.pacenote.core.designsystem.component.RunBadgeTone
 import jpark.bro.pacenote.core.designsystem.component.RunCard
 import jpark.bro.pacenote.core.designsystem.component.RunListItem
+import jpark.bro.pacenote.core.designsystem.component.RunMascot
+import jpark.bro.pacenote.core.designsystem.component.RunMascotDefaults
+import jpark.bro.pacenote.core.designsystem.component.RunMascotPose
 import jpark.bro.pacenote.core.designsystem.component.RunProgressRing
 import jpark.bro.pacenote.core.designsystem.component.RunSection
 import jpark.bro.pacenote.core.designsystem.component.RunStatTile
@@ -72,6 +75,7 @@ internal fun WeekCard(
             } else {
                 GoalRing(state, goal)
                 if (goal.achieved) {
+                    RunMascot(RunMascotPose.JUMP, size = RunMascotDefaults.SizeSmall)
                     RunBadge(
                         text = stringResource(R.string.home_goal_achieved),
                         tone = RunBadgeTone.SUCCESS,
@@ -166,12 +170,18 @@ internal fun RecentRuns(
     onAction: (HomeAction) -> Unit,
 ) {
     if (runs.isEmpty()) {
-        Text(
-            text = stringResource(R.string.home_empty),
-            style = AppThemeTokens.typography.bodyMd,
-            color = AppThemeTokens.colors.textSecondary,
+        Column(
             modifier = Modifier.fillMaxWidth().padding(vertical = AppSpacing.lg).testTag("home_empty"),
-        )
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(AppSpacing.sm),
+        ) {
+            RunMascot(RunMascotPose.IDLE, size = RunMascotDefaults.SizeSmall)
+            Text(
+                text = stringResource(R.string.home_empty),
+                style = AppThemeTokens.typography.bodyMd,
+                color = AppThemeTokens.colors.textSecondary,
+            )
+        }
         return
     }
     val unitLabel = stringResource(RunFormat.unitLabelRes(unit))

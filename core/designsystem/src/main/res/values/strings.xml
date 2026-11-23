@@ -4,4 +4,7 @@
     <string name="common_gps_good">GPS 양호</string>
     <string name="common_gps_weak">GPS 약함</string>
     <string name="common_gps_lost">GPS 없음</string>
+
+    <!-- 로딩 (RunMascotLoading) -->
+    <string name="common_loading">불러오는 중</string>
 </resources>

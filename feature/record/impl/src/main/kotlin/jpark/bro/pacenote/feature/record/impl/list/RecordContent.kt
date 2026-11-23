@@ -32,6 +32,8 @@ import jpark.bro.pacenote.core.designsystem.component.RouteCanvas
 import jpark.bro.pacenote.core.designsystem.component.RouteCanvasStyle
 import jpark.bro.pacenote.core.designsystem.component.RunCard
 import jpark.bro.pacenote.core.designsystem.component.RunListItem
+import jpark.bro.pacenote.core.designsystem.component.RunMascot
+import jpark.bro.pacenote.core.designsystem.component.RunMascotPose
 import jpark.bro.pacenote.core.designsystem.component.RunPrimaryButton
 import jpark.bro.pacenote.core.designsystem.component.RunTopBar
 import jpark.bro.pacenote.core.designsystem.preview.ScreenPreviews
@@ -144,6 +146,7 @@ internal fun RecordEmpty(
         verticalArrangement = Arrangement.spacedBy(AppSpacing.lg, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        RunMascot(RunMascotPose.WAVE)
         Text(
             text = stringResource(R.string.record_empty),
             style = AppThemeTokens.typography.bodyLg,

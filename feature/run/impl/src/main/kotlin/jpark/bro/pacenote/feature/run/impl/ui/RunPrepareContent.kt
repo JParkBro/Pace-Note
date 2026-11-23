@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -26,6 +25,7 @@ import jpark.bro.pacenote.core.designsystem.AppThemeTokens
 import jpark.bro.pacenote.core.designsystem.component.RunGpsIndicator
 import jpark.bro.pacenote.core.designsystem.component.RunInfoBox
 import jpark.bro.pacenote.core.designsystem.component.RunInfoBoxTone
+import jpark.bro.pacenote.core.designsystem.component.RunMascotLoading
 import jpark.bro.pacenote.core.designsystem.component.RunOutlineButton
 import jpark.bro.pacenote.core.designsystem.component.RunPrimaryButton
 import jpark.bro.pacenote.core.designsystem.component.RunSecondaryButton
@@ -39,7 +39,7 @@ import jpark.bro.pacenote.feature.run.impl.RunState
 @Composable
 internal fun RunLoadingContent(modifier: Modifier = Modifier) {
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        CircularProgressIndicator(color = AppThemeTokens.colors.primary)
+        RunMascotLoading()
     }
 }
 
