@@ -9,6 +9,7 @@ import jpark.bro.pacenote.core.data.repository.DefaultOnboardingRepository
 import jpark.bro.pacenote.core.data.repository.DefaultRunRepository
 import jpark.bro.pacenote.core.data.repository.DefaultSettingsRepository
 import jpark.bro.pacenote.core.data.repository.DefaultStatsRepository
+import jpark.bro.pacenote.core.data.repository.DefaultUpdatePromptRepository
 import jpark.bro.pacenote.core.data.repository.FeatureFlags
 import jpark.bro.pacenote.core.data.repository.GoalRepository
 import jpark.bro.pacenote.core.data.repository.GuestAuthRepository
@@ -17,6 +18,7 @@ import jpark.bro.pacenote.core.data.repository.OnboardingRepository
 import jpark.bro.pacenote.core.data.repository.RunRepository
 import jpark.bro.pacenote.core.data.repository.SettingsRepository
 import jpark.bro.pacenote.core.data.repository.StatsRepository
+import jpark.bro.pacenote.core.data.repository.UpdatePromptRepository
 import jpark.bro.pacenote.core.database.di.databaseModule
 import jpark.bro.pacenote.core.datastore.di.datastoreModule
 import org.koin.core.module.dsl.bind
@@ -37,5 +39,6 @@ val dataModule =
         singleOf(::DefaultGoalRepository) { bind<GoalRepository>() }
         singleOf(::DefaultSettingsRepository) { bind<SettingsRepository>() }
         singleOf(::DefaultOnboardingRepository) { bind<OnboardingRepository>() }
+        singleOf(::DefaultUpdatePromptRepository) { bind<UpdatePromptRepository>() }
         singleOf(::LocalFeatureFlags) { bind<FeatureFlags>() }
     }

@@ -52,7 +52,7 @@ Cloud Functions는 없다 (Spark 요금제라 쓸 수 없고, v1에 필요한 �
 - **미완성 기능은 기능 플래그(`feature_{name}_enabled`, 기본값 false) 뒤에 둔다.** 플래그는 `core:data`의 `FeatureFlags` 한 곳에서만 읽는다.
 - **백그라운드 위치 권한(`ACCESS_BACKGROUND_LOCATION`)을 요청하지 않는다.** 추적은 사용자가 앱 화면에서 "시작"을 눌러 띄운 위치 타입 포그라운드 서비스로만 한다.
 - **러닝 중에는 어떤 광고도 띄우지 않는다** (v1은 광고 자체가 없음).
-- **인앱 업데이트는 컨펌 후에만 진행한다.** FLEXIBLE만 쓰고, 업데이트 · 재시작 모두 다이얼로그로 먼저 묻는다. 러닝 중(`RunTracker.state`가 Idle이 아님)에는 띄우지 않는다. 판단은 app의 `UpdateViewModel`, Play 호출(`startUpdateFlowForResult` · `completeUpdate`)은 MainActivity가 `UpdateEvent`로 받아서 한다 (`docs/run/in-app-update.md`).
+- **인앱 업데이트는 컨펌 후에만 진행한다.** FLEXIBLE만 쓰고, 업데이트 · 재시작 모두 다이얼로그로 먼저 묻는다. 러닝 중(`RunTracker.state`가 Idle이 아님)에는 띄우지 않는다. "업데이트 안내"는 "나중에"를 누른 날에는 다시 묻지 않고, "설치 준비 완료"는 앱으로 돌아올 때마다 묻는다. 판단은 app의 `UpdateViewModel`, Play 호출(`startUpdateFlowForResult` · `completeUpdate`)은 MainActivity가 `UpdateEvent`로 받아서 한다 (`docs/run/in-app-update.md`).
 - **거리 · 페이스 · 스플릿 · 칼로리 · 자동 일시정지 계산은 `core:domain`에만 둔다.** 서비스 · 화면 · 위젯 · 테스트가 모두 이것을 쓴다.
 - **ID는 클라이언트 생성 UUID 문자열**, 날짜는 `yyyy-MM-dd`(LocalDate), 시각은 epoch millis. 자동 증가 ID 금지 (`run_point`의 순번 `seq`는 기록 안 순서라 예외).
 - **색은 테마 토큰으로만.** `Color(0xFF…)` 하드코딩 금지.

@@ -7,8 +7,10 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import jpark.bro.pacenote.core.model.ThemeSetting
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
+import java.time.format.DateTimeParseException
 
-/** 앱 상태: 테마 · 모드, 온보딩 완료. 서버에 올리지 않는다. */
+/** 앱 상태: 테마 · 모드, 온보딩 완료, 업데이트 안내를 미룬 날. 서버에 올리지 않는다. */
 class AppPrefsDataStore(
     private val dataStore: DataStore<Preferences>,
 ) {
@@ -34,10 +36,28 @@ class AppPrefsDataStore(
         dataStore.edit { it[Keys.ONBOARDING_COMPLETED] = true }
     }
 
+    /** 인앱 업데이트 안내에서 마지막으로 "나중에"를 누른 날 (docs/run/in-app-update.md). 없거나 형식이 깨졌으면 null */
+    fun observeUpdateSnoozedDate(): Flow<LocalDate?> =
+        dataStore.observe { prefs ->
+            prefs[Keys.UPDATE_SNOOZED_DATE]?.let {
+                try {
+                    LocalDate.parse(it)
+                } catch (_: DateTimeParseException) {
+                    null
+                }
+            }
+        }
+
+    /** `yyyy-MM-dd`로 저장한다. */
+    suspend fun setUpdateSnoozedDate(date: LocalDate) {
+        dataStore.edit { it[Keys.UPDATE_SNOOZED_DATE] = date.toString() }
+    }
+
     /** 키 이름은 저장된 값과 묶여 있으므로 바꾸지 않는다. */
     private object Keys {
         val THEME_TYPE = stringPreferencesKey("theme_type")
         val THEME_MODE = stringPreferencesKey("theme_mode")
         val ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding_completed")
+        val UPDATE_SNOOZED_DATE = stringPreferencesKey("update_snoozed_date")
     }
 }
