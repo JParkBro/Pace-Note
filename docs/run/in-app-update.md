@@ -10,9 +10,9 @@ AniPick(`../anipick/docs/in-app-update.md`)의 구현을 이 앱의 규칙(MVI `
 
 ```
 onCreate (savedInstanceState == null) ── AppStarted
-   │  UPDATE_AVAILABLE && isFlexibleUpdateAllowed
+   │  UPDATE_AVAILABLE && isFlexibleUpdateAllowed && 오늘 "나중에"를 누르지 않음
    ▼
-dialog = Available(info) ──▶ "업데이트 안내"  [업데이트] [나중에 → None]
+dialog = Available(info) ──▶ "업데이트 안내"  [업데이트] [나중에 → None, 오늘 날짜 저장 → 다음 날 새로 시작할 때 다시 뜸]
    │ 업데이트
    ▼
 Event.StartUpdateFlow(info) ──▶ MainActivity: startUpdateFlowForResult(FLEXIBLE)
@@ -39,7 +39,9 @@ Event.CompleteUpdate ──▶ MainActivity: appUpdateManager.completeUpdate() �
 - **다이얼로그는 MainActivity 최상위 `Box` 안, `AppNavDisplay` 위(마지막 자식)에 띄운다.** 어느 화면에 있든 뜬다.
 - **실패는 조용히 넘긴다 (`suspendRunCatching`).** 업데이트 확인 실패가 앱 사용을 막으면 안 된다. Play에서 설치하지 않은 빌드(Android Studio 설치 등)는 여기서 실패하거나 `UPDATE_NOT_AVAILABLE`이 온다.
 - **app 모듈에만 둔다.** feature 모듈은 이 기능을 모른다.
-- **안내 빈도 제한은 두지 않는다.** 새로 시작할 때마다 묻는다. 회전 · 다크 모드 변경으로 Activity가 다시 만들어질 때는 묻지 않는다 (`savedInstanceState == null`일 때만 `AppStarted`).
+- **"업데이트 안내"는 하루 한 번까지.** "나중에"(바깥 터치 · 뒤로 포함)를 누르면 그날 날짜를 저장하고(`UpdatePromptRepository.setSnoozedDate` → `AppPrefsDataStore`의 `update_snoozed_date`, `yyyy-MM-dd`), 같은 날에는 앱을 새로 열어도 묻지 않는다. **다음 날 앱을 새로 시작할 때** 다시 묻는다. 오늘 날짜는 주입받은 `Clock`으로 정한다. 2026-11-23 결정.
+- **"설치 준비 완료"는 날짜 제한이 없다.** "나중에"를 눌러도 앱으로 돌아올 때(`onResume`)마다 다시 묻는다. 다운로드가 끝난 업데이트는 설치를 계속 유도하라는 Play 권장 동작이고, 재시작 한 번이면 끝나기 때문이다. "업데이트 안내"를 미룬 날이어도 다운로드가 끝나 있으면 이것을 묻는다.
+- 회전 · 다크 모드 변경으로 Activity가 다시 만들어질 때는 묻지 않는다 (`savedInstanceState == null`일 때만 `AppStarted`).
 - 문구는 `app/src/main/res/values/strings.xml`의 `app_update_*`.
 
 ## 파일 구성
@@ -50,11 +52,13 @@ app/src/main/java/jpark/bro/pacenote/
 │   ├── UpdateState.kt       # UpdateState(dialog) + UpdateDialog: None / Available(info) / ReadyToInstall
 │   ├── UpdateAction.kt      # AppStarted · AppResumed + 다이얼로그 버튼 4개
 │   ├── UpdateEvent.kt       # MainActivity가 실행할 것 2개
-│   ├── UpdateViewModel.kt   # MviViewModel. AppUpdateManager · RunTracker 주입
+│   ├── UpdateViewModel.kt   # MviViewModel. AppUpdateManager · RunTracker · UpdatePromptRepository · Clock 주입
 │   └── UpdateDialogs.kt     # AlertDialog + RunPrimaryButton / RunSecondaryButton
 ├── di/AppModule.kt          # AppUpdateManager single + viewModelOf(::UpdateViewModel)
 └── MainActivity.kt          # 런처, AppStarted / AppResumed, Event 처리, 다이얼로그
 app/src/test/kotlin/jpark/bro/pacenote/update/UpdateViewModelTest.kt
+core/datastore/.../AppPrefsDataStore.kt       # update_snoozed_date (미룬 날)
+core/data/.../UpdatePromptRepository.kt       # observeSnoozedDate · setSnoozedDate
 ```
 
 ## 1. 의존성
@@ -79,11 +83,12 @@ app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.re
 
 | Action | 하는 일 |
 |---|---|
-| `AppStarted` | `requestAppUpdateInfo()`. 이미 `DOWNLOADED`면 `ReadyToInstall`, `UPDATE_AVAILABLE` + FLEXIBLE 허용이면 `Available(info)` |
+| `AppStarted` | `requestAppUpdateInfo()`. 이미 `DOWNLOADED`면 `ReadyToInstall`, `UPDATE_AVAILABLE` + FLEXIBLE 허용 + 오늘 미루지 않았으면 `Available(info)` |
 | `AppResumed` | `requestAppUpdateInfo()`. `DOWNLOADED`면 `ReadyToInstall` |
 | `UpdateConfirmed` | `Event.StartUpdateFlow(info)` + 닫기 |
 | `InstallConfirmed` | `Event.CompleteUpdate` + 닫기 |
-| `UpdateDismissed` · `InstallDismissed` | 닫기 |
+| `UpdateDismissed` | 닫기 + 오늘 날짜 저장 (저장에 실패해도 닫는다. 그러면 다음 실행 때 다시 물을 뿐) |
+| `InstallDismissed` | 닫기 (다음 `AppResumed`에 다시 뜸) |
 
 ## 3. ViewModel
 
@@ -111,7 +116,7 @@ ViewModel과 MainActivity가 **같은 `AppUpdateManager` 인스턴스**를 써�
 
 | 상황 | 동작 | 바꾸려면 |
 |---|---|---|
-| "업데이트 안내"에서 "나중에" | 이번 실행 동안 다시 안 묻고, 다음에 새로 시작할 때 다시 묻는다 | 간격을 두려면 맨 아래 "확장" |
+| "업데이트 안내"에서 "나중에" | 그날은 앱을 새로 열어도 다시 안 묻고, 다음 날 새로 시작할 때 묻는다 | 간격을 바꾸려면 `UpdateViewModel.snoozedToday()`의 날짜 비교를 바꾼다 |
 | "설치 준비 완료"에서 "나중에" | 앱으로 돌아올 때(`onResume`)마다 다시 뜬다. 다운로드된 업데이트는 설치를 계속 유도하라는 Play 권장 동작 | 덜 보이게 하려면 스낵바(액션 "재시작")로 바꾼다 |
 | 러닝 중 다운로드 완료 | 러닝 중에는 안 뜨고, 종료 · 저장 후 추적 상태가 `Idle`이 되면 뜬다 | – |
 | 다운로드 중 앱 종료 | Play가 다운로드를 계속하고, 다음 실행의 `AppStarted` / `AppResumed`에서 `DOWNLOADED`를 잡아 재시작 컨펌을 띄운다 | – |
@@ -119,7 +124,7 @@ ViewModel과 MainActivity가 **같은 `AppUpdateManager` 인스턴스**를 써�
 
 ## 7. 확인 방법
 
-- **단위 테스트**: `UpdateViewModelTest` (Robolectric). `FakeAppUpdateManager`로 `setUpdateAvailable()` → `userAcceptsUpdate()` → `downloadStarts()` → `downloadCompletes()` 상태 전이, 러닝 중 숨김을 검증한다. `./gradlew :app:testDevDebugUnitTest --tests 'jpark.bro.pacenote.update.*'`
+- **단위 테스트**: `UpdateViewModelTest` (Robolectric). `FakeAppUpdateManager`로 `setUpdateAvailable()` → `userAcceptsUpdate()` → `downloadStarts()` → `downloadCompletes()` 상태 전이, 러닝 중 숨김, "나중에" 후 같은 날 · 다음 날, 설치 준비 완료의 복귀마다 표시를 검증한다 (`FakeUpdatePromptRepository` · `FakeClock`). 미룬 날 저장 · 읽기는 `PrefsDataStoreTest`. `./gradlew :app:testDevDebugUnitTest --tests 'jpark.bro.pacenote.update.*'`
 - **실제 다이얼로그 · 다운로드는 Play에서 설치한 빌드에서만 동작한다.** 실기기 확인은 사용자가 한다.
 - **내부 앱 공유(Internal app sharing)** 로 확인한다.
   1. versionCode가 낮은 빌드와 높은 빌드를 둘 다 내부 앱 공유에 올린다 (`CLAUDE.md` "AAB 만들기", versionCode만 다르면 된다).
@@ -132,5 +137,4 @@ ViewModel과 MainActivity가 **같은 `AppUpdateManager` 인스턴스**를 써�
 ## 확장 (지금은 안 함)
 
 - **강제 업데이트** (하지 않기로 함. 옛 버전이 서버와 안 맞게 되는 등 꼭 필요해질 때만): `RELEASE_AND_UPDATE.md` 6장. Remote Config `force_update_min_version_code` 미만이면 `AppUpdateType.IMMEDIATE` + 닫을 수 없는 U1 화면. 판단은 남겨 둔 `core:domain`의 `decideUpdate`(`UpdatePolicy`는 `FeatureFlags.updatePolicy`, 지금은 아무도 쓰지 않음)를 쓰고, Remote Config 키 3개(`force_update_min_version_code` · `soft_update_*`)를 다시 등록한다. Play 우선순위(`updatePriority()`)만으로 판단하면 출시 후 값을 못 바꾸므로 기준으로 쓰지 않는다.
-- **안내 빈도 조절**: 매 실행마다 묻는 게 부담이면 `decideUpdate`의 `soft_update_interval_days`처럼 마지막 "나중에" 시각을 DataStore에 저장해 간격을 둔다.
 - **M8 앱 정보의 "최신 여부"**: `requestAppUpdateInfo()`의 `updateAvailability()`를 쓴다.

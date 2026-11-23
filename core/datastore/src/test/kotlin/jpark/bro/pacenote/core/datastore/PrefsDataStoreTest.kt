@@ -25,6 +25,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import java.io.File
+import java.time.LocalDate
 
 class PrefsDataStoreTest {
     @get:Rule
@@ -127,6 +128,20 @@ class PrefsDataStoreTest {
             prefs.setThemeSetting(ThemeSetting(AppThemeType.RIVER, AppThemeMode.DARK))
 
             assertEquals(ThemeSetting(AppThemeType.RIVER, AppThemeMode.DARK), prefs.observeThemeSetting().first())
+        }
+
+    @Test
+    fun `업데이트 안내를 미룬 날을 저장하고, 없거나 형식이 깨졌으면 null`() =
+        runTest {
+            val store = dataStore()
+            val prefs = AppPrefsDataStore(store)
+            assertNull(prefs.observeUpdateSnoozedDate().first())
+
+            prefs.setUpdateSnoozedDate(LocalDate.of(2026, 10, 29))
+            assertEquals(LocalDate.of(2026, 10, 29), prefs.observeUpdateSnoozedDate().first())
+
+            store.edit { it[stringPreferencesKey("update_snoozed_date")] = "29/10/2026" }
+            assertNull(prefs.observeUpdateSnoozedDate().first())
         }
 
     @Test

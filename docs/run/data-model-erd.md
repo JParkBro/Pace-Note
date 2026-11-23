@@ -95,7 +95,7 @@ erDiagram
 | 체중 · 거리 단위 | DataStore (`UserPrefsDataStore`) | `users/{uid}`의 `weightKg` · `distanceUnit` | |
 | 약관 동의 | DataStore (`UserPrefsDataStore`) | `users/{uid}`의 동의 필드 | 게스트 동의도 로그인 시 올림 |
 | 러닝 설정 (음성 · 자동 일시정지 · 카운트다운 · 화면 켜짐), 배터리 안내 표시 여부 | DataStore (`RunPrefsDataStore`) | ✗ | 기기별 설정 |
-| 테마 · 모드, 온보딩 완료 | DataStore (`AppPrefsDataStore`) | ✗ | |
+| 테마 · 모드, 온보딩 완료, 업데이트 안내를 미룬 날 | DataStore (`AppPrefsDataStore`) | ✗ | 미룬 날은 `update_snoozed_date` (`yyyy-MM-dd`, `in-app-update.md`) |
 
 ### Android 자동 백업 (2026-11-10 결정)
 
