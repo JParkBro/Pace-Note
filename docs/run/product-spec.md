@@ -144,7 +144,6 @@
 | M11 | 다른 앱 둘러보기 (웹뷰) | settings |
 | N1 | 진행 중 알림 | core:tracking |
 | W1 | 홈 위젯 | widget |
-| U1 | 강제 업데이트 | app |
 
 ---
 
@@ -323,7 +322,7 @@ O0 다음, 로그인 여부와 상관없이 모두 거칩니다.
 
 ## 11. 디자인 시안 작업 (Stitch)
 
-프롬프트는 [stitch-prompts.md](stitch-prompts.md). 시안은 `docs/run/design/{화면 ID 소문자}/`(`screen.png`, `code.html`)에 있고, 화면별 경로는 [design/README.md](design/README.md)입니다. P1-b · P3-L · M4 · M8 · U1은 시안이 없으므로 5 · 7장 동작과 같은 묶음의 시안을 기준으로 구성합니다.
+프롬프트는 [stitch-prompts.md](stitch-prompts.md). 시안은 `docs/run/design/{화면 ID 소문자}/`(`screen.png`, `code.html`)에 있고, 화면별 경로는 [design/README.md](design/README.md)입니다. P1-b · P3-L · M4 · M8은 시안이 없으므로 5 · 7장 동작과 같은 묶음의 시안을 기준으로 구성합니다.
 
 - 공통 컨텍스트에 테마 색(볼트 라임 다크)과 **"지도 금지, 경로는 흰 선만"**을 먼저 넣고 시작합니다.
 - 모든 헤더 · 라벨은 한국어, 하위 화면에 프로필 아이콘 · 알림 벨 없음.

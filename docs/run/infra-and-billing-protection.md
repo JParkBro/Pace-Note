@@ -74,9 +74,6 @@ Firebase Spark(무료) 한 곳만 쓰는 구성, 각 흐름의 구현 포인트,
 | 키 | 기본값 | 용도 |
 |---|---|---|
 | `backup_enabled` | true | 백업 Push · Pull 전체 중단 (버그 · 한도 소진 시) |
-| `force_update_min_version_code` | 1 | 강제 업데이트 기준 (`RELEASE_AND_UPDATE.md` 6장) |
-| `soft_update_min_version_code` | 1 | 선택 업데이트 기준 |
-| `soft_update_interval_days` | 3 | 선택 업데이트 안내 간격 |
 | `feature_{name}_enabled` | false | 새 기능 플래그 (`roadmap.md` 5장) |
 
 ## 3. 과금 방어의 원칙

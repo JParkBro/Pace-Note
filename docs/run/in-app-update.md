@@ -4,7 +4,7 @@ Play 스토어에 새 버전이 있으면 **앱 시작 시 컨펌 다이얼로�
 
 AniPick(`../anipick/docs/in-app-update.md`)의 구현을 이 앱의 규칙(MVI `MviViewModel`, `strings.xml`, `suspendRunCatching`, `Run*` 컴포넌트)에 맞춰 옮겼다. 다른 점은 **러닝 중에는 다이얼로그를 띄우지 않는다**는 것 하나다.
 
-> 2026-11-23 결정: 이 FLEXIBLE 흐름은 Remote Config · 콘솔 설정 없이 Play 라이브러리만 쓰므로 **1.x에 넣는다** (원래 계획은 2.0.0 `cloud`). Remote Config로 정하는 강제 업데이트(`RELEASE_AND_UPDATE.md` 6장의 IMMEDIATE · U1 강제 업데이트 화면)와 M8 앱 정보는 그대로 `module-map.md` 9장 10단계(2.0.0)에 남는다. 공통 문서와 다른 부분은 `README.md` "공통 문서와 다르게 가는 부분".
+> 2026-11-23 결정: 이 FLEXIBLE 흐름은 Remote Config · 콘솔 설정 없이 Play 라이브러리만 쓰므로 **1.x에 넣는다** (원래 계획은 2.0.0 `cloud`). 같은 날, Remote Config로 정하는 강제 업데이트(`RELEASE_AND_UPDATE.md` 6장의 IMMEDIATE · U1 강제 업데이트 화면)는 **2.0.0에서도 하지 않기로** 했다. M8 앱 정보만 `module-map.md` 9장 10단계(2.0.0)에 남는다. 공통 문서와 다른 부분은 `README.md` "공통 문서와 다르게 가는 부분".
 
 ## 한눈에 보기
 
@@ -32,7 +32,7 @@ Event.CompleteUpdate ──▶ MainActivity: appUpdateManager.completeUpdate() �
 
 ## 정해 둔 것
 
-- **FLEXIBLE만 쓴다.** IMMEDIATE(전체 화면, 끝날 때까지 앱 사용 불가)는 쓰지 않는다. 강제 업데이트는 2.0.0에서 Remote Config 기준으로 붙인다 (맨 아래 "확장").
+- **FLEXIBLE만 쓴다.** IMMEDIATE(전체 화면, 끝날 때까지 앱 사용 불가)는 쓰지 않는다. 강제 업데이트는 하지 않는다 (이유는 `README.md` "공통 문서와 다르게 가는 부분", 필요해지면 맨 아래 "확장").
 - **Play 화면을 바로 띄우지 않고 앱 다이얼로그로 먼저 묻는다.** 다운로드 후 재시작도 한 번 더 묻는다. 컨펌 없이 업데이트 · 재시작하지 않는다.
 - **러닝 중에는 띄우지 않는다.** 재시작(`completeUpdate()`)은 프로세스를 끝내 추적 포그라운드 서비스까지 멈추고, 러닝 화면을 가리는 것도 안 된다. 판단은 `RunTracker.state`(`TrackingState.Idle`인지)로 한다.
 - **판단 · 상태는 ViewModel, 실행은 Activity.** `startUpdateFlowForResult()`는 Activity에 묶인 `ActivityResultLauncher`가 필요하고 `completeUpdate()`는 앱을 재시작시키므로, ViewModel은 Event만 보내고 MainActivity가 호출한다.
@@ -129,8 +129,8 @@ ViewModel과 MainActivity가 **같은 `AppUpdateManager` 인스턴스**를 써�
   5. 러닝을 시작한 상태에서 다운로드가 끝나면 다이얼로그가 안 뜨고, 러닝 종료 후 뜨는지 본다.
 - 내부 테스트 트랙으로도 확인할 수 있다. 어느 쪽이든 **versionCode가 올라가 있어야** 업데이트로 인식된다.
 
-## 확장 (2.0.0, 지금은 안 함)
+## 확장 (지금은 안 함)
 
-- **강제 업데이트**: `RELEASE_AND_UPDATE.md` 6장. Remote Config `force_update_min_version_code` 미만이면 `AppUpdateType.IMMEDIATE` + 닫을 수 없는 U1 화면. 판단은 이미 있는 `core:domain`의 `decideUpdate`(`UpdatePolicy`는 `FeatureFlags.updatePolicy`)를 쓴다. Play 우선순위(`updatePriority()`)만으로 판단하면 출시 후 값을 못 바꾸므로 기준으로 쓰지 않는다.
+- **강제 업데이트** (하지 않기로 함. 옛 버전이 서버와 안 맞게 되는 등 꼭 필요해질 때만): `RELEASE_AND_UPDATE.md` 6장. Remote Config `force_update_min_version_code` 미만이면 `AppUpdateType.IMMEDIATE` + 닫을 수 없는 U1 화면. 판단은 남겨 둔 `core:domain`의 `decideUpdate`(`UpdatePolicy`는 `FeatureFlags.updatePolicy`, 지금은 아무도 쓰지 않음)를 쓰고, Remote Config 키 3개(`force_update_min_version_code` · `soft_update_*`)를 다시 등록한다. Play 우선순위(`updatePriority()`)만으로 판단하면 출시 후 값을 못 바꾸므로 기준으로 쓰지 않는다.
 - **안내 빈도 조절**: 매 실행마다 묻는 게 부담이면 `decideUpdate`의 `soft_update_interval_days`처럼 마지막 "나중에" 시각을 DataStore에 저장해 간격을 둔다.
 - **M8 앱 정보의 "최신 여부"**: `requestAppUpdateInfo()`의 `updateAvailability()`를 쓴다.

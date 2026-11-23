@@ -32,7 +32,7 @@
 - `v1` 완료 = 앱 `1.0.0` 출시.
 - `v2` 기능은 **한 번에 몰아서 내지 않고** 준비된 것부터 MINOR(`1.1.0` … 또는 2.0.0 뒤면 `2.1.0` …)로 하나씩 출시합니다.
 - MAJOR(`2.0.0`)는 데이터 호환이 깨지는 대규모 개편에만 씁니다. 마일스톤이 바뀌었다고 올리지 않습니다.
-- **예외 (2026-11-10 결정):** 외부 설정이 필요한 묶음(마일스톤 `cloud`: Firebase · Google 로그인 · 백업 · 정책 페이지 · 강제 업데이트)은 앱 `2.0.0`으로 냅니다. 로컬 전용 앱이 계정 · 서버가 붙는 앱으로 바뀌는 전환이라 MAJOR로 구분합니다. 데이터 호환 규칙(6장)은 그대로 지킵니다. `docs/run/README.md` "공통 문서와 다르게 가는 부분".
+- **예외 (2026-11-10 결정):** 외부 설정이 필요한 묶음(마일스톤 `cloud`: Firebase · Google 로그인 · 백업 · 정책 페이지)은 앱 `2.0.0`으로 냅니다. 로컬 전용 앱이 계정 · 서버가 붙는 앱으로 바뀌는 전환이라 MAJOR로 구분합니다. 데이터 호환 규칙(6장)은 그대로 지킵니다. `docs/run/README.md` "공통 문서와 다르게 가는 부분".
 
 > versionCode는 versionName과 따로, AAB를 만들 때마다 1씩 올리는 정수입니다 (`docs/run/README.md` "공통 문서와 다르게 가는 부분", 공통 규칙은 GIT_CONVENTIONS 6-2 · RELEASE_AND_UPDATE 3장).
 
@@ -53,7 +53,7 @@
 
 ### cloud — 계정 · 백업 (앱 2.0.0)
 
-`module-map.md` 9 ~ 10단계. Firebase(Spark) · Google 로그인 · 기록 백업 · 복원 · 게스트 기록 이전 · 회원 탈퇴, 정책 페이지 나머지(위치정보 이용약관, 개인정보 처리방침 · 이용약관 개정) · 약관 동의(O0 · O1) · 약관 및 정책(M7), Remote Config 차단 스위치, App Check, Crashlytics, 강제 업데이트 · 앱 정보(M8), 앱 평가하기. (선택(FLEXIBLE) 인앱 업데이트는 1.x에 먼저 넣음, `in-app-update.md`)
+`module-map.md` 9 ~ 10단계. Firebase(Spark) · Google 로그인 · 기록 백업 · 복원 · 게스트 기록 이전 · 회원 탈퇴, 정책 페이지 나머지(위치정보 이용약관, 개인정보 처리방침 · 이용약관 개정) · 약관 동의(O0 · O1) · 약관 및 정책(M7), Remote Config 차단 스위치, App Check, Crashlytics, 앱 정보(M8), 앱 평가하기. (인앱 업데이트는 FLEXIBLE로 1.x에 먼저 넣었고, 강제 업데이트는 하지 않음, `in-app-update.md`)
 
 ### v2 — 꾸준함 강화 (MINOR 출시: cloud 전이면 1.x, 후면 2.x)
 
@@ -138,9 +138,6 @@ v1 출시 이후 모든 기능은 아래 순서로 넣습니다. 1인 개발이�
 | 키 | 기본값 | 용도 |
 |---|---|---|
 | `backup_enabled` | true | 백업 · 복원 전체 중단 (`infra-and-billing-protection.md` 2-5) |
-| `force_update_min_version_code` | 1 | 이 값 미만은 강제 업데이트 |
-| `soft_update_min_version_code` | 1 | 이 값 미만은 선택 업데이트 안내 |
-| `soft_update_interval_days` | 3 | 선택 업데이트 안내 간격 |
 
 ## 6. 데이터 호환 규칙
 
@@ -190,7 +187,6 @@ v2 백로그가 쌓이면 아래 세 항목을 1~3점으로 매기고 `(가치 �
 | 긴급 수정 | 크래시 · 기록 유실 · 과금 위험 발견 즉시. 먼저 Remote Config로 해당 기능을 끄고 수정 | PATCH |
 
 - 단계적 출시는 10% → 50% → 100%, 각 단계에서 Crashlytics 크래시 없는 사용자 비율을 확인합니다.
-- `force_update_min_version_code`는 해당 버전이 **100% 출시된 뒤에만** 올립니다.
 
 ## 10. 출시 기준
 
