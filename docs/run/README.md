@@ -47,7 +47,7 @@
 - 계산(거리 · 페이스 · 스플릿 · 칼로리 · 자동 일시정지)은 `core:domain`, GPX 재생 테스트로 검증.
 - **서버는 Firebase Spark 한 곳, 결제 수단 없음.** Auth · Firestore · Remote Config · App Check · Crashlytics · Hosting. Cloud Functions · Storage · Cloudflare 없음.
 - dev · prod 빌드가 Firebase 프로젝트 하나를 함께 쓰고, 디버그 빌드는 에뮬레이터 연결이 기본.
-- **로컬 앱(Room · DataStore만)을 1.0.0으로 먼저 낸다.** Firebase · 로그인 · 정책 페이지 · 강제 업데이트처럼 외부 설정이 필요한 작업은 2.0.0 (`roadmap.md` 1 · 2장, `module-map.md` 9장, 2026-11-10 결정). 개인정보 처리방침 · 서비스 이용약관 페이지만 1.0.0에 먼저 배포 (2026-11-16 결정). 선택(FLEXIBLE) 인앱 업데이트는 콘솔 설정이 필요 없어 1.x에 넣음 (`in-app-update.md`, 2026-11-23 결정).
+- **로컬 앱(Room · DataStore만)을 1.0.0으로 먼저 낸다.** Firebase · 로그인 · 정책 페이지처럼 외부 설정이 필요한 작업은 2.0.0 (`roadmap.md` 1 · 2장, `module-map.md` 9장, 2026-11-10 결정). 개인정보 처리방침 · 서비스 이용약관 페이지만 1.0.0에 먼저 배포 (2026-11-16 결정). 인앱 업데이트는 콘솔 설정이 필요 없는 FLEXIBLE로 1.x에 넣고, 강제 업데이트는 하지 않음 (`in-app-update.md`, 2026-11-23 결정).
 - 모든 ID는 UUID, 날짜는 `yyyy-MM-dd`, 시각은 epoch millis.
 
 **디자인**
@@ -68,7 +68,7 @@
 | PR 필수 검사 `screenshot` | `pr-title` · `lint` · `unit-test` · `screenshot` | Roborazzi를 도입할 때까지 `screenshot` 제외 | 아직 화면이 없고 Roborazzi를 구성하지 않음 |
 | MAJOR 버전 | 데이터 호환이 깨지는 개편에만 MAJOR | 외부 설정 묶음(`cloud`)을 **2.0.0**으로 냄 | 로컬 전용 앱 → 계정 · 서버가 붙는 앱으로의 전환을 사용자 · 스토어에 분명히 구분 (2026-11-10 결정). 데이터 호환 규칙은 그대로 |
 | versionCode | `MAJOR*1_000_000 + MINOR*10_000 + PATCH*100 + 빌드번호`, 빌드번호는 같은 버전 재업로드 때만 올림, CD가 태그로 계산 (RELEASE_AND_UPDATE 3장, GIT_CONVENTIONS 6-2) | **1부터 AAB를 만들 때마다 1씩 올리는 정수** (첫 번들 `2`). versionName과 따로 가고, versionName은 요청할 때만 바꿈 (`CLAUDE.md` "AAB 만들기") | CD 전 로컬에서 직접 번들을 만들어 콘솔에 올리므로 단순하게 셈. 스토어에 올린 값보다 작은 값은 쓸 수 없어 되돌리지 않음 (2026-11-18 결정) |
-| 인앱 업데이트 | Remote Config가 강제 · 선택을 정함, 선택 업데이트는 안내 간격(`soft_update_interval_days`) + 다운로드 완료 시 스낵바 (RELEASE_AND_UPDATE 6장) | **1.x는 FLEXIBLE만, Remote Config 없이** Play에 업데이트가 있으면 새로 시작할 때마다 다이얼로그, 다운로드 완료 시 재시작 다이얼로그. 러닝 중에는 안 띄움 (`in-app-update.md`). 강제 업데이트 · 안내 간격은 2.0.0에서 공통 규칙대로 붙임 | Remote Config는 Firebase(2.0.0)가 필요하지만 FLEXIBLE은 Play 라이브러리만으로 됨. AniPick과 같은 흐름으로 맞춤 (2026-11-23 결정) |
+| 인앱 업데이트 | Remote Config가 강제 · 선택을 정함, 선택 업데이트는 안내 간격(`soft_update_interval_days`) + 다운로드 완료 시 스낵바 (RELEASE_AND_UPDATE 6장) | **1.x는 FLEXIBLE만, Remote Config 없이** Play에 업데이트가 있으면 새로 시작할 때마다 다이얼로그, 다운로드 완료 시 재시작 다이얼로그. 러닝 중에는 안 띄움 (`in-app-update.md`). **강제 업데이트(IMMEDIATE · U1) · 안내 간격 · 업데이트 Remote Config 키는 2.0.0에서도 두지 않음** | FLEXIBLE은 Play 라이브러리만으로 되고 AniPick과 같은 흐름. 강제 업데이트는 옛 버전이 서버와 안 맞을 때 필요한데, Firestore는 필드 추가만 해서(`roadmap.md` 6장) 옛 버전도 동작하고, 서버 쪽 사고는 `backup_enabled` 차단 스위치 · Play 출시 중지로 막음. 필요해지면 남겨 둔 `decideUpdate`로 붙임 (2026-11-23 결정) |
 | 자동 증가 ID 금지 | 모든 ID는 UUID | `run_point`는 (`run_id`, `seq`) 복합 키 | 기록 하나에 점이 수천 개라 UUID 비용이 크고, 기기 밖으로 나가지 않음 |
 
 > 요금 · 정책 수치는 2026년 10~11월 기준으로 확인한 내용입니다. 출시 전 공식 문서에서 다시 확인하세요.

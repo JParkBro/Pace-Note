@@ -162,8 +162,8 @@ pacenote/
 
 **위험한 것(추적)을 먼저** 실기기에서 검증하고, 서버(로그인 · 백업)는 앱이 혼자서 완성된 뒤에 붙입니다.
 
-**2026-11-10 결정: 로컬 앱을 1.0.0으로 먼저 내고, 외부 설정은 2.0.0(마일스톤 `cloud`).** 당분간 개인용 앱처럼 **Room · DataStore만** 씁니다. 1 ~ 8단계는 Firebase 프로젝트 · `google-services.json` · 콘솔 설정 없이 빌드 · 실행되어야 합니다. 외부 서비스나 사람이 콘솔에서 해야 하는 설정이 필요한 작업(Firebase 전체, Google 로그인, 정책 페이지 Hosting, 강제 업데이트, Play Console)은 모두 9단계 이후로 미룹니다.
-- 예외 (2026-11-23 결정): 선택(FLEXIBLE) 인앱 업데이트는 Play 라이브러리만 써서 콘솔 설정 없이 동작하므로 1부에 넣습니다 (app `update/`, `in-app-update.md`).
+**2026-11-10 결정: 로컬 앱을 1.0.0으로 먼저 내고, 외부 설정은 2.0.0(마일스톤 `cloud`).** 당분간 개인용 앱처럼 **Room · DataStore만** 씁니다. 1 ~ 8단계는 Firebase 프로젝트 · `google-services.json` · 콘솔 설정 없이 빌드 · 실행되어야 합니다. 외부 서비스나 사람이 콘솔에서 해야 하는 설정이 필요한 작업(Firebase 전체, Google 로그인, 정책 페이지 Hosting, Play Console)은 모두 9단계 이후로 미룹니다.
+- 예외 (2026-11-23 결정): 인앱 업데이트는 Play 라이브러리만 쓰는 FLEXIBLE로 콘솔 설정 없이 동작하므로 1부에 넣습니다 (app `update/`, `in-app-update.md`). 강제 업데이트(U1)는 하지 않습니다.
 
 - 1 ~ 8단계에서 `firebase-*` 의존성, `google-services` · `firebase-crashlytics` 플러그인을 모듈에 적용하지 않습니다 (catalog 항목은 그대로 둠).
 - 기능 플래그(`FeatureFlags`)는 9-2 전까지 코드 기본값만 돌려주는 로컬 구현을 씁니다 (`roadmap.md` 5장).
@@ -181,7 +181,7 @@ pacenote/
 6. `feature:home`, `feature:record` (R1 ~ R4), 공유 카드(P7)
 7. `feature:settings` (로컬 설정: M1 ~ M5), 음성 안내 설정 연결 → **로컬 앱 완성**
    - M7 약관 및 정책은 정책 페이지(Hosting)가 필요해 9-3으로 미룹니다.
-   - M8 앱 정보는 "최신 여부"가 인앱 업데이트와 함께라 10단계로 미룹니다. 버전은 M1 맨 아래에 표시합니다.
+   - M8 앱 정보는 10단계로 미룹니다 ("최신 여부"는 `requestAppUpdateInfo()`). 버전은 M1 맨 아래에 표시합니다.
 8. `widget` (`widget/CLAUDE.md`)
    - `feature:onboarding` O2 · O3 (로컬), 시작 시 온보딩 분기
 
@@ -194,7 +194,7 @@ pacenote/
    - 9-3 `firebase/policy-site/`에 위치정보 이용약관 추가 · 개인정보 처리방침 · 이용약관 개정(서버 저장 반영), M7 약관 및 정책 · 오픈소스 · Pretendard 라이선스, M1 앱 평가하기(In-App Review), Google 로그인 (Credential Manager), `feature:onboarding` O0 · O1을 O2 앞에 추가 · 서버 동의 기록
    - 9-4 `core:sync` 백업 Push · Pull, 게스트 기록 이전, M6
    - 9-5 계정 · 회원 탈퇴 (M10)
-10. 강제 업데이트 · U1 강제 업데이트 화면 (`RELEASE_AND_UPDATE.md` 6장, 선택(FLEXIBLE) 흐름은 1부에서 완료 · `in-app-update.md` "확장"), M8 앱 정보
+10. M8 앱 정보 (인앱 업데이트는 1부에서 완료, 강제 업데이트는 하지 않음 · `in-app-update.md`)
 11. **직접 확인 · 등록 (사람이 콘솔에서)**: `infra-and-billing-protection.md` 6장 체크리스트, Play Console 포그라운드 서비스 신고 · 데이터 보안, 위치정보 관련 확인
 
 ## 10. widget 모듈 (Glance)

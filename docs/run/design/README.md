@@ -6,7 +6,7 @@
 - 폴더 이름은 화면 ID의 소문자입니다 (`product-spec.md` 4-2). 각 폴더에 `screen.png`(이미지)와 `code.html`(Stitch가 만든 HTML)이 있습니다.
 - `code.html`은 구조를 읽는 용도입니다. 클래스 · 색 값을 코드로 옮기지 않고, 외부 이미지 · CDN을 앱에 넣지 않습니다.
 - `_stitch-design-system/DESIGN.md`: Stitch가 만든 디자인 시스템 요약.
-- 시안이 없는 화면(P1-b · P3-L · M4 · M8 · M11 · U1)은 product-spec 5 · 7장 동작과 같은 묶음의 시안을 기준으로 구성합니다.
+- 시안이 없는 화면(P1-b · P3-L · M4 · M8 · M11)은 product-spec 5 · 7장 동작과 같은 묶음의 시안을 기준으로 구성합니다.
 
 ## 화면별 경로
 
@@ -44,4 +44,3 @@
 | M11 | 다른 앱 둘러보기 | settings | 없음 |
 | N1 | 진행 중 알림 | core:tracking | [n1/](n1/screen.png) |
 | W1 | 홈 위젯 | widget | [w1/](w1/screen.png) |
-| U1 | 강제 업데이트 | app | 없음 |
