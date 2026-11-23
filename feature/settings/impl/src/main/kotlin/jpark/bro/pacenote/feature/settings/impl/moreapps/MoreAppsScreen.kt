@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +23,9 @@ import jpark.bro.pacenote.core.designsystem.AppSpacing
 import jpark.bro.pacenote.core.designsystem.AppTheme
 import jpark.bro.pacenote.core.designsystem.AppThemeTokens
 import jpark.bro.pacenote.core.designsystem.component.RunIconButton
+import jpark.bro.pacenote.core.designsystem.component.RunMascot
+import jpark.bro.pacenote.core.designsystem.component.RunMascotLoading
+import jpark.bro.pacenote.core.designsystem.component.RunMascotPose
 import jpark.bro.pacenote.core.designsystem.component.RunSecondaryButton
 import jpark.bro.pacenote.core.designsystem.component.RunTopBar
 import jpark.bro.pacenote.core.designsystem.preview.ScreenPreviews
@@ -100,7 +102,7 @@ private fun MoreAppsScreen(
             page(Modifier.fillMaxSize().alpha(if (pageVisible) 1f else 0f))
             when {
                 state.isFailed -> FailedContent(onRetry = { onAction(MoreAppsAction.RetryClicked) })
-                state.isLoading -> CircularProgressIndicator(color = AppThemeTokens.colors.primary)
+                state.isLoading -> RunMascotLoading()
             }
         }
     }
@@ -113,6 +115,7 @@ private fun FailedContent(onRetry: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(AppSpacing.lg),
     ) {
+        RunMascot(RunMascotPose.WORRIED)
         Text(
             text = stringResource(R.string.settings_more_apps_failed),
             style = AppThemeTokens.typography.bodyMd,

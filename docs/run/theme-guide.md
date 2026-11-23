@@ -462,6 +462,16 @@ Stitch 디자인 시스템 원본: [design/_stitch-design-system/DESIGN.md](desi
 | `RunBars.kt` | `RunTopBar(isScrolled)` · `RunBottomBar` | 상단 헤더 · 하단 탭바 |
 | `RunBottomSheet.kt` | `RunBottomSheet` · `RunSheetHandle` | 바텀시트 |
 | `RunFeedback.kt` | `RunInfoBox(TIP · WARNING)` · `RunToast` · `RunToastHost` | 안내 박스 · 토스트 |
+| `RunMascot.kt` | `RunMascot(pose = IDLE · WAVE · JUMP · WORRIED)` · `RunMascotLoading`(통통 튀기), 크기 `RunMascotDefaults.Size`(120dp) · `SizeSmall`(64dp) | 마스코트 · 로딩 (아래 "마스코트") |
+
+**마스코트** (2026-11-23 결정)
+
+- 보라 픽셀 캐릭터. 원본 · 정리 스크립트는 저장소 밖(`~/Downloads/Mascot`, README에 규격)에 있고, 앱에는 정리본(80×80 투명 PNG) 중 쓰는 것만 `core/designsystem/src/main/res/drawable-nodpi/mascot_*.png`로 복사한다 (파일 이름에서 `_80`을 뺌).
+- 쓰는 자리: 로딩(`RunMascotLoading`이 `CircularProgressIndicator`를 대신함: 러닝 확인 · 저장 중, P6 결과, M11), 빈 상태(H1 최근 기록 `IDLE` · R1 `WAVE`), 실패(M11 `WORRIED`), 목표 달성(H1 `JUMP`). 러닝 중(P2 · P3) · 알림 · 위젯에는 넣지 않는다.
+- 색은 테마와 상관없이 마스코트 고유색이다 (PNG라 토큰 규칙 대상이 아님). 새 자세는 원본 정리 후 `RunMascotPose`에 추가한다.
+- 픽셀이 뭉개지지 않도록 보간 없이(`FilterQuality.None`), 원하는 크기 안에서 가장 큰 **정수 배율**로 그린다.
+- 옆에 같은 뜻의 문구가 있으면 장식이라 `contentDescription = null`. 로딩은 "불러오는 중".
+- Preview · 스크린샷(`LocalInspectionMode`)에서는 로딩 애니메이션을 첫 프레임으로 고정한다.
 
 화면 전용 모양(홈 진행 링 카드, 공유 카드 레이아웃)은 각 feature에 둡니다. 거리 · 시간 · 페이스 문자열은 `core:ui`의 `RunFormat`으로만 만듭니다.
 
