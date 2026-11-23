@@ -2,7 +2,7 @@
 # project
 projectApplicationId = "jpark.bro.pacenote"
 # versionCode = 1부터 AAB를 만들 때마다 1씩 올리는 정수. versionName과 따로 간다 (CLAUDE.md "AAB 만들기")
-projectVersionCode = "2"
+projectVersionCode = "3"
 projectVersionName = "1.0.0"
 projectCompileSdkVersion = "37"
 projectMinSdkVersion = "30"
