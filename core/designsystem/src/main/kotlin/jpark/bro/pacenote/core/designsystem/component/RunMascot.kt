@@ -2,36 +2,39 @@ package jpark.bro.pacenote.core.designsystem.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.VectorConverter
+import androidx.compose.animation.core.animateValue
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.ProgressBarRangeInfo
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.progressBarRangeInfo
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import jpark.bro.pacenote.core.designsystem.R
 import jpark.bro.pacenote.core.designsystem.preview.ComponentPreviews
 import jpark.bro.pacenote.core.designsystem.preview.RunPreviewSurface
 
-/** 마스코트 스프라이트 한 장의 픽셀 크기 (80×80, 투명 배경) */
-private const val SPRITE_PX = 80
-
-/** 통통 튀기 한 프레임 길이 */
-private const val BOUNCE_FRAME_MS = 300
+/** 로딩 애니메이션 프레임 수 · 한 프레임 시간 (숨쉬기 시트: 8프레임 · 8fps, 한 바퀴 1초) */
+private const val LOADING_FRAMES = 8
+private const val LOADING_FRAME_MILLIS = 125
 
 /** 정지 마스코트 (theme-guide.md 11장 "마스코트"). 색은 테마와 상관없이 마스코트 고유색이다. */
 enum class RunMascotPose(
@@ -44,8 +47,8 @@ enum class RunMascotPose(
 }
 
 /**
- * 정지 마스코트. 옆에 같은 뜻의 문구가 있으면 [contentDescription]은 null(장식).
- * [size]는 원하는 크기이고, 픽셀이 고르게 보이도록 그 안에서 가장 큰 정수 배율로 그린다.
+ * 정지 마스코트. [size] 안에 들어가는 가장 큰 **정수 배율**로, 보간 없이 그려 픽셀이 번지지 않는다.
+ * 옆에 같은 뜻의 문구가 있으면 [contentDescription]은 null(장식, 스크린 리더가 건너뜀).
  */
 @Composable
 fun RunMascot(
@@ -54,40 +57,32 @@ fun RunMascot(
     size: Dp = RunMascotDefaults.Size,
     contentDescription: String? = null,
 ) {
-    MascotSprite(ImageBitmap.imageResource(pose.res), size, contentDescription, modifier)
+    MascotSprite(
+        sheet = ImageBitmap.imageResource(pose.res),
+        frameCount = 1,
+        frame = 0,
+        modifier = modifier.size(size).mascotSemantics(contentDescription, loading = false),
+    )
 }
 
-/** 커스텀 로딩: 통통 튀기(f1 ↔ f2). `CircularProgressIndicator` 대신 쓴다. */
+/**
+ * 커스텀 로딩: 마스코트가 숨쉬며 눈을 깜빡인다 (8프레임 × 125ms 반복). `CircularProgressIndicator` 대신 쓴다.
+ * 스크린 리더에는 "불러오는 중" + 진행 중(불확정)으로 읽힌다.
+ */
 @Composable
 fun RunMascotLoading(
     modifier: Modifier = Modifier,
     size: Dp = RunMascotDefaults.Size,
 ) {
-    val frames =
-        listOf(
-            ImageBitmap.imageResource(R.drawable.mascot_bounce_f1),
-            ImageBitmap.imageResource(R.drawable.mascot_bounce_f2),
-        )
-    // Preview · 스크린샷에서는 첫 프레임으로 고정한다
-    val frame =
-        if (LocalInspectionMode.current) {
-            0
-        } else {
-            val progress by rememberInfiniteTransition(label = "mascot_bounce").animateFloat(
-                initialValue = 0f,
-                targetValue = frames.size.toFloat(),
-                animationSpec = infiniteRepeatable(tween(BOUNCE_FRAME_MS * frames.size, easing = LinearEasing)),
-                label = "mascot_bounce_frame",
-            )
-            // 프레임이 바뀔 때만 다시 그린다
-            val index by remember { derivedStateOf { progress.toInt().coerceIn(0, frames.lastIndex) } }
-            index
-        }
     MascotSprite(
-        bitmap = frames[frame],
-        size = size,
-        contentDescription = stringResource(R.string.common_loading),
-        modifier = modifier.testTag("mascot_loading"),
+        sheet = ImageBitmap.imageResource(R.drawable.mascot_breath_sheet_80x80_8f),
+        frameCount = LOADING_FRAMES,
+        frame = rememberLoopFrame(LOADING_FRAMES, LOADING_FRAME_MILLIS),
+        modifier =
+            modifier
+                .size(size)
+                .testTag("mascot_loading")
+                .mascotSemantics(stringResource(R.string.common_loading), loading = true),
     )
 }
 
@@ -99,25 +94,68 @@ object RunMascotDefaults {
     val SizeSmall: Dp = 64.dp
 }
 
-/** 보간 없이(nearest) 정수 배율로 그린다. 배율이 소수면 픽셀 크기가 들쭉날쭉해진다. */
+/**
+ * 0 → [frameCount] - 1을 [frameMillis]마다 넘기며 끝없이 반복.
+ * Preview · 스크린샷(`LocalInspectionMode`)에서는 결과가 매번 같도록 첫 프레임으로 고정한다.
+ */
+@Composable
+private fun rememberLoopFrame(
+    frameCount: Int,
+    frameMillis: Int,
+): Int {
+    if (LocalInspectionMode.current) return 0
+    val frame by rememberInfiniteTransition(label = "mascot").animateValue(
+        initialValue = 0,
+        targetValue = frameCount,
+        typeConverter = Int.VectorConverter,
+        animationSpec = infiniteRepeatable(tween(frameCount * frameMillis, easing = LinearEasing)),
+        label = "frame",
+    )
+    return frame % frameCount
+}
+
+/** [availablePx] 안에 [spritePx] 그림이 들어가는 가장 큰 정수 배율. 작아도 1배는 그린다 */
+internal fun mascotPixelScale(
+    availablePx: Int,
+    spritePx: Int,
+): Int = (availablePx / spritePx).coerceAtLeast(1)
+
+private fun Modifier.mascotSemantics(
+    description: String?,
+    loading: Boolean,
+): Modifier =
+    clearAndSetSemantics {
+        if (description != null) contentDescription = description
+        if (loading) progressBarRangeInfo = ProgressBarRangeInfo.Indeterminate
+    }
+
+/** 가로로 프레임이 붙은 [sheet]에서 [frame]번째를 가운데에 그린다 */
 @Composable
 private fun MascotSprite(
-    bitmap: ImageBitmap,
-    size: Dp,
-    contentDescription: String?,
+    sheet: ImageBitmap,
+    frameCount: Int,
+    frame: Int,
     modifier: Modifier,
 ) {
-    val density = LocalDensity.current
-    val side =
-        with(density) {
-            val scale = (size.toPx() / SPRITE_PX).toInt().coerceAtLeast(1)
-            (SPRITE_PX * scale).toDp()
-        }
-    Image(
-        bitmap = bitmap,
-        contentDescription = contentDescription,
-        modifier = modifier.size(side),
-        filterQuality = FilterQuality.None,
+    Box(
+        modifier =
+            modifier.drawBehind {
+                val frameWidth = sheet.width / frameCount
+                val scale = mascotPixelScale(minOf(size.width, size.height).toInt(), maxOf(frameWidth, sheet.height))
+                val dst = IntSize(frameWidth * scale, sheet.height * scale)
+                drawImage(
+                    image = sheet,
+                    srcOffset = IntOffset(frame * frameWidth, 0),
+                    srcSize = IntSize(frameWidth, sheet.height),
+                    dstOffset =
+                        IntOffset(
+                            ((size.width - dst.width) / 2).toInt(),
+                            ((size.height - dst.height) / 2).toInt(),
+                        ),
+                    dstSize = dst,
+                    filterQuality = FilterQuality.None,
+                )
+            },
     )
 }
 
