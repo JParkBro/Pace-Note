@@ -17,7 +17,7 @@
 
 Cloud Functions는 없다 (Spark 요금제라 쓸 수 없고, v1에 필요한 서버 로직도 없음).
 
-**Room · DataStore만 쓰는 로컬 앱을 1.0.0으로 먼저 낸다.** Firebase · Google 로그인 · 정책 페이지 Hosting · 인앱 업데이트 등 외부 설정이 필요한 작업은 앱 2.0.0(마일스톤 `cloud`)이다 (`docs/run/roadmap.md` 1 · 2장, `docs/run/module-map.md` 9장 2부). 예외로 개인정보 처리방침 · 서비스 이용약관 페이지만 1.0.0에 Hosting 배포한다 (앱 밖 정적 페이지). 그 전까지 Firebase 의존성 · 플러그인을 모듈에 적용하지 않는다.
+**Room · DataStore만 쓰는 로컬 앱을 1.0.0으로 먼저 낸다.** Firebase · Google 로그인 · 정책 페이지 Hosting · 강제 업데이트 등 외부 설정이 필요한 작업은 앱 2.0.0(마일스톤 `cloud`)이다 (`docs/run/roadmap.md` 1 · 2장, `docs/run/module-map.md` 9장 2부). 예외로 개인정보 처리방침 · 서비스 이용약관 페이지만 1.0.0에 Hosting 배포한다 (앱 밖 정적 페이지). 선택(FLEXIBLE) 인앱 업데이트는 Play 라이브러리만 써서 1.x에 넣는다 (`docs/run/in-app-update.md`). 그 전까지 Firebase 의존성 · 플러그인을 모듈에 적용하지 않는다.
 
 아직 없는 모듈 · 폴더는 `docs/run/module-map.md` 9장 순서대로 만든다. 현재 Gradle 모듈은 `settings.gradle.kts`가 기준이다.
 
@@ -37,7 +37,8 @@ Cloud Functions는 없다 (Spark 요금제라 쓸 수 없고, v1에 필요한 �
 | Firebase · 과금 | `docs/run/infra-and-billing-protection.md` |
 | 기능 추가 · 버전 계획 | `docs/run/roadmap.md` |
 | 광고 | `docs/run/ads-strategy.md` (v1은 광고 없음) |
-| 출시 · 인앱 업데이트 | `docs/common/RELEASE_AND_UPDATE.md` |
+| 출시 · 강제 업데이트 정책 | `docs/common/RELEASE_AND_UPDATE.md` |
+| 인앱 업데이트(Play In-App Updates) 수정, 다른 프로젝트로 이식 | `docs/run/in-app-update.md` |
 | 브랜치 · 커밋 · PR | `docs/common/GIT_CONVENTIONS.md` |
 
 ## 절대 어기면 안 되는 결정
@@ -51,6 +52,7 @@ Cloud Functions는 없다 (Spark 요금제라 쓸 수 없고, v1에 필요한 �
 - **미완성 기능은 기능 플래그(`feature_{name}_enabled`, 기본값 false) 뒤에 둔다.** 플래그는 `core:data`의 `FeatureFlags` 한 곳에서만 읽는다.
 - **백그라운드 위치 권한(`ACCESS_BACKGROUND_LOCATION`)을 요청하지 않는다.** 추적은 사용자가 앱 화면에서 "시작"을 눌러 띄운 위치 타입 포그라운드 서비스로만 한다.
 - **러닝 중에는 어떤 광고도 띄우지 않는다** (v1은 광고 자체가 없음).
+- **인앱 업데이트는 컨펌 후에만 진행한다.** FLEXIBLE만 쓰고, 업데이트 · 재시작 모두 다이얼로그로 먼저 묻는다. 러닝 중(`RunTracker.state`가 Idle이 아님)에는 띄우지 않는다. 판단은 app의 `UpdateViewModel`, Play 호출(`startUpdateFlowForResult` · `completeUpdate`)은 MainActivity가 `UpdateEvent`로 받아서 한다 (`docs/run/in-app-update.md`).
 - **거리 · 페이스 · 스플릿 · 칼로리 · 자동 일시정지 계산은 `core:domain`에만 둔다.** 서비스 · 화면 · 위젯 · 테스트가 모두 이것을 쓴다.
 - **ID는 클라이언트 생성 UUID 문자열**, 날짜는 `yyyy-MM-dd`(LocalDate), 시각은 epoch millis. 자동 증가 ID 금지 (`run_point`의 순번 `seq`는 기록 안 순서라 예외).
 - **색은 테마 토큰으로만.** `Color(0xFF…)` 하드코딩 금지.
